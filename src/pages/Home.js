@@ -1,6 +1,9 @@
 import React from 'react';
 import img from '../components/Assets/22.jpg'
 import Navbar from '../components/Navbar';
+import Galley from '../pages/Galley';
+import Leader from '../pages/Leader';
+import Footer from '../components/Footer';
 function Home() {
   return (
     <>
@@ -32,6 +35,10 @@ function Home() {
         </div>
       </div>
     </section>
+
+    <Galley/>
+    <Leader/>
+    <Footer/>
     </>
   );
 }
