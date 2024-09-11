@@ -37,7 +37,7 @@ function Home() {
     </section>
 
     <Galley/>
-    <Leader/>
+    {/* <Leader/> */}
     <Footer/>
     </>
   );
