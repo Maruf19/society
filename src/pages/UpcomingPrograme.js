@@ -1,8 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import Navbar from '../components/Navbar';
-import Footer from '../components/Footer';
-import UpcomingPrograme from './UpcomingPrograme';
+
 
 // Sample data for the programs
 const programs = [
@@ -38,12 +36,10 @@ const cardVariants = {
 };
 
 
-function Programme() {
+function UpcomingPrograme() {
   return (
-    <>
-    <Navbar/>
     <section className="container mx-auto py-12">
-    <h1 className="text-4xl font-bold text-center text-gray-800 mb-10">Our Recent Programs</h1>
+    <h1 className="text-4xl font-bold text-center text-gray-800 mb-10">Upcoming Programs</h1>
 
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
       {programs.map((program) => (
@@ -75,10 +71,7 @@ function Programme() {
       ))}
     </div>
   </section>
-  <UpcomingPrograme/>
-  <Footer/>
-  </>
   )
 }
 
-export default Programme
+export default UpcomingPrograme

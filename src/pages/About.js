@@ -1,38 +1,38 @@
 import React from 'react';
-import { motion } from 'framer-motion';
+// import { motion } from 'framer-motion';
 
 // Import your background image from Assets folder inside Components
 import img from '../components/Assets/11.jpg';
-import img1 from '../components/Assets/22.jpg';
-import img2 from '../components/Assets/mu.jpeg';
-import img3 from '../components/Assets/mu1.jpg';
+// import img1 from '../components/Assets/22.jpg';
+// import img2 from '../components/Assets/mu.jpeg';
+// import img3 from '../components/Assets/mu1.jpg';
 import Footer from '../components/Footer';
 import Navbar from '../components/Navbar';
 import Leadership from './Leader';
 
 // Sample team data
-const team = [
-  {
-    name: 'John Doe',
-    role: 'CEO & Founder',
-    image: img1,
-  },
-  {
-    name: 'Jane Smith',
-    role: 'CTO',
-    image: img2,
-  },
-  {
-    name: 'Robert Brown',
-    role: 'Chief Designer',
-    image: img3,
-  },
-];
+// const team = [
+//   {
+//     name: 'John Doe',
+//     role: 'CEO & Founder',
+//     image: img1,
+//   },
+//   {
+//     name: 'Jane Smith',
+//     role: 'CTO',
+//     image: img2,
+//   },
+//   {
+//     name: 'Robert Brown',
+//     role: 'Chief Designer',
+//     image: img3,
+//   },
+// ];
 
-const cardVariants = {
-  hidden: { opacity: 0, scale: 0.8 },
-  visible: { opacity: 1, scale: 1, transition: { duration: 0.5 } },
-};
+// const cardVariants = {
+//   hidden: { opacity: 0, scale: 0.8 },
+//   visible: { opacity: 1, scale: 1, transition: { duration: 0.5 } },
+// };
 
 const AboutUs = () => {
   return (

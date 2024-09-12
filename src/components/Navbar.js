@@ -36,11 +36,11 @@ function Navbar() {
           <Link to="/about" className="block mt-4 lg:inline-block lg:mt-0 text-white hover:text-black mr-4">
             About us
           </Link>
-          <Link to="/program" className="block mt-4 lg:inline-block lg:mt-0 text-white hover:text-black mr-4">
+          <Link to="/programme" className="block mt-4 lg:inline-block lg:mt-0 text-white hover:text-black mr-4">
             Programme
           </Link>
-          <Link to="/team" className="block mt-4 lg:inline-block lg:mt-0 text-white hover:text-black mr-4">
-            The Team
+          <Link to="/activities" className="block mt-4 lg:inline-block lg:mt-0 text-white hover:text-black mr-4">
+            Activities
           </Link>
           <Link to="/contact" className="block mt-4 lg:inline-block lg:mt-0 text-white hover:text-black mr-4">
             Contact us
