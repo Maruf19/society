@@ -1,9 +1,16 @@
 import React from 'react';
-// Import your background image from Assets folder inside Components
-import img from '../components/Assets/11.jpg';
+import { motion } from 'framer-motion';
 import Footer from '../components/Footer';
 import Navbar from '../components/Navbar';
 import Leadership from './Leader';
+import img from '../components/Assets/11.jpg';
+
+// Updated color scheme for comfortable viewing
+const cardVariants = {
+  hidden: { opacity: 0, scale: 0.95 },
+  visible: { opacity: 1, scale: 1, transition: { duration: 0.5 } },
+  hover: { scale: 1.05, transition: { duration: 0.3 } }, // Animation on hover
+};
 
 const AboutUs = () => {
   return (
@@ -36,20 +43,32 @@ const AboutUs = () => {
       </section>
 
       {/* Mission and Values Section */}
-      <section className="mb-12 text-black px-6 lg:px-24 py-12 bg-gray-50">
+      <section className="mb-12 px-6 lg:px-24 py-12 bg-gray-50">
         <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12">
-          <div>
-            <h2 className="text-3xl font-semibold mb-4">Our Mission</h2>
-            <p className="leading-relaxed text-lg">
+          <motion.div
+            className="bg-white shadow-lg rounded-lg p-8"
+            variants={cardVariants}
+            initial="hidden"
+            animate="visible"
+            whileHover="hover" // Apply hover animation
+          >
+            <h2 className="text-3xl font-semibold mb-4 text-teal-600">Our Mission</h2>
+            <p className="leading-relaxed text-lg text-gray-700">
               Our mission is to drive innovation, deliver high-quality solutions, and foster long-term relationships with our clients. We strive to create a positive impact through technology and collaboration, helping businesses overcome challenges and unlock new opportunities.
             </p>
-          </div>
-          <div>
-            <h2 className="text-3xl font-semibold mb-4">Our Values</h2>
-            <p className="leading-relaxed text-lg">
+          </motion.div>
+          <motion.div
+            className="bg-white shadow-lg rounded-lg p-8"
+            variants={cardVariants}
+            initial="hidden"
+            animate="visible"
+            whileHover="hover" // Apply hover animation
+          >
+            <h2 className="text-3xl font-semibold mb-4 text-teal-600">Our Values</h2>
+            <p className="leading-relaxed text-lg text-gray-700">
               Integrity, collaboration, and excellence are at the core of everything we do. We believe in transparent communication, ethical business practices, and delivering results that exceed expectations.
             </p>
-          </div>
+          </motion.div>
         </div>
       </section>
 

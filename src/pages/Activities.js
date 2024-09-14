@@ -78,7 +78,12 @@ const Activities = () => {
       <Navbar />
       <section className="py-12 bg-gray-100">
         <div className="container mx-auto px-4">
-          <h2 className="text-4xl font-bold text-center text-teal-600 mb-8">Recent Activities</h2>
+          {/* Main Section Headline */}
+          <div className="text-center py-12">
+            <h1 className="text-4xl font-bold text-gray-800 border-b-2 border-teal-500 pb-2 inline-block">
+              Our Recent Programme
+            </h1>
+          </div>
 
           {/* Buttons to filter sections */}
           <div className="flex flex-wrap justify-center mb-8">
@@ -96,7 +101,7 @@ const Activities = () => {
           {/* Display YouTube videos */}
           {(activeSection === 'all' || activeSection === 'youtube') && (
             <div>
-              <h3 className="text-3xl font-bold text-teal-500 mb-6">YouTube Videos</h3>
+              <h3 className="text-3xl font-bold text-center text-gray-800 mb-12 border-b-2 border-teal-500 pb-2 inline-block">YouTube Videos</h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                 {youtubeActivities.map((video) => (
                   <div key={video.id} className="bg-white shadow-lg rounded-lg overflow-hidden">
@@ -117,7 +122,7 @@ const Activities = () => {
           {/* Display Facebook posts */}
           {(activeSection === 'all' || activeSection === 'facebook') && (
             <div className="mt-12">
-              <h3 className="text-3xl font-bold text-teal-500 mb-6">Facebook Posts</h3>
+              <h3 className="text-3xl font-bold text-center text-gray-800 mb-12 border-b-2 border-teal-500 pb-2 inline-block">Facebook Posts</h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                 {facebookActivities.map((post) => (
                   <div key={post.id} className="bg-white shadow-lg rounded-lg overflow-hidden">
@@ -135,28 +140,28 @@ const Activities = () => {
             </div>
           )}
 
-      {/* Display News articles */}
-{(activeSection === 'all' || activeSection === 'news') && (
-  <div className="relative mt-12">
-    <h3 className="text-3xl font-bold text-teal-500 mb-6">Latest News</h3>
-    <div className="relative bg-black bg-opacity-50 p-4 sm:p-6 md:p-8">
-      <div className="flex flex-col items-center justify-center text-white">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-          {newsActivities.map((news) => (
-            <div key={news.id} className="bg-white bg-opacity-80 shadow-lg rounded-lg overflow-hidden p-4">
-              <p className="text-lg font-semibold text-teal-500 mb-2">
-                <a href={news.link} target="_blank" rel="noopener noreferrer" className="hover:underline">
-                  {news.title}
-                </a>
-              </p>
-              <p className="text-sm text-black text-bold">{news.description}</p>
+          {/* Display News articles */}
+          {(activeSection === 'all' || activeSection === 'news') && (
+            <div className="relative mt-12">
+              <h3 className="text-3xl font-bold text-center text-gray-800 mb-12 border-b-2 border-teal-500 pb-2 inline-block">Latest News</h3>
+              <div className="relative bg-black bg-opacity-50 p-4 sm:p-6 md:p-8">
+                <div className="flex flex-col items-center justify-center text-white">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                    {newsActivities.map((news) => (
+                      <div key={news.id} className="bg-white bg-opacity-80 shadow-lg rounded-lg overflow-hidden p-4">
+                        <p className="text-lg font-semibold text-teal-500 mb-2">
+                          <a href={news.link} target="_blank" rel="noopener noreferrer" className="hover:underline">
+                            {news.title}
+                          </a>
+                        </p>
+                        <p className="text-sm text-black text-bold">{news.description}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
             </div>
-          ))}
-        </div>
-      </div>
-    </div>
-  </div>
-)}
+          )}
         </div>
       </section>
       <Footer />
