@@ -52,7 +52,7 @@ const AboutUs = () => {
             animate="visible"
             whileHover="hover" // Apply hover animation
           >
-            <h2 className="text-3xl font-semibold mb-4 text-teal-600">Our Mission</h2>
+            <h2 className="text-3xl font-bold text-center text-gray-800 mb-2 border-b-2 border-teal-500 pb-2 inline-block">Our Mission</h2>
             <p className="leading-relaxed text-lg text-gray-700">
               Our mission is to drive innovation, deliver high-quality solutions, and foster long-term relationships with our clients. We strive to create a positive impact through technology and collaboration, helping businesses overcome challenges and unlock new opportunities.
             </p>
@@ -64,7 +64,7 @@ const AboutUs = () => {
             animate="visible"
             whileHover="hover" // Apply hover animation
           >
-            <h2 className="text-3xl font-semibold mb-4 text-teal-600">Our Values</h2>
+            <h2 className="text-3xl font-bold text-center text-gray-800 mb-12 border-b-2 border-teal-500 pb-2 inline-block">Our Values</h2>
             <p className="leading-relaxed text-lg text-gray-700">
               Integrity, collaboration, and excellence are at the core of everything we do. We believe in transparent communication, ethical business practices, and delivering results that exceed expectations.
             </p>

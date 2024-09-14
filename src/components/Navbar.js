@@ -42,8 +42,8 @@ function Navbar() {
               <Link to="/about" className="block mt-2 lg:mt-0 text-white hover:bg-blue-500 px-3 py-1 rounded transition duration-300 ease-in-out mx-1">
                 About us
               </Link>
-              <Link to="/programme" className="block mt-2 lg:mt-0 text-white hover:bg-blue-500 px-3 py-1 rounded transition duration-300 ease-in-out mx-1">
-                Programme
+              <Link to="/schedule" className="block mt-2 lg:mt-0 text-white hover:bg-blue-500 px-3 py-1 rounded transition duration-300 ease-in-out mx-1">
+                Schedule
               </Link>
               <Link to="/activities" className="block mt-2 lg:mt-0 text-white hover:bg-blue-500 px-3 py-1 rounded transition duration-300 ease-in-out mx-1">
                 Activities

@@ -1,8 +1,9 @@
 import React from 'react';
 import img from '../components/Assets/33.avif';
 import Navbar from '../components/Navbar';
-import Galley from '../pages/Galley';
 import Footer from '../components/Footer';
+import Programme from './Programme';
+
 
 function Home() {
   return (
@@ -33,7 +34,7 @@ function Home() {
           </div>
         </div>
       </section>
-      <Galley />
+      <Programme/>
       <Footer />
     </>
   );

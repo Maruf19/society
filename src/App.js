@@ -3,9 +3,10 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Home from './pages/Home'
 import About from './pages/About'
 import Contact from './pages/Contact'
-import Programme from './pages/Programme'
+import Schedule from './pages/Schedule'
 import Activities from './pages/Activities'
 import Team from './pages/Team'
+import Registration from './pages/Registration'
 
 function App() {
   return (
@@ -15,7 +16,8 @@ function App() {
       <Route path='Home' element={ <Home />} />
       <Route path='About' element={ <About />} />
       <Route path='team' element={ <Team />} />
-      <Route path='Programme' element={ <Programme />} />
+      <Route path='schedule' element={ <Schedule />} />
+      <Route path='Registration' element={ <Registration />} />
       <Route path='Activities' element={ <Activities />} />
       <Route path='Contact' element={ <Contact />} />
     </Routes>

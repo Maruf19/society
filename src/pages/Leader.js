@@ -37,7 +37,7 @@ const cardVariants = {
 const Leadership = () => {
   return (
     <div className="container mx-auto p-4 lg:p-12">
-      <h1 className="text-4xl font-extrabold text-center mb-8 text-gray-800">Current Leadership</h1>
+      <h1 className="text-4xl font-bold text-center text-gray-800 mb-12 border-b-2 border-teal-500 pb-2 inline-block">Current Leadership</h1>
       
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
         {leaders.map((leader) => (
