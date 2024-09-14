@@ -5,6 +5,7 @@ import About from './pages/About'
 import Contact from './pages/Contact'
 import Programme from './pages/Programme'
 import Activities from './pages/Activities'
+import Team from './pages/Team'
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
       <Route index element={ <Home />} />
       <Route path='Home' element={ <Home />} />
       <Route path='About' element={ <About />} />
+      <Route path='team' element={ <Team />} />
       <Route path='Programme' element={ <Programme />} />
       <Route path='Activities' element={ <Activities />} />
       <Route path='Contact' element={ <Contact />} />
