@@ -7,7 +7,7 @@ import Schedule from './pages/Schedule'
 import Activities from './pages/Activities'
 import Team from './pages/Team'
 import Registration from './pages/Registration'
-import Testimonial from './pages/Testimonial'
+import Achievement from './pages/Achievement'
 function App() {
   return (
         <BrowserRouter>
@@ -15,10 +15,11 @@ function App() {
       <Route index element={ <Home />} />
       <Route path='Home' element={ <Home />} />
       <Route path='About' element={ <About />} />
-      <Route path='testimonial' element={ <Testimonial />} />
       <Route path='team' element={ <Team />} />
       <Route path='schedule' element={ <Schedule />} />
+      <Route path='Achievement' element={ <Achievement />} />
       <Route path='Registration' element={ <Registration />} />
+      <Route path='Achievement' element={ <Achievement />} />
       <Route path='Activities' element={ <Activities />} />
       <Route path='Contact' element={ <Contact />} />
     </Routes>
