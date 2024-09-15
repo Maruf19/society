@@ -66,7 +66,7 @@ function Schedule() {
             <div className="p-6">
               <h2 className="text-2xl font-bold text-teal-600 mb-4">{Schedule.title}</h2>
               <p className="text-gray-600 mb-6">{Schedule.description}</p>
-              <Link to="/home">
+              <Link to="/registration">
               <motion.button
                 className="px-4 py-2 border border-teal-500 text-teal-500 rounded-full bg-transparent hover:bg-teal-500 hover:text-white transition-all duration-300"
                 whileHover={{ scale: 1.05 }}

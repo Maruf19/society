@@ -52,22 +52,10 @@ function RegistrationForm() {
       const imgData = canvas.toDataURL('image/png');
       const pdf = new jsPDF('p', 'mm', 'a4');
       const imgWidth = 210; // A4 width in mm
-      const pageHeight = 295; // A4 height in mm
-      const imgHeight = canvas.height * imgWidth / canvas.width;
-      let heightLeft = imgHeight;
-      let position = 0;
+      const imgHeight = (canvas.height * imgWidth) / canvas.width;
 
-      pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
-      heightLeft -= pageHeight;
-
-      while (heightLeft >= 0) {
-        position -= pageHeight;
-        pdf.addPage();
-        pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
-        heightLeft -= pageHeight;
-      }
-
-      pdf.save('registration-confirmation.pdf');
+      pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
+      pdf.save('entry-pass.pdf');
     });
   };
 
@@ -82,7 +70,7 @@ function RegistrationForm() {
   return (
     <div className="container mx-auto p-6 flex justify-center">
       <motion.div
-        className="bg-white border border-black shadow-2xl rounded-xl p-8 max-w-lg w-full"
+        className="shadow-2xl rounded-xl p-8 max-w-lg w-full"
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.5 }}
@@ -192,21 +180,21 @@ function RegistrationForm() {
             </div>
           </form>
         ) : (
-          <div id="pdf-content" className="p-6 bg-white border border-black rounded-lg shadow-lg">
+          <div id="pdf-content" className="p-6 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 text-white rounded-xl border-8 border-indigo-800 shadow-lg">
             <header className="text-center mb-6">
-              <h1 className="text-3xl font-extrabold text-black">Registration Confirmation</h1>
-              <p className="text-lg text-black mt-2">GS, MU CSE Society</p>
+              <h1 className="text-4xl font-extrabold text-white tracking-widest">Event Entry Pass</h1>
+              <p className="text-lg text-white mt-2 font-semibold">GS, MU CSE Society</p>
             </header>
-            <div className="border border-black p-6 rounded-lg shadow-lg">
-              <h2 className="text-2xl font-bold text-center mb-4">Payment Successful</h2>
-              <p className="mb-4 text-lg text-black">
-                Hello Mr/Mrs {formData.name},<br />
-                Congratulations! Your registration for the <strong>{formData.programName}</strong> has been successfully completed.<br />
-                We have received your payment, and your unique registration code is <strong>{formData.uniqueCode}</strong>.<br />
-                Please keep this code safe as you will need it for check-in at the event.<br />
-                We look forward to seeing you at the program. Thank you for registering, and we hope you have a great experience!<br /><br />
+            <div className="bg-white p-6 rounded-lg shadow-xl text-black">
+              <h2 className="text-3xl font-bold text-center mb-4 text-indigo-800">Payment Successful</h2>
+              <p className="mb-4 text-lg">
+                Hello Mr/Mrs <span className="font-bold">{formData.name}</span>,<br />
+                You are successfully registered for the <strong>{formData.programName}</strong>.<br />
+                Your unique registration code is <span className="text-indigo-800 font-bold">{formData.uniqueCode}</span>.<br />
+                <br />
+                Please show this entry pass at the event check-in. Thank you for registering!<br /><br />
                 Regards,<br />
-                GS, MU CSE Society
+                <strong>GS, MU CSE Society</strong>
               </p>
             </div>
           </div>
