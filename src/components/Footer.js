@@ -16,11 +16,11 @@ const Footer = () => {
             </p>
             {/* Social Media Links */}
             <div className="flex mt-8 space-x-6">
-              {socialIcons.map(({ href, label, icon: Icon }) => (
-                <a key={label} href={href} className="hover:opacity-75" target="_blank" rel="noreferrer">
+              {socialIcons.map(({ to, label, icon: Icon }) => (
+                <Link key={label} to={to} className="hover:opacity-75" target="_blank" rel="noreferrer">
                   <Icon className="w-6 h-6 text-gray-600" />
                   <span className="sr-only">{label}</span>
-                </a>
+                </Link>
               ))}
             </div>
           </div>
@@ -32,9 +32,9 @@ const Footer = () => {
                 <p className="text-lg font-medium text-teal-600">{title}</p>
                 <nav className="flex flex-col mt-4 space-y-2 text-sm text-gray-600">
                   {links.map((link) => (
-                    <a key={link} className="hover:text-teal-600" href="#">
+                    <Link key={link} to={`/${link.toLowerCase().replace(/\s+/g, '-')}`} className="hover:text-teal-600">
                       {link}
-                    </a>
+                    </Link>
                   ))}
                 </nav>
               </div>
@@ -53,7 +53,7 @@ const Footer = () => {
 // Social Media Icons (can be reused easily)
 const socialIcons = [
   {
-    href: "#",
+    to: "#", // Replace with actual paths or URLs
     label: "Facebook",
     icon: (props) => (
       <svg {...props} fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -62,7 +62,7 @@ const socialIcons = [
     ),
   },
   {
-    href: "#",
+    to: "#", // Replace with actual paths or URLs
     label: "Instagram",
     icon: (props) => (
       <svg {...props} fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">

@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import Navbar from '../components/Navbar';
-import Footer from '../components/Footer';
+
 
 // Sample data for the ProgrammeData
 const ProgrammeData = [
@@ -78,7 +78,7 @@ function Programme() {
         ))}
       </div>
     </section>
-     <Footer/>
+   
     </>
   );
 }

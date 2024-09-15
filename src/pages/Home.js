@@ -3,6 +3,7 @@ import img from '../components/Assets/33.avif';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import Programme from './Programme';
+import TestimonialSlider from './Testimonial';
 
 
 function Home() {
@@ -35,6 +36,7 @@ function Home() {
         </div>
       </section>
       <Programme/>
+      <TestimonialSlider />
       <Footer />
     </>
   );
