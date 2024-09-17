@@ -12,7 +12,7 @@ const PaymentMethod = () => {
   const [id, setId] = useState("");
   const [department, setDepartment] = useState("Computer Science and Engineering");
   const [step, setStep] = useState(1);
-  const [entryPass, setEntryPass] = useState(null);
+  const [entryPass] = useState(null);
 
   // Handle moving to the next step
   const handleNextStep = () => {
@@ -21,60 +21,109 @@ const PaymentMethod = () => {
 
  // Generate and download the entry pass
  const generateEntryPass = () => {
-   const doc = new jsPDF();
+  const doc = new jsPDF();
+
+  // Define custom styles
+  const headerFontSize = 22;
+  const sectionFontSize = 16;
+  const textFontSize = 12;
+  const headerColor = '#003366'; // Dark blue for header
+  const sectionColor = '#0056A0'; // Strong blue for sections
+  const textColor = '#333333'; // Dark gray for text
+  const backgroundColor = '#F4F4F4'; // Very light gray for background
+  const margin = 20;
+  const lineHeight = 8; // Adjust line height for readability
+  const pageWidth = doc.internal.pageSize.width;
+  const pageHeight = doc.internal.pageSize.height;
+  const textMaxWidth = pageWidth - 2 * margin;
+
+  // Generate unique code
+  const uniqueCode = Math.floor(Math.random() * 1000000);
+
+  // Set background color
+  doc.setFillColor(backgroundColor);
+  doc.rect(0, 0, pageWidth, pageHeight, 'F');
+
+  // Title Header
+  doc.setFont('helvetica', 'bold');
+  doc.setTextColor('#FFFFFF'); // White text color
+  doc.setFillColor(headerColor);
+  doc.rect(margin - 2, margin - 2, pageWidth - 2 * (margin - 2), 28, 'F'); // Adjusted header height
+  doc.setFontSize(headerFontSize);
+  doc.text("Event Registration Confirmation", margin + 10, margin + 18);
+
+  // Content
+  doc.setFont('helvetica', 'normal');
+  doc.setTextColor(textColor);
+  doc.setFontSize(textFontSize);
+
+  // Helper function to split text into lines
+  const wrapText = (text, x, y, maxWidth) => {
+    const lines = doc.splitTextToSize(text, maxWidth);
+    lines.forEach((line, index) => {
+      doc.text(line, x, y + index * lineHeight);
+    });
+    return y + lines.length * lineHeight;
+  };
+
+  // Main Text
+  const mainText = "Thank you for registering for the [Event Name]! We have successfully received your details, and we are excited to have you join us for this [workshop/seminar/bootcamp/hackathon].";
+  let currentY = margin + 40;
+  currentY = wrapText(mainText, margin, currentY, textMaxWidth);
+
+  // Registration Details
+  doc.setFontSize(sectionFontSize);
+  doc.setFont('helvetica', 'bold');
+  doc.setTextColor(sectionColor);
+  doc.text("Below are the details of your registration:", margin, currentY + 10);
+
+  const details = [
+    `Event Name: [Insert Event Name]`,
+    `Date: [Insert Event Date]`,
+    `Time: [Insert Event Time]`,
+    `Venue: [Insert Event Venue/Online Platform]`,
+    `Participant Name: [Insert Participant's Name]`,
+    `Email: [Insert Participant's Email]`
+  ];
+
+  currentY += 20; // Add space before details
+  doc.setFontSize(textFontSize);
+  doc.setFont('helvetica', 'normal');
+  doc.setTextColor(textColor);
+
+  details.forEach((line) => {
+    currentY = wrapText(line, margin, currentY, textMaxWidth);
+  });
+
+  // Additional Information
+  const additionalText = "Please keep this document for your records. If you have any questions or need further assistance, feel free to contact us at [Insert Contact Information]. We look forward to seeing you at the event!";
+  currentY = wrapText(additionalText, margin, currentY + 10, textMaxWidth);
+
+  // Unique Code
+  doc.setFontSize(sectionFontSize);
+  doc.setFont('helvetica', 'bold');
+  doc.setTextColor('#000000'); // Black color for unique code
+  doc.text("Your Unique Code is:", margin, currentY + 15);
+  doc.setFontSize(textFontSize);
+  doc.text(uniqueCode.toString(), margin + 100, currentY + 15); // Adjust position to fit on the same line
+
+  // Closing Remarks
+  doc.setFontSize(textFontSize);
+  doc.setFont('helvetica', 'bold');
+  doc.setTextColor(textColor);
+  doc.text("Regards,", margin, currentY + 30);
+  doc.text("General Secretary", margin, currentY + 45);
+  doc.text("MU CSE Society", margin, currentY + 60);
+
+  // Add a border around the pass
+  doc.setDrawColor('#CCCCCC'); // Light gray color for the border
+  doc.setLineWidth(1);
+  doc.rect(margin - 5, margin - 5, pageWidth - 2 * (margin - 5), pageHeight - 2 * (margin - 5));
+
+  // Save the PDF
+  doc.save("event-registration-confirmation.pdf");
+};
  
-   // Define custom styles
-   const titleFontSize = 24;
-   const sectionFontSize = 18;
-   const textFontSize = 14;
-   const titleColor = '#333333';
-   const sectionColor = '#555555';
-   const textColor = '#777777';
-   const margin = 15;
-   const lineHeight = 10;
- 
-   // Title
-   doc.setFont('helvetica', 'bold');
-   doc.setTextColor(titleColor);
-   doc.setFontSize(titleFontSize);
-   doc.text("Event Registration Confirmation", margin, 30);
- 
-   // Add content sections
-   doc.setFont('helvetica', 'bold');
-   doc.setTextColor(sectionColor);
-   doc.setFontSize(sectionFontSize);
-   doc.text("Thank you for registering for the [Event Name]!", margin, 50);
- 
-   doc.setFont('helvetica', 'normal');
-   doc.setTextColor(textColor);
-   doc.setFontSize(textFontSize);
-   doc.text(`We have successfully received your details, and we are excited to have you join us for this [workshop/seminar/bootcamp/hackathon].`, margin, 60);
-   
-   doc.text("Below are the details of your registration:", margin, 75);
- 
-   const details = [
-     `Event Name: [Insert Event Name]`,
-     `Date: [Insert Event Date]`,
-     `Time: [Insert Event Time]`,
-     `Venue: [Insert Event Venue/Online Platform]`,
-     `Participant Name: [Insert Participant's Name]`,
-     `Email: [Insert Participant's Email]`
-   ];
- 
-   details.forEach((line, index) => {
-     doc.text(line, margin, 90 + index * lineHeight);
-   });
- 
-   doc.text("Please keep this document for your records. If you have any questions or need further assistance, feel free to contact us at [Insert Contact Information]. We look forward to seeing you at the event!", margin, 120 + details.length * lineHeight);
- 
-   // Add a border around the pass
-   const pageWidth = doc.internal.pageSize.width;
-   const pageHeight = doc.internal.pageSize.height;
-   doc.rect(margin, margin, pageWidth - 2 * margin, pageHeight - 2 * margin);
- 
-   // Save the PDF
-   doc.save("event-registration-confirmation.pdf");
- };
  
 
 
