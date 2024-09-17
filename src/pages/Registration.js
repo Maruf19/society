@@ -1,207 +1,132 @@
-import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
-import jsPDF from 'jspdf';
-import html2canvas from 'html2canvas';
+import React, { useState } from "react";
+import { motion } from "framer-motion";
+import jsPDF from "jspdf";
 
-const programOptions = [
-  { id: 1, name: 'Artificial Intelligence Workshop' },
-  { id: 2, name: 'Web Development Bootcamp' },
-  { id: 3, name: 'Cybersecurity Seminar' },
-  { id: 4, name: 'Hackathon' },
-];
+// Assume programName is imported from your Schedule component
+import { programName } from "./Schedule"; 
 
-function RegistrationForm() {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    contact: '',
-    paymentMethod: '',
-    transactionId: '',
-    programName: '',
-    uniqueCode: '',
-  });
+const PaymentMethod = () => {
+  const [paymentType, setPaymentType] = useState(null);
+  const [bank, setBank] = useState("");
+  const [mobileBankingService, setMobileBankingService] = useState("");
+  const [mobileNumber, setMobileNumber] = useState("");
+  const [amount, setAmount] = useState("");
+  const [name, setName] = useState("");
+  const [id, setId] = useState("");
+  const [department, setDepartment] = useState("Computer Science and Engineering");
+  const [step, setStep] = useState(1);
+  const [entryPass, setEntryPass] = useState(null);
 
-  const [isSubmitted, setIsSubmitted] = useState(false);
-
-  const generateUniqueCode = () => {
-    const randomValue = Math.floor(100000 + Math.random() * 900000);
-    return `REG-${randomValue}`;
+  // Handle moving to the next step
+  const handleNextStep = () => {
+    setStep((prevStep) => prevStep + 1);
   };
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
+  // Generate and download the entry pass
+  const generateEntryPass = () => {
+    const doc = new jsPDF();
+    const uniqueNumber = Math.floor(Math.random() * 1000000);
+    
+    // Design the PDF with a nicer format
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(24);
+    doc.text("MU CSE Society", 20, 20);
+
+    doc.setFontSize(20);
+    doc.text(`Hello Mr/Mrs. ${name},`, 20, 40);
+    doc.setFontSize(16);
+    doc.text(`We are happy that you have registered for the program:`, 20, 55);
+    doc.setFont("helvetica", "normal");
+    doc.text(`${programName}`, 20, 65);
+    doc.text(`Your unique entry code is: ${uniqueNumber}`, 20, 80);
+
+    doc.setFont("helvetica", "italic");
+    doc.text("This will be your pass for the event.", 20, 95);
+
+    doc.setFontSize(14);
+    doc.setFont("helvetica", "bold");
+    doc.text("Regards,", 20, 120);
+    doc.text("GS, MU CSE Society", 20, 130);
+
+    doc.save("entry-pass.pdf");
+    setEntryPass(`Unique Code: ${uniqueNumber}`);
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const uniqueCode = generateUniqueCode();
-    setFormData({
-      ...formData,
-      uniqueCode,
-    });
-    setIsSubmitted(true);
+  // Handle payment submission
+  const handleSubmitPayment = () => {
+    generateEntryPass();
+    setStep(4); // Move to the completion step
   };
-
-  const downloadPDF = () => {
-    const input = document.getElementById('pdf-content');
-    html2canvas(input, { scale: 2 }).then((canvas) => {
-      const imgData = canvas.toDataURL('image/png');
-      const pdf = new jsPDF('p', 'mm', 'a4');
-      const imgWidth = 210; // A4 width in mm
-      const imgHeight = (canvas.height * imgWidth) / canvas.width;
-
-      pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
-      pdf.save('entry-pass.pdf');
-    });
-  };
-
-  useEffect(() => {
-    if (isSubmitted) {
-      setTimeout(() => {
-        downloadPDF();
-      }, 100); // Small delay to ensure content is rendered
-    }
-  }, [isSubmitted]);
 
   return (
-    <div className="container mx-auto p-6 flex justify-center">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-200 p-6">
       <motion.div
-        className="shadow-2xl rounded-xl p-8 max-w-lg w-full"
-        initial={{ opacity: 0, scale: 0.95 }}
+        className="w-full max-w-xl bg-white rounded-3xl shadow-2xl p-8"
+        initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.5 }}
       >
-        {!isSubmitted ? (
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <h2 className="text-3xl font-extrabold mb-6 text-center text-black">Program Registration Form</h2>
-
-            {/* Name */}
-            <div className="mb-4">
-              <label className="block text-black text-sm font-medium mb-2">Name</label>
-              <input
-                type="text"
-                name="name"
-                value={formData.name}
-                onChange={handleChange}
-                required
-                className="shadow-sm appearance-none border border-black rounded-lg w-full py-3 px-4 text-black focus:outline-none focus:ring-2 focus:ring-blue-500"
-                placeholder="Enter your name"
-              />
-            </div>
-
-            {/* Email */}
-            <div className="mb-4">
-              <label className="block text-black text-sm font-medium mb-2">Email</label>
-              <input
-                type="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                required
-                className="shadow-sm appearance-none border border-black rounded-lg w-full py-3 px-4 text-black focus:outline-none focus:ring-2 focus:ring-blue-500"
-                placeholder="Enter your email"
-              />
-            </div>
-
-            {/* Contact Number */}
-            <div className="mb-4">
-              <label className="block text-black text-sm font-medium mb-2">Contact Number</label>
-              <input
-                type="text"
-                name="contact"
-                value={formData.contact}
-                onChange={handleChange}
-                required
-                className="shadow-sm appearance-none border border-black rounded-lg w-full py-3 px-4 text-black focus:outline-none focus:ring-2 focus:ring-blue-500"
-                placeholder="Enter your contact number"
-              />
-            </div>
-
-            {/* Program Name */}
-            <div className="mb-4">
-              <label className="block text-black text-sm font-medium mb-2">Select Program</label>
-              <select
-                name="programName"
-                value={formData.programName}
-                onChange={handleChange}
-                required
-                className="shadow-sm appearance-none border border-black rounded-lg w-full py-3 px-4 text-black focus:outline-none focus:ring-2 focus:ring-blue-500"
-              >
-                <option value="" disabled>Select program</option>
-                {programOptions.map((program) => (
-                  <option key={program.id} value={program.name}>
-                    {program.name}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            {/* Payment Method */}
-            <div className="mb-4">
-              <label className="block text-black text-sm font-medium mb-2">Select Payment Method</label>
-              <select
-                name="paymentMethod"
-                value={formData.paymentMethod}
-                onChange={handleChange}
-                required
-                className="shadow-sm appearance-none border border-black rounded-lg w-full py-3 px-4 text-black focus:outline-none focus:ring-2 focus:ring-blue-500"
-              >
-                <option value="" disabled>Select payment method</option>
-                <option value="bkash">Bkash</option>
-                <option value="nagad">Nagad</option>
-              </select>
-            </div>
-
-            {/* Transaction ID */}
-            <div className="mb-4">
-              <label className="block text-black text-sm font-medium mb-2">Transaction ID</label>
-              <input
-                type="text"
-                name="transactionId"
-                value={formData.transactionId}
-                onChange={handleChange}
-                required
-                className="shadow-sm appearance-none border border-black rounded-lg w-full py-3 px-4 text-black focus:outline-none focus:ring-2 focus:ring-blue-500"
-                placeholder="Enter transaction ID"
-              />
-            </div>
-
-            <div className="flex items-center justify-center">
+        {/* Step 1: Select Payment Type */}
+        {step === 1 && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3 }}
+          >
+            <h2 className="text-3xl font-extrabold text-gray-800 mb-6">Select Payment Method</h2>
+            <div className="space-y-4">
               <button
-                type="submit"
-                className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded-lg transition duration-300"
+                className={`w-full py-4 px-5 text-left rounded-xl shadow-lg ${
+                  paymentType === "bank"
+                    ? "bg-blue-100 border-blue-500 text-blue-700"
+                    : "bg-white border-gray-300 text-gray-800"
+                } border-2 transition-transform transform hover:scale-105`}
+                onClick={() => setPaymentType("bank")}
               >
-                Submit
+                <span className="font-semibold">Bank Transfer</span>
+              </button>
+              <button
+                className={`w-full py-4 px-5 text-left rounded-xl shadow-lg ${
+                  paymentType === "mobileBanking"
+                    ? "bg-blue-100 border-blue-500 text-blue-700"
+                    : "bg-white border-gray-300 text-gray-800"
+                } border-2 transition-transform transform hover:scale-105`}
+                onClick={() => setPaymentType("mobileBanking")}
+              >
+                <span className="font-semibold">Mobile Banking</span>
               </button>
             </div>
-          </form>
-        ) : (
-          <div id="pdf-content" className="p-6 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 text-white rounded-xl border-8 border-indigo-800 shadow-lg">
-            <header className="text-center mb-6">
-              <h1 className="text-4xl font-extrabold text-white tracking-widest">Event Entry Pass</h1>
-              <p className="text-lg text-white mt-2 font-semibold">GS, MU CSE Society</p>
-            </header>
-            <div className="bg-white p-6 rounded-lg shadow-xl text-black">
-              <h2 className="text-3xl font-bold text-center mb-4 text-indigo-800">Payment Successful</h2>
-              <p className="mb-4 text-lg">
-                Hello Mr/Mrs <span className="font-bold">{formData.name}</span>,<br />
-                You are successfully registered for the <strong>{formData.programName}</strong>.<br />
-                Your unique registration code is <span className="text-indigo-800 font-bold">{formData.uniqueCode}</span>.<br />
-                <br />
-                Please show this entry pass at the event check-in. Thank you for registering!<br /><br />
-                Regards,<br />
-                <strong>GS, MU CSE Society</strong>
-              </p>
-            </div>
-          </div>
+            <button
+              className="mt-6 w-full bg-blue-600 text-white py-3 rounded-xl shadow-lg hover:bg-blue-700 transition-colors"
+              onClick={handleNextStep}
+              disabled={!paymentType}
+            >
+              <span className="font-semibold">Next</span>
+            </button>
+          </motion.div>
+        )}
+
+        {/* Other steps remain the same... */}
+        {step === 4 && (
+          <motion.div
+            className="text-center"
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.5 }}
+          >
+            <h2 className="text-4xl font-extrabold text-green-600 mb-4">Payment Successful!</h2>
+            <p className="text-gray-700 text-lg">Your payment has been processed. Thank you!</p>
+            {entryPass && (
+              <div className="mt-8 p-6 bg-yellow-100 rounded-xl shadow-lg">
+                <h3 className="text-2xl font-bold text-gray-800 mb-4">Your Entry Pass</h3>
+                <p className="text-lg font-semibold">{entryPass}</p>
+              </div>
+            )}
+          </motion.div>
         )}
       </motion.div>
     </div>
   );
-}
+};
 
-export default RegistrationForm;
+export default PaymentMethod;
