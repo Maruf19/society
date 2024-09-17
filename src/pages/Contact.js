@@ -7,7 +7,8 @@ const colors = {
   primaryBlue: '#407df4',
   white: '#fefefe',
   gold: '#eab123',
-  teal: '#40a8c4'  // This is a teal color; adjust as needed
+  teal: '#40a8c4',
+  darkTeal: '#357f8e'
 };
 
 const Contact = () => {
@@ -16,103 +17,149 @@ const Contact = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     setIsSubmitted(true);
-    // Hide the thank you message after 5 seconds
-    // setTimeout(() => {
-    //   setIsSubmitted(false);
-    // }, 5000);
   };
 
   return (
     <>
       <Navbar />
-      <section className="py-16" style={{ background: `linear-gradient(to right, ${colors.teal} 0%, ${colors.white} 50%, ${colors.teal} 100%)` }}>
+      <motion.section
+        className="py-12 lg:py-16"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.8 }}
+        style={{
+          background: `linear-gradient(to right, ${colors.teal} 0%, ${colors.white} 50%, ${colors.teal} 100%)`
+        }}
+      >
         {/* Headline */}
-        <div className="container mx-auto px-4 text-center mb-12">
-          <h2 className="text-4xl font-extrabold" style={{ color: colors.primaryBlue }}>Contact With Us</h2>
-          <p className="text-gray-600 mt-4 text-lg">
-            We would love to hear from you. Please fill out the form below or reach us directly.
-          </p>
+        <div className="container mx-auto px-4 text-center mb-8 lg:mb-12">
+          <motion.h2
+            className="text-3xl lg:text-4xl font-extrabold text-black"
+            initial={{ y: -50, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.6 }}
+          >
+            Contact Us
+          </motion.h2>
+
+          {/* Underline */}
+          <div className="mt-2 w-16 lg:w-24 h-1 mx-auto bg-black"></div>
+
+          <motion.p
+            className="text-base lg:text-lg text-black mt-4"
+            initial={{ y: 50, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.6 }}
+          >
+            We'd love to hear from you. Fill out the form or contact us directly.
+          </motion.p>
         </div>
 
-        {/* Conditionally show thank you message or the form and contact details */}
+        {/* Conditionally show thank you message or form */}
         {isSubmitted ? (
-          <div className="container mx-auto flex items-center justify-center px-4">
+          <motion.div
+            className="container mx-auto flex items-center justify-center px-4"
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.5 }}
+          >
             <motion.div
-              className="w-full lg:w-1/2"
-              style={{ backgroundColor: colors.gold, color: colors.white }}
+              className="p-6 lg:p-8 rounded-lg shadow-lg"
+              style={{
+                backgroundColor: colors.white, // White card background
+                borderColor: colors.primaryBlue, // Add border
+                borderWidth: '2px',
+                color: 'black', // Black text
+              }}
               initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1, transition: { duration: 0.5 } }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.5 }}
             >
-              <strong className="text-2xl font-bold">Thank you!</strong>
-              <p className="mt-4">
-                We appreciate you contacting us. We'll be in touch soon!
-              </p>
+              <motion.strong
+                className="text-2xl lg:text-3xl font-bold"
+                initial={{ y: -20, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ duration: 0.5 }}
+              >
+                Thank You!
+              </motion.strong>
+              <motion.p
+                className="mt-4 text-base lg:text-lg"
+                initial={{ y: 20, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ duration: 0.5 }}
+              >
+                We appreciate your message. We'll get back to you shortly.
+              </motion.p>
             </motion.div>
-          </div>
+          </motion.div>
         ) : (
-          <div className="container mx-auto flex flex-col lg:flex-row gap-12 items-center justify-between px-4 lg:px-12">
-            {/* Contact Form Section */}
+          <motion.div
+            className="container mx-auto flex flex-col lg:flex-row gap-8 lg:gap-12 items-center justify-between px-4 lg:px-12"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5 }}
+          >
+            {/* Contact Form */}
             <motion.div
-              className="w-full lg:w-2/3"
-              style={{ backgroundColor: colors.white, borderColor: colors.primaryBlue }}
-              initial={{ opacity: 0, x: -30 }}
-              animate={{ opacity: 1, x: 0, transition: { duration: 0.5 } }}
+              className="w-full lg:w-2/3 bg-white p-6 lg:p-8 rounded-lg shadow-lg"
+              style={{ borderColor: colors.primaryBlue, borderWidth: 2 }}
+              initial={{ x: -50, opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              transition={{ duration: 0.6 }}
             >
-              <h3 className="text-2xl font-semibold" style={{ color: colors.primaryBlue }}>Get in Touch</h3>
-              <p className="text-gray-600 mb-8 text-center">
-                Have any questions? Fill out the form and we'll get back to you shortly.
-              </p>
-
+              <h3 className="text-xl lg:text-2xl font-semibold mb-4 lg:mb-6 text-black">Get in Touch</h3>
               <form onSubmit={handleSubmit}>
                 {/* Name Input */}
-                <div className="mb-6">
-                  <label htmlFor="name" className="block text-lg font-medium" style={{ color: colors.primaryBlue }}>
+                <div className="mb-4 lg:mb-6">
+                  <label htmlFor="name" className="block text-base lg:text-lg font-medium text-black">
                     Your Name
                   </label>
                   <input
                     type="text"
                     id="name"
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-teal-400 focus:outline-none transition duration-150 ease-in-out"
+                    className="w-full px-3 lg:px-4 py-2 lg:py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-teal-400 focus:outline-none transition duration-150 ease-in-out"
                     placeholder="Enter your full name"
                     required
                   />
                 </div>
 
                 {/* Email Input */}
-                <div className="mb-6">
-                  <label htmlFor="email" className="block text-lg font-medium" style={{ color: colors.primaryBlue }}>
+                <div className="mb-4 lg:mb-6">
+                  <label htmlFor="email" className="block text-base lg:text-lg font-medium text-black">
                     Your Email
                   </label>
                   <input
                     type="email"
                     id="email"
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-teal-400 focus:outline-none transition duration-150 ease-in-out"
+                    className="w-full px-3 lg:px-4 py-2 lg:py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-teal-400 focus:outline-none transition duration-150 ease-in-out"
                     placeholder="Enter your email address"
                     required
                   />
                 </div>
 
-                {/* Phone Number Input */}
-                <div className="mb-6">
-                  <label htmlFor="phone" className="block text-lg font-medium" style={{ color: colors.primaryBlue }}>
-                    Your Phone Number
+                {/* Mobile Number Input */}
+                <div className="mb-4 lg:mb-6">
+                  <label htmlFor="mobile" className="block text-base lg:text-lg font-medium text-black">
+                    Your Mobile Number
                   </label>
                   <input
                     type="tel"
-                    id="phone"
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-teal-400 focus:outline-none transition duration-150 ease-in-out"
-                    placeholder="Enter your phone number"
+                    id="mobile"
+                    className="w-full px-3 lg:px-4 py-2 lg:py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-teal-400 focus:outline-none transition duration-150 ease-in-out"
+                    placeholder="Enter your mobile number"
+                    required
                   />
                 </div>
 
                 {/* Message Input */}
-                <div className="mb-6">
-                  <label htmlFor="message" className="block text-lg font-medium" style={{ color: colors.primaryBlue }}>
+                <div className="mb-4 lg:mb-6">
+                  <label htmlFor="message" className="block text-base lg:text-lg font-medium text-black">
                     Your Message
                   </label>
                   <textarea
                     id="message"
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm h-32 focus:ring-2 focus:ring-teal-400 focus:outline-none transition duration-150 ease-in-out"
+                    className="w-full px-3 lg:px-4 py-2 lg:py-3 border border-gray-300 rounded-lg shadow-sm h-32 focus:ring-2 focus:ring-teal-400 focus:outline-none transition duration-150 ease-in-out"
                     placeholder="Write your message"
                     required
                   ></textarea>
@@ -121,9 +168,9 @@ const Contact = () => {
                 {/* Submit Button */}
                 <motion.button
                   type="submit"
-                  className="w-full"
+                  className="w-full py-2 lg:py-3 rounded-lg"
                   style={{ backgroundColor: colors.primaryBlue, color: colors.white }}
-                  whileHover={{ scale: 1.05 }}
+                  whileHover={{ scale: 1.05, boxShadow: '0 8px 25px rgba(0, 0, 0, 0.2)' }}
                   whileTap={{ scale: 0.95 }}
                 >
                   Send Message
@@ -131,24 +178,23 @@ const Contact = () => {
               </form>
             </motion.div>
 
-            {/* Address Section */}
+            {/* Contact Info */}
             <motion.div
-              className="w-full lg:w-1/3"
-              style={{ backgroundColor: colors.primaryBlue, color: colors.white }}
-              initial={{ opacity: 0, x: 30 }}
-              animate={{ opacity: 1, x: 0, transition: { duration: 0.5 } }}
+              className="w-full lg:w-1/3 bg-primaryBlue p-6 lg:p-8 rounded-lg shadow-lg"
+              style={{ backgroundColor: colors.primaryBlue }}
+              initial={{ x: 50, opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              transition={{ duration: 0.6 }}
             >
-              <h3 className="text-3xl font-bold mb-4 text-center">Contact Information</h3>
-              <p className="mb-6 text-center text-lg">
-                If you'd prefer to reach us directly, here are our contact details:
+              <h3 className="text-2xl lg:text-3xl font-bold mb-4 lg:mb-6 text-white text-center">Contact Information</h3>
+              <p className="text-base lg:text-lg mb-6 text-white text-center">
+                Feel free to contact us via phone or email.
               </p>
 
-              <div className="space-y-6">
+              <div className="space-y-4 lg:space-y-6 text-white">
                 <div className="text-center">
                   <h4 className="text-lg font-semibold">Address</h4>
-                  <p>
-                    123 Main Street, Suite 101<br />Your City, Country
-                  </p>
+                  <p>123 Main Street, Suite 101<br />Your City, Country</p>
                 </div>
 
                 <div className="text-center">
@@ -162,9 +208,9 @@ const Contact = () => {
                 </div>
               </div>
             </motion.div>
-          </div>
+          </motion.div>
         )}
-      </section>
+      </motion.section>
       <Footer />
     </>
   );
