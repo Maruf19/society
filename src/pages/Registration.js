@@ -112,8 +112,8 @@ const PaymentMethod = () => {
   doc.setFont('helvetica', 'bold');
   doc.setTextColor(textColor);
   doc.text("Regards,", margin, currentY + 30);
-  doc.text("General Secretary", margin, currentY + 45);
-  doc.text("MU CSE Society", margin, currentY + 60);
+  doc.text("General Secretary", margin, currentY + 40);
+  doc.text("MU CSE Society", margin, currentY + 50);
 
   // Add a border around the pass
   doc.setDrawColor('#CCCCCC'); // Light gray color for the border
