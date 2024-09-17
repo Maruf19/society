@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 
@@ -51,6 +51,14 @@ const achievements = [
 ];
 
 const Achievement = () => {
+  useEffect(() => {
+    // Smooth scroll to the top of the page when the component mounts
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  }, []); // Empty dependency array ensures this runs once on mount
+
   // Sort achievements by date, latest first
   const sortedAchievements = achievements.sort((a, b) => new Date(b.date) - new Date(a.date));
 

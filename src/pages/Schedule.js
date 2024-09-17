@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { motion } from 'framer-motion';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
@@ -37,6 +37,14 @@ const cardVariants = {
 };
 
 function Schedule() {
+  useEffect(() => {
+    // Smooth scroll to the top of the page when the component mounts
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  }, []); // Empty dependency array ensures this runs once on mount
+
   return (
     <>
     <Navbar/>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { motion } from 'framer-motion';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
@@ -12,6 +12,14 @@ const colors = {
 };
 
 const Contact = () => {
+  useEffect(() => {
+    // Smooth scroll to the top of the page when the component mounts
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  }, []); // Empty dependency array ensures this runs once on mount
+
   const [isSubmitted, setIsSubmitted] = useState(false);
 
   const handleSubmit = (e) => {

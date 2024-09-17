@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 
@@ -66,7 +66,16 @@ const newsActivities = [
   },
 ];
 
-const Activities = () => {
+function Activities() {
+  useEffect(() => {
+    // Smooth scroll to the top of the page when the component mounts
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  }, []); // Empty dependency array ensures this runs once on mount
+
+// const Activities = () => {
   const [activeSection, setActiveSection] = useState('all');
 
   const handleFilter = (section) => {
