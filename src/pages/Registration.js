@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import jsPDF from "jspdf";
+import { FaArrowLeft } from "react-icons/fa"; // Import the back icon
 
 const PaymentMethod = () => {
   const [paymentType, setPaymentType] = useState(null);
@@ -134,8 +135,22 @@ const PaymentMethod = () => {
     setStep(4); // Move to the completion step
   };
 
+   // Handle back navigation
+   const handleGoBack = () => {
+    // Implement the back navigation logic here
+    // For example, you might use history.push('/') if using react-router
+    // or you might have other logic to go back to the previous step
+    setStep((prevStep) => Math.max(prevStep - 1, 1));
+  };
+
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-200 p-6">
+       <button
+        onClick={handleGoBack}
+        className="absolute top-4 left-4 p-2 text-blue-600 hover:text-blue-800 transition-colors"
+      >
+        <FaArrowLeft size={24} />
+      </button>
       <motion.div
         className="w-full max-w-xl bg-white rounded-3xl shadow-2xl p-8"
         initial={{ opacity: 0, scale: 0.9 }}
