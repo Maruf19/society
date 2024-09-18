@@ -57,7 +57,7 @@ function Schedule() {
         {ScheduleData.map((Schedule) => (
           <motion.div
             key={Schedule.id}
-            className="bg-white shadow-lg rounded-lg overflow-hidden max-w-xs mx-auto transition-transform transform hover:scale-105"
+            className="bg-white shadow-lg rounded-lg overflow-hidden max-w-xs mx-auto transition-transform transform hover:scale-105 border border-teal-500"
             initial="hidden"
             animate="visible"
             variants={cardVariants}
@@ -65,7 +65,7 @@ function Schedule() {
           >
             <div className="relative">
               <img
-                className="w-full h-40 object-cover"
+                className="w-full h-40 object-cover border border-teal-500"
                 src={Schedule.image}
                 alt={Schedule.title}
               />

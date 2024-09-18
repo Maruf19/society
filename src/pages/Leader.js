@@ -43,7 +43,7 @@ const Leadership = () => {
         {leaders.map((leader) => (
           <motion.div
             key={leader.id}
-            className="bg-white shadow-lg rounded-lg overflow-hidden transform transition-all duration-300 hover:scale-105"
+            className="bg-white shadow-lg rounded-lg overflow-hidden transform transition-all duration-300 hover:scale-105  border border-teal-500"
             initial="hidden"
             animate="visible"
             variants={cardVariants}

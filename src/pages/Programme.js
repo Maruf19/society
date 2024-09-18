@@ -48,7 +48,7 @@ function Programme() {
           {ProgrammeData.map((program) => (
             <motion.div
               key={program.id}
-              className="bg-white shadow-lg rounded-lg overflow-hidden w-full max-w-sm mx-auto flex flex-col"
+              className="bg-white shadow-lg rounded-lg overflow-hidden w-full max-w-sm mx-auto flex flex-col border border-teal-500"
               initial="hidden"
               animate="visible"
               variants={cardVariants}
@@ -56,7 +56,7 @@ function Programme() {
             >
               <div className="relative">
                 <img
-                  className="w-full h-48 md:h-56 lg:h-64 object-cover"
+                  className="w-full h-48 md:h-56 lg:h-64 object-cover border border-teal-500"
                   src={program.image}
                   alt={program.title}
                 />

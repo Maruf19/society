@@ -71,13 +71,13 @@ const Achievement = () => {
           {sortedAchievements.map((achievement) => (
             <div
               key={achievement.id}
-              className="bg-white p-4 md:p-6 lg:p-8 rounded-lg shadow-md transition-transform transform hover:scale-105 hover:shadow-xl relative border border-gray-400"
+              className="bg-white p-4 md:p-6 lg:p-8 rounded-lg shadow-md transition-transform transform hover:scale-105 hover:shadow-xl relative border border-teal-500"
             >
-              <div className="w-full h-48 md:h-64 overflow-hidden rounded-lg mb-4 mt-3">
+              <div className="w-full h-48 md:h-64 overflow-hidden rounded-lg mb-4 mt-3 border border-teal-500">
                 <img
                   src={achievement.image}
                   alt={`Achievement ${achievement.id}`}
-                  className="w-full h-full object-cover transition-transform transform hover:scale-105"
+                  className="w-full h-full object-cover transition-transform transform hover:scale-105 border border-teal-500"
                 />
               </div>
               <div className="absolute top-0 left-0 bg-blue-600 text-white text-xs md:text-sm font-bold rounded-br-lg px-2 py-1 md:px-3 md:py-2">
