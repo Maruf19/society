@@ -43,30 +43,42 @@ function AboutUs() {
             Welcome to the MU CSE Society, the dynamic hub for Computer Science and Engineering students at MU. Whether you're an experienced coder or just starting out, our society offers opportunities to help you grow, learn, and connect with fellow tech enthusiasts.
           </p>
           <a
-            href="/about"
+            href="/team"
             className="bg-teal-500 text-white font-bold py-3 px-8 rounded-full hover:bg-teal-400 transition duration-300"
           >
-            Learn More About Us
-          </a>
+            Existing Committee (2019-2021)         </a>
         </div>
       </section>
 
       {/* Mission and Values Section */}
-      <section className="mb-12 px-6 lg:px-24 py-12 bg-gray-50">
-        <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12">
+      <section className="mb-4 px-6 lg:px-24 pt-12 bg-gray-50">
+        <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 ">
           <motion.div
-            className="bg-white shadow-lg rounded-lg p-8"
+            className="bg-white shadow-lg rounded-lg px-8 py-4 border border-teal-500"
             variants={cardVariants}
             initial="hidden"
             animate="visible"
             whileHover="hover" // Apply hover animation
           >
-            <h2 className="text-3xl font-bold text-center text-gray-800 mb-2 border-b-2 border-teal-500 pb-2 inline-block">Our Mission</h2>
-            <p className="leading-relaxed text-lg text-gray-700">
+            <h2 className="text-2xl font-bold text-center text-gray-800 mb-2 border-b-2 border-teal-500 pb-2 inline-block">Our Mission</h2>
+            <p className="leading-relaxed text-base text-gray-700">
               Our mission is to drive innovation, deliver high-quality solutions, and foster long-term relationships with our clients. We strive to create a positive impact through technology and collaboration, helping businesses overcome challenges and unlock new opportunities.
             </p>
           </motion.div>
+
           <motion.div
+            className="bg-white shadow-lg rounded-lg px-8 py-4 border border-teal-500"
+            variants={cardVariants}
+            initial="hidden"
+            animate="visible"
+            whileHover="hover" // Apply hover animation
+          >
+            <h2 className="text-2xl font-bold text-center text-gray-800 mb-2 border-b-2 border-teal-500 pb-2 inline-block">Our Vission</h2>
+            <p className="leading-relaxed text-base text-gray-700">
+            Integrity, collaboration, and excellence are at the core of everything we do. We believe in transparent communication, ethical business practices, and delivering results that exceed expectations.
+            </p>
+          </motion.div>
+          {/* <motion.div
             className="bg-white shadow-lg rounded-lg p-8"
             variants={cardVariants}
             initial="hidden"
@@ -75,24 +87,16 @@ function AboutUs() {
           >
             <h2 className="text-3xl font-bold text-center text-gray-800 mb-12 border-b-2 border-teal-500 pb-2 inline-block">Our Values</h2>
             <p className="leading-relaxed text-lg text-gray-700">
-              Integrity, collaboration, and excellence are at the core of everything we do. We believe in transparent communication, ethical business practices, and delivering results that exceed expectations.
+             
             </p>
-          </motion.div>
+          </motion.div> */}
         </div>
       </section>
 
       {/* Team Section */}
       <Leadership />
 
-      {/* Full Team Button */}
-      <div className="text-center pt-2 pb-12">
-        <a
-          href="/team" // Link to your team page
-          className="bg-teal-500 text-white font-bold py-3 px-8 rounded-full hover:bg-teal-400 transition duration-300"
-        >
-          View Full Team
-        </a>
-      </div>
+   
 
       <Footer />
     </>

@@ -8,6 +8,7 @@ import Activities from './pages/Activities'
 import Team from './pages/Team'
 import Registration from './pages/Registration'
 import Achievement from './pages/Achievement'
+import Leader from './pages/Leader'
 function App() {
   return (
         <BrowserRouter>
@@ -22,6 +23,7 @@ function App() {
       <Route path='Achievement' element={ <Achievement />} />
       <Route path='Activities' element={ <Activities />} />
       <Route path='Contact' element={ <Contact />} />
+      <Route path='Leadership' element={ <Leader />} />
     </Routes>
     </BrowserRouter>
   )

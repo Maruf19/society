@@ -51,23 +51,25 @@ const Leadership = () => {
             whileTap={{ scale: 0.95 }}
           >
             <img
-              className="w-full h-56 object-cover"
+              className="w-full h-48 object-cover" // Set a fixed height for images
               src={leader.image}
               alt={leader.name}
             />
             <div className="p-6 text-center">
               <h2 className="text-2xl font-bold mb-2 text-gray-800">{leader.name}</h2>
               <p className="text-md text-teal-500 font-semibold mb-4">{leader.position}</p>
-              <p className="text-gray-600 mb-6">{leader.description}</p>
+              {/* <p className="text-gray-600 mb-6">{leader.description}</p> */}
               
               {/* Button */}
-              <motion.button
-                className="px-6 py-2 border border-teal-500 text-teal-500 rounded-full bg-transparent hover:bg-teal-500 hover:text-white transition-all duration-300 ease-in-out"
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.9 }}
-              >
-                Learn More
-              </motion.button>
+              <div className="text-center pt-2 pb-2">
+                <a
+                  href="/team" // Link to your team page
+                  className="bg-teal-500 text-white font-bold py-2 px-6 text-sm rounded-lg hover:bg-teal-400 transition duration-300"
+                >
+                  View Full Team
+                </a>
+              </div>
+
             </div>
           </motion.div>
         ))}
