@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
@@ -25,6 +25,10 @@ const Contact = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     setIsSubmitted(true);
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
   };
 
   return (
@@ -39,38 +43,18 @@ const Contact = () => {
           background: `linear-gradient(to right, ${colors.teal} 0%, ${colors.white} 50%, ${colors.teal} 100%)`
         }}
       >
-        {/* Headline */}
-        <div className="container mx-auto px-4 text-center mb-8 lg:mb-12">
-          <motion.h2
-            className="text-3xl lg:text-4xl font-extrabold text-black"
-            initial={{ y: -50, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.6 }}
-          >
-            Contact Us
-          </motion.h2>
-
-          {/* Underline */}
-          <div className="mt-2 w-16 lg:w-24 h-1 mx-auto bg-black"></div>
-
-          <motion.p
-            className="text-base lg:text-lg text-black mt-4"
-            initial={{ y: 50, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.6 }}
-          >
-            We'd love to hear from you. Fill out the form or contact us directly.
-          </motion.p>
-        </div>
+        {/* Conditionally render the headline */}
+        {!isSubmitted && (
+          <div className="text-center py-6">
+            <h1 className="text-4xl font-bold text-gray-800 border-b-2 border-teal-500 pb-2 inline-block">
+              Contact
+            </h1>
+          </div>
+        )}
 
         {/* Conditionally show thank you message or form */}
         {isSubmitted ? (
-          <motion.div
-            className="container mx-auto flex items-center justify-center px-4"
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5 }}
-          >
+          <div className="flex items-center justify-center min-h-screen">
             <motion.div
               className="p-6 lg:p-8 rounded-lg shadow-lg"
               style={{
@@ -100,7 +84,7 @@ const Contact = () => {
                 We appreciate your message. We'll get back to you shortly.
               </motion.p>
             </motion.div>
-          </motion.div>
+          </div>
         ) : (
           <motion.div
             className="container mx-auto flex flex-col lg:flex-row gap-8 lg:gap-12 items-center justify-between px-4 lg:px-12"

@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, { useEffect } from 'react';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 
@@ -65,8 +65,13 @@ const Achievement = () => {
   return (
     <>
       <Navbar />
-      <div className="bg-gradient-to-r from-blue-100 via-purple-100 to-pink-100 p-4 md:p-8 lg:p-12 rounded-lg shadow-lg mt-8">
-        <h2 className="text-3xl md:text-4xl font-bold text-center mb-6 md:mb-8 text-gray-800">Our Students Achievements</h2>
+      <section className="container mx-auto mb-10 px-4 mt-16 flex flex-col items-center">
+        <h1 className="text-4xl font-bold text-center text-gray-800 mb-6 border-b-2 border-teal-500 pb-2 inline-block">
+          Student's Achievement
+        </h1>
+
+      {/* <div className="bg-gradient-to-r from-blue-100 via-purple-100 to-pink-100 p-4 md:p-8 lg:p-12 rounded-lg shadow-lg mt-8">
+        <h2 className="text-3xl md:text-4xl font-bold text-center mb-6 md:mb-8 text-gray-800">Our Students Achievements</h2> */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-6 lg:gap-8">
           {sortedAchievements.map((achievement) => (
             <div
@@ -83,21 +88,27 @@ const Achievement = () => {
               <div className="absolute top-0 left-0 bg-blue-600 text-white text-xs md:text-sm font-bold rounded-br-lg px-2 py-1 md:px-3 md:py-2">
                 {achievement.type}
               </div>
-              <div className="flex flex-col items-center justify-center mt-4 md:mt-6 lg:mt-8">
+              <div className="flex flex-col items-center justify-center mt-4 md:mt-6 lg:mt-8 space-y-2">
                 {achievement.position && (
-                  <p className="text-gray-700 text-xs sm:text-sm md:text-base mb-1 md:mb-2 text-center"><strong>Position:</strong> {achievement.position}</p>
+                  <p className=" text-sm sm:text-base md:text-lg mb-1 md:mb-2  border border-gray px-3 py-1 rounded-lg shadow-md text-center transition-transform transform hover:scale-105">
+                    <strong>Position:</strong> {achievement.position}
+                  </p>
                 )}
                 {achievement.location && (
-                  <p className="text-gray-700 text-xs sm:text-sm md:text-base mb-1 md:mb-2 text-center"><strong>Location:</strong> {achievement.location}</p>
+                  <p className=" text-sm sm:text-base md:text-lg mb-1 md:mb-2 border border-gray  px-3 py-1 rounded-lg shadow-md text-center transition-transform transform hover:scale-105">
+                    <strong>Location:</strong> {achievement.location}
+                  </p>
                 )}
                 {achievement.locationDate && (
-                  <p className="text-gray-700 text-xs sm:text-sm md:text-base mb-1 md:mb-2 text-center"><strong>Date:</strong> {achievement.locationDate}</p>
+                  <p className="text-sm sm:text-base md:text-lg mb-1 md:mb-2  border border-gray px-3 py-1 rounded-lg shadow-md text-center transition-transform transform hover:scale-105">
+                    <strong>Date:</strong> {achievement.locationDate}
+                  </p>
                 )}
               </div>
             </div>
           ))}
         </div>
-      </div>
+       </section> 
       <Footer />
     </>
   );

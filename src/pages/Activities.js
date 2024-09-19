@@ -88,7 +88,7 @@ function Activities() {
       <section className="py-12 bg-gray-100">
         <div className="container mx-auto px-4">
           {/* Main Section Headline */}
-          <div className="text-center py-12">
+          <div className="text-center py-6">
             <h1 className="text-4xl font-bold text-gray-800 border-b-2 border-teal-500 pb-2 inline-block">
               Our Recent Programme
             </h1>

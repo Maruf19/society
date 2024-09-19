@@ -88,9 +88,9 @@ const team = [
 
   
 
-
+// const [yearRange, setYearRange]
 const Team = () => {
-   const [yearRange, setYearRange] = useState('2024-2025'); // Update this as needed
+   const [yearRange] = useState('2024-2025'); // Update this as needed
 
   return (
     <>

@@ -40,9 +40,9 @@ function Programme() {
     <>
       <Navbar />
       <section className="container mx-auto py-6 px-4 md:px-6 lg:px-8 flex flex-col items-center">
-        <h2 className="text-3xl md:text-3xl sm:text-xl lg:text-xl font-extrabold text-gray-800 mb-12 text-center">
+        <h2 className="text-4xl font-bold text-center text-gray-800 mb-6 border-b-2 border-teal-500 pb-2 inline-block">
           Our Recent Programme
-          <span className="block mt-2 border-b-4 border-teal-500"></span>
+        
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-10 lg:gap-12 w-full">
           {ProgrammeData.map((program) => (
