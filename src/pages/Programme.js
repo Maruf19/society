@@ -40,7 +40,7 @@ function Programme() {
     <>
       <Navbar />
       <section className="container mx-auto py-6 px-4 md:px-6 lg:px-8 flex flex-col items-center">
-        <h2 className="text-2xl md:text-3xl lg:text-4xl font-extrabold text-gray-800 mb-12 text-center">
+        <h2 className="text-3xl md:text-3xl sm:text-xl lg:text-xl font-extrabold text-gray-800 mb-12 text-center">
           Our Recent Programme
           <span className="block mt-2 border-b-4 border-teal-500"></span>
         </h2>

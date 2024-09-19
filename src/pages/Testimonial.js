@@ -51,13 +51,11 @@ const TestimonialSlider = () => {
   };
 
   return (
-    <div className="py-8 md:py-16">
-      <div className="text-center mb-8 md:mb-12">
-        <h2 className="text-2xl md:text-3xl lg:text-4xl font-extrabold text-gray-800 mb-4">
-          Students' Thoughts
-        </h2>
-        <div className="w-1/4 md:w-1/6 mx-auto border-t-4 border-yellow-500" />
-      </div>
+    <section className="container mx-auto py-6 px-4 md:px-6 lg:px-8 flex flex-col items-center">
+    <h2 className="text-2xl md:text-2xl sm:text-xl lg:text-3xl font-extrabold text-gray-800 mb-12 text-center">
+      Student's Thought
+      <span className="block mt-2 border-b-4 border-teal-500"></span>
+    </h2>
       <div className="relative flex justify-center">
         <div
           className="relative bg-white p-4 md:p-6 lg:p-8 max-w-xs md:max-w-sm lg:max-w-md rounded-lg shadow-xl ring-2 ring-gradient-500 transition-transform duration-500"
@@ -96,7 +94,7 @@ const TestimonialSlider = () => {
           </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 

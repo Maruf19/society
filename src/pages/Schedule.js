@@ -48,7 +48,7 @@ function Schedule() {
   return (
     <>
     <Navbar/>
-    <section className="container mx-auto mb-10 px-4 mt-20 flex flex-col items-center">
+    <section className="container mx-auto mb-10 px-4 mt-16 flex flex-col items-center">
       <h1 className="text-4xl font-bold text-center text-gray-800 mb-6 border-b-2 border-teal-500 pb-2 inline-block">
         Upcoming Activities
       </h1>

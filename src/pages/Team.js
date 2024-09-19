@@ -96,7 +96,7 @@ const Team = () => {
     <>
       <Navbar />
      {/* Main Team Section */}
-     <section className="bg-gray-200 ">
+     <section className="bg-white">
   <div className="relative overflow-hidden">
     <div className="relative container mx-auto px-4 lg:px-8">
     <h2 className="text-2xl font-bold text-center text-teal-600 mb-8 relative z-10 mt-16">

@@ -46,7 +46,7 @@ function AboutUs() {
             href="/team"
             className="bg-teal-500 text-white font-bold py-3 px-8 rounded-full hover:bg-teal-400 transition duration-300"
           >
-            Existing Committee (2019-2021)         </a>
+            Existing Committee       </a>
         </div>
       </section>
 
