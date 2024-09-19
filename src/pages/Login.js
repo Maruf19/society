@@ -63,6 +63,15 @@ function Login() {
           <p className="text-center text-black text-sm">
             Don't have an account? <a href="#" className="underline">Register</a>
           </p>
+
+          {/* Google Login Button */}
+          <button 
+            className="w-full bg-white border border-gray-300 rounded-lg flex items-center justify-center py-2 px-4 text-gray-700 font-semibold hover:bg-gray-100 transition duration-300 mt-4"
+            onClick={() => console.log('Google Login Clicked')}
+          >
+            <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" alt="Google logo" className="w-6 h-6 mr-2" />
+            <span>Sign in with Google</span>
+          </button>
         </form>
       </div>
     </div>
