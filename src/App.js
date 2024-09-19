@@ -11,6 +11,7 @@ import Achievement from './pages/Achievement'
 import Leader from './pages/Leader'
 import Login from './pages/Login'
 import SignUp from './pages/SignUp'
+import ForgotPassword from './pages/ForgotPassword'
 function App() {
   return (
         <BrowserRouter>
@@ -28,6 +29,7 @@ function App() {
       <Route path='Leadership' element={ <Leader />} />
       <Route path='Login' element={ <Login />} />
       <Route path='SignUP' element={ <SignUp />} />
+      <Route path='ForgotPassword' element={ <ForgotPassword />} />
     </Routes>
     </BrowserRouter>
   )
