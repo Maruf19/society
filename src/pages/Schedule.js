@@ -50,7 +50,7 @@ function Schedule() {
     <>
       <Navbar/>
       <section className="container mx-auto mb-10 px-4 mt-16 flex flex-col items-center">
-        <h1 className="text-4xl font-bold text-center text-gray-800 mb-6 border-b-2 border-teal-500 pb-2 inline-block">
+        <h1 className="text-4xl font-bold text-center text-gray-800 mb-10 border-b-2 border-teal-500 pb-2 inline-block">
           Upcoming Activities
         </h1>
 
@@ -73,7 +73,7 @@ function Schedule() {
                 <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-30"></div>
               </div>
               <div className="p-6 flex flex-col flex-grow">
-                <h2 className="text-2xl font-bold text-teal-600 mb-4">{Schedule.title}</h2>
+                <h2 className="text-lg font-bold text-teal-600 mb-4">{Schedule.title}</h2>
                 <p className="text-gray-600 mb-6">{Schedule.description}</p>
                 <div className="mt-auto">
                   <Link to="/registration">

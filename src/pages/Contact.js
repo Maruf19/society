@@ -47,7 +47,8 @@ const Contact = () => {
         {!isSubmitted && (
           <div className="text-center py-6">
             <h1 className="text-4xl font-bold text-gray-800 border-b-2 border-teal-500 pb-2 inline-block">
-              Contact
+              Contact With us <br/>
+              <span className='text-sm'>Feel Free to Contact With Us. </span>
             </h1>
           </div>
         )}

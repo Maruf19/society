@@ -95,7 +95,7 @@ function Activities() {
           </div>
 
           {/* Buttons to filter sections */}
-          <div className="flex flex-wrap justify-center mb-8">
+          <div className="flex flex-wrap justify-center mb-4">
             {['all', 'youtube', 'facebook', 'news'].map((section) => (
               <button
                 key={section}
@@ -110,7 +110,7 @@ function Activities() {
           {/* Display YouTube videos */}
           {(activeSection === 'all' || activeSection === 'youtube') && (
             <div>
-              <h3 className="text-3xl font-bold text-center text-gray-800 mb-12 border-b-2 border-teal-500 pb-2 inline-block">YouTube Videos</h3>
+              <h3 className="text-3xl font-bold text-center text-gray-800 mb-4 border-b-2 border-teal-500 pb-2 inline-block">YouTube Videos</h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                 {youtubeActivities.map((video) => (
                   <div key={video.id} className="bg-white shadow-lg rounded-lg overflow-hidden">
@@ -131,7 +131,7 @@ function Activities() {
           {/* Display Facebook posts */}
           {(activeSection === 'all' || activeSection === 'facebook') && (
             <div className="mt-12">
-              <h3 className="text-3xl font-bold text-center text-gray-800 mb-12 border-b-2 border-teal-500 pb-2 inline-block">Facebook Posts</h3>
+              <h3 className="text-3xl font-bold text-center text-gray-800 mb-4 border-b-2 border-teal-500 pb-2 inline-block">Facebook Posts</h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                 {facebookActivities.map((post) => (
                   <div key={post.id} className="bg-white shadow-lg rounded-lg overflow-hidden">
@@ -152,13 +152,13 @@ function Activities() {
           {/* Display News articles */}
           {(activeSection === 'all' || activeSection === 'news') && (
             <div className="relative mt-12">
-              <h3 className="text-3xl font-bold text-center text-gray-800 mb-12 border-b-2 border-teal-500 pb-2 inline-block">Latest News</h3>
-              <div className="relative bg-black bg-opacity-50 p-4 sm:p-6 md:p-8">
+              <h3 className="text-3xl font-bold text-center text-gray-800 mb-4 border-b-2 border-teal-500 pb-2 inline-block">Latest News</h3>
+              <div className="relative bg-blue-800 bg-opacity-50 p-4 sm:p-6 md:p-8">
                 <div className="flex flex-col items-center justify-center text-white">
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                     {newsActivities.map((news) => (
                       <div key={news.id} className="bg-white bg-opacity-80 shadow-lg rounded-lg overflow-hidden p-4">
-                        <p className="text-lg font-semibold text-teal-500 mb-2">
+                        <p className="text-sm font-semibold text-teal-500 mb-2">
                           <a href={news.link} target="_blank" rel="noopener noreferrer" className="hover:underline">
                             {news.title}
                           </a>

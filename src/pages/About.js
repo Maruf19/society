@@ -26,29 +26,29 @@ function AboutUs() {
     <>
       <Navbar />
 
-      {/* Background Section */}
-      <section className="relative py-20 flex items-center justify-center min-h-screen">
-        {/* Background Image */}
-        <div className="absolute inset-0">
-          <img src={img} alt="background" className="object-cover h-full w-full" />
-        </div>
-        {/* Overlay */}
-        <div className="absolute inset-0 bg-black opacity-50"></div>
-        {/* Content */}
-        <div className="relative z-10 container mx-auto px-6 text-center">
-          <h1 className="text-4xl lg:text-5xl font-extrabold text-teal-300 mb-6">
-            Who We Are
-          </h1>
-          <p className="text-white text-lg lg:text-xl mb-8 px-4 lg:px-24">
-            Welcome to the MU CSE Society, the dynamic hub for Computer Science and Engineering students at MU. Whether you're an experienced coder or just starting out, our society offers opportunities to help you grow, learn, and connect with fellow tech enthusiasts.
-          </p>
-          <a
-            href="/team"
-            className="bg-teal-500 text-white font-bold py-3 px-8 rounded-full hover:bg-teal-400 transition duration-300"
-          >
-            Existing Committee       </a>
-        </div>
-      </section>
+     
+      <section className="relative py-20 flex items-center justify-center min-h-screen bg-blue-400">
+      <div className="relative z-10 container mx-auto px-12 py-16 text-center border border-teal-500 bg-gray-300">
+
+  {/* Content with relative positioning to stay on top of the overlay */}
+  <div className="relative z-10">
+    <h1 className="text-4xl lg:text-5xl text-teal-500 font-extrabold mb-6">
+      Who We Are
+    </h1>
+    <p className="text-black text-lg lg:text-xl mb-8 px-4 lg:px-24">
+      Welcome to the MU CSE Society, the dynamic hub for Computer Science and Engineering students at MU. Whether you're an experienced coder or just starting out, our society offers opportunities to help you grow, learn, and connect with fellow tech enthusiasts.
+    </p>
+    <a
+      href="/team"
+      className="bg-teal-500 text-white font-bold py-3 px-8 rounded-full hover:bg-teal-400 transition duration-300"
+    >
+      Existing Committee
+    </a>
+  </div>
+</div>
+
+</section>
+
 
       {/* Mission and Values Section */}
       <section className="mb-4 px-6 lg:px-24 pt-12 bg-gray-50">

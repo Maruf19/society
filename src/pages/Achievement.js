@@ -66,7 +66,7 @@ const Achievement = () => {
     <>
       <Navbar />
       <section className="container mx-auto mb-10 px-4 mt-16 flex flex-col items-center">
-        <h1 className="text-4xl font-bold text-center text-gray-800 mb-6 border-b-2 border-teal-500 pb-2 inline-block">
+        <h1 className="text-4xl font-bold text-center text-gray-800 mb-10 border-b-2 border-teal-500 pb-2 inline-block">
           Student's Achievement
         </h1>
 
@@ -90,17 +90,17 @@ const Achievement = () => {
               </div>
               <div className="flex flex-col items-center justify-center mt-4 md:mt-6 lg:mt-8 space-y-2">
                 {achievement.position && (
-                  <p className=" text-sm sm:text-base md:text-lg mb-1 md:mb-2  border border-gray px-3 py-1 rounded-lg shadow-md text-center transition-transform transform hover:scale-105">
+                  <p className=" text-sm sm:text-base md:text-sm mb-1 md:mb-2  border border-gray px-3 py-1 rounded-lg shadow-md text-center transition-transform transform hover:scale-105">
                     <strong>Position:</strong> {achievement.position}
                   </p>
                 )}
                 {achievement.location && (
-                  <p className=" text-sm sm:text-base md:text-lg mb-1 md:mb-2 border border-gray  px-3 py-1 rounded-lg shadow-md text-center transition-transform transform hover:scale-105">
+                  <p className=" text-sm sm:text-base md:text-sm mb-1 md:mb-2 border border-gray  px-3 py-1 rounded-lg shadow-md text-center transition-transform transform hover:scale-105">
                     <strong>Location:</strong> {achievement.location}
                   </p>
                 )}
                 {achievement.locationDate && (
-                  <p className="text-sm sm:text-base md:text-lg mb-1 md:mb-2  border border-gray px-3 py-1 rounded-lg shadow-md text-center transition-transform transform hover:scale-105">
+                  <p className="text-sm sm:text-base md:text-sm mb-1 md:mb-2  border border-gray px-3 py-1 rounded-lg shadow-md text-center transition-transform transform hover:scale-105">
                     <strong>Date:</strong> {achievement.locationDate}
                   </p>
                 )}
