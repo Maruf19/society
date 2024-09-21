@@ -61,7 +61,7 @@ const Contact = () => {
       }
   
       const data = await response.json();
-      console.log(data); // Handle the response data as needed
+      // console.log(data); // Handle the response data as needed
   
     } catch (error) {
       console.error('Error:', error);

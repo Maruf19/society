@@ -1,36 +1,8 @@
-import React, {useEffect} from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import { Link } from 'react-router-dom';
-
-// Sample data for the ScheduleData
-const ScheduleData = [
-  {
-    id: 1,
-    title: 'Artificial Intelligence Workshop',
-    description: 'Dive into the world of AI with hands-on workshops on machine learning, neural networks, and more.',
-    image: 'https://via.placeholder.com/150',
-  },
-  {
-    id: 2,
-    title: 'Web Development Bootcamp',
-    description: 'Learn full-stack web development, from frontend design to backend APIs using modern technologies.',
-    image: 'https://via.placeholder.com/150',
-  },
-  {
-    id: 3,
-    title: 'Cybersecurity Seminar',
-    description: 'Understand the fundamentals of cybersecurity and learn how to protect systems and networks from threats.',
-    image: 'https://via.placeholder.com/150',
-  },
-  {
-    id: 4,
-    title: 'Hackathon',
-    description: 'Participate in our 48-hour hackathon and showcase your coding skills by solving real-world challenges.',
-    image: 'https://via.placeholder.com/150',
-  },
-];
 
 const cardVariants = {
   hidden: { opacity: 0, y: 30 },
@@ -38,26 +10,48 @@ const cardVariants = {
 };
 
 function Schedule() {
+  const [scheduleData, setScheduleData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
   useEffect(() => {
     // Smooth scroll to the top of the page when the component mounts
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth'
-    });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    // Fetch schedule data
+    const fetchScheduleData = async () => {
+      try {
+        const response = await fetch('http://localhost:5000/schedule');
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        const data = await response.json();
+        setScheduleData(data);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchScheduleData();
   }, []); // Empty dependency array ensures this runs once on mount
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error: {error}</p>;
 
   return (
     <>
-      <Navbar/>
+      <Navbar />
       <section className="container mx-auto mb-10 px-4 mt-16 flex flex-col items-center">
         <h1 className="text-4xl font-bold text-center text-gray-800 mb-10 border-b-2 border-teal-500 pb-2 inline-block">
           Upcoming Activities
         </h1>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 justify-center">
-          {ScheduleData.map((Schedule) => (
+          {scheduleData.map((schedule) => (
             <motion.div
-              key={Schedule.id}
+              key={schedule.id}
               className="bg-white shadow-lg rounded-lg overflow-hidden max-w-xs mx-auto transition-transform transform hover:scale-105 border border-teal-500 flex flex-col h-full"
               initial="hidden"
               animate="visible"
@@ -67,14 +61,14 @@ function Schedule() {
               <div className="relative">
                 <img
                   className="w-full h-40 object-cover border border-teal-500"
-                  src={Schedule.image}
-                  alt={Schedule.title}
+                  src={schedule.image}
+                  alt={schedule.title}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-30"></div>
               </div>
               <div className="p-6 flex flex-col flex-grow">
-                <h2 className="text-lg font-bold text-teal-600 mb-4">{Schedule.title}</h2>
-                <p className="text-gray-600 mb-6">{Schedule.description}</p>
+                <h2 className="text-lg font-bold text-teal-600 mb-4">{schedule.title}</h2>
+                <p className="text-gray-600 mb-6">{schedule.description}</p>
                 <div className="mt-auto">
                   <Link to="/registration">
                     <motion.button
@@ -91,7 +85,7 @@ function Schedule() {
           ))}
         </div>
       </section>
-      <Footer/>
+      <Footer />
     </>
   );
 }
