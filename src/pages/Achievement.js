@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 
-const achievements = [
+const fallbackAchievements = [
   {
     id: 1,
     type: 'Programming Contest',
@@ -51,16 +51,40 @@ const achievements = [
 ];
 
 const Achievement = () => {
+  const [achievementData, setAchievementData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
   useEffect(() => {
     // Smooth scroll to the top of the page when the component mounts
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth'
-    });
-  }, []); // Empty dependency array ensures this runs once on mount
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    const fetchAchievements = async () => {
+      try {
+        const response = await fetch('http://localhost:5000/achievement');
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        const data = await response.json();
+        setAchievementData(data);
+      } catch (err) {
+        console.error(err); // Log the error for debugging
+        setError(err.message);
+        // Fallback to hardcoded achievements if fetch fails
+        setAchievementData(fallbackAchievements);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchAchievements();
+  }, []);
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error: {error}</p>;
 
   // Sort achievements by date, latest first
-  const sortedAchievements = achievements.sort((a, b) => new Date(b.date) - new Date(a.date));
+  const sortedAchievements = [...achievementData].sort((a, b) => new Date(b.date) - new Date(a.date));
 
   return (
     <>
@@ -69,9 +93,6 @@ const Achievement = () => {
         <h1 className="text-4xl font-bold text-center text-gray-800 mb-10 border-b-2 border-teal-500 pb-2 inline-block">
           Student's Achievement
         </h1>
-
-      {/* <div className="bg-gradient-to-r from-blue-100 via-purple-100 to-pink-100 p-4 md:p-8 lg:p-12 rounded-lg shadow-lg mt-8">
-        <h2 className="text-3xl md:text-4xl font-bold text-center mb-6 md:mb-8 text-gray-800">Our Students Achievements</h2> */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-6 lg:gap-8">
           {sortedAchievements.map((achievement) => (
             <div
@@ -90,17 +111,17 @@ const Achievement = () => {
               </div>
               <div className="flex flex-col items-center justify-center mt-4 md:mt-6 lg:mt-8 space-y-2">
                 {achievement.position && (
-                  <p className=" text-sm sm:text-base md:text-sm mb-1 md:mb-2  border border-gray px-3 py-1 rounded-lg shadow-md text-center transition-transform transform hover:scale-105">
+                  <p className="text-sm sm:text-base md:text-sm mb-1 md:mb-2 border border-gray px-3 py-1 rounded-lg shadow-md text-center transition-transform transform hover:scale-105">
                     <strong>Position:</strong> {achievement.position}
                   </p>
                 )}
                 {achievement.location && (
-                  <p className=" text-sm sm:text-base md:text-sm mb-1 md:mb-2 border border-gray  px-3 py-1 rounded-lg shadow-md text-center transition-transform transform hover:scale-105">
+                  <p className="text-sm sm:text-base md:text-sm mb-1 md:mb-2 border border-gray px-3 py-1 rounded-lg shadow-md text-center transition-transform transform hover:scale-105">
                     <strong>Location:</strong> {achievement.location}
                   </p>
                 )}
                 {achievement.locationDate && (
-                  <p className="text-sm sm:text-base md:text-sm mb-1 md:mb-2  border border-gray px-3 py-1 rounded-lg shadow-md text-center transition-transform transform hover:scale-105">
+                  <p className="text-sm sm:text-base md:text-sm mb-1 md:mb-2 border border-gray px-3 py-1 rounded-lg shadow-md text-center transition-transform transform hover:scale-105">
                     <strong>Date:</strong> {achievement.locationDate}
                   </p>
                 )}
@@ -108,7 +129,7 @@ const Achievement = () => {
             </div>
           ))}
         </div>
-       </section> 
+      </section>
       <Footer />
     </>
   );
