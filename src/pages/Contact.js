@@ -38,8 +38,7 @@ const Contact = () => {
       [name]: value
     });
   };
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     console.log(formData); // You can send formData to your backend here
     setIsSubmitted(true);
@@ -47,7 +46,32 @@ const Contact = () => {
       top: 0,
       behavior: 'smooth'
     });
+  
+    try {
+      const response = await fetch('http://localhost:5000/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json' // Ensure correct content type
+        },
+        body: JSON.stringify(formData) // Send formData instead of handlecontact
+      });
+  
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+  
+      const data = await response.json();
+      console.log(data); // Handle the response data as needed
+  
+    } catch (error) {
+      console.error('Error:', error);
+    } finally {
+      // Optional: reset form or perform any cleanup
+      // setFormData({ name: '', email: '', phone: '', message: '' });
+    }
   };
+  
+  
 
   return (
     <>
