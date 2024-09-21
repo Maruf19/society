@@ -21,9 +21,27 @@ const Contact = () => {
   }, []); // Empty dependency array ensures this runs once on mount
 
   const [isSubmitted, setIsSubmitted] = useState(false);
+  
+  // State to manage form fields
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    message: ''
+  });
+
+  // Update form data on input change
+  const handlecontact = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value
+    });
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    console.log(formData); // You can send formData to your backend here
     setIsSubmitted(true);
     window.scrollTo({
       top: 0,
@@ -43,7 +61,6 @@ const Contact = () => {
           background: `linear-gradient(to right, ${colors.teal} 0%, ${colors.white} 50%, ${colors.teal} 100%)`
         }}
       >
-        {/* Conditionally render the headline */}
         {!isSubmitted && (
           <div className="text-center py-6">
             <h1 className="text-4xl font-bold text-gray-800 border-b-2 border-teal-500 pb-2 inline-block">
@@ -53,16 +70,15 @@ const Contact = () => {
           </div>
         )}
 
-        {/* Conditionally show thank you message or form */}
         {isSubmitted ? (
           <div className="flex items-center justify-center min-h-screen">
             <motion.div
               className="p-6 lg:p-8 rounded-lg shadow-lg"
               style={{
-                backgroundColor: colors.white, // White card background
-                borderColor: colors.primaryBlue, // Add border
+                backgroundColor: colors.white,
+                borderColor: colors.primaryBlue,
                 borderWidth: '2px',
-                color: 'black', // Black text
+                color: 'black',
               }}
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
@@ -111,9 +127,12 @@ const Contact = () => {
                   <input
                     type="text"
                     id="name"
+                    name="name" // Add name attribute
                     className="w-full px-3 lg:px-4 py-2 lg:py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-teal-400 focus:outline-none transition duration-150 ease-in-out"
                     placeholder="Enter your full name"
                     required
+                    value={formData.name}
+                    onChange={handlecontact} // Handle input change
                   />
                 </div>
 
@@ -125,9 +144,12 @@ const Contact = () => {
                   <input
                     type="email"
                     id="email"
+                    name="email" // Add name attribute
                     className="w-full px-3 lg:px-4 py-2 lg:py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-teal-400 focus:outline-none transition duration-150 ease-in-out"
                     placeholder="Enter your email address"
                     required
+                    value={formData.email}
+                    onChange={handlecontact} // Handle input change
                   />
                 </div>
 
@@ -139,9 +161,12 @@ const Contact = () => {
                   <input
                     type="tel"
                     id="mobile"
+                    name="phone" // Add name attribute
                     className="w-full px-3 lg:px-4 py-2 lg:py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-teal-400 focus:outline-none transition duration-150 ease-in-out"
                     placeholder="Enter your mobile number"
                     required
+                    value={formData.phone}
+                    onChange={handlecontact} // Handle input change
                   />
                 </div>
 
@@ -152,9 +177,12 @@ const Contact = () => {
                   </label>
                   <textarea
                     id="message"
+                    name="message" // Add name attribute
                     className="w-full px-3 lg:px-4 py-2 lg:py-3 border border-gray-300 rounded-lg shadow-sm h-32 focus:ring-2 focus:ring-teal-400 focus:outline-none transition duration-150 ease-in-out"
                     placeholder="Write your message"
                     required
+                    value={formData.message}
+                    onChange={handlecontact} // Handle input change
                   ></textarea>
                 </div>
 

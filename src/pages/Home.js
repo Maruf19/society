@@ -51,11 +51,11 @@ function Home() {
             transition={{ duration: 0.8 }}
           >
             <a
-              href="/about"
-              className="bg-gradient-to-r from-teal-400 to-teal-500 text-white font-semibold  py-1 px-3 rounded-lg border border-teal-600 hover:border-teal-700 hover:shadow-xl transition duration-300 transform hover:scale-105 text-base sm:text-lg md:text-xl"
-            >
-              About Us
-            </a>
+      href="/about"
+      className="bg-teal-500 text-white font-bold py-3 px-8 rounded-full hover:bg-teal-400 transition duration-300"
+    >
+      About Us
+    </a>
           </motion.div>
 
           
