@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import Navbar from '../components/Navbar';
 
@@ -35,7 +35,36 @@ const cardVariants = {
   visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
 };
 
-function Programme() {
+const Programme = () => {
+  const [programmeData, setProgrammeData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchProgramme = async () => {
+      try {
+        const response = await fetch('http://localhost:5000/programme');
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        const data = await response.json();
+        setProgrammeData(data);
+      } catch (err) {
+        console.error(err);
+        setError(err.message);
+        // setLeaderData(fallbackLeader);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProgramme();
+  }, []);
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error: {error}</p>;
+
+
   return (
     <>
       <Navbar />
@@ -45,9 +74,9 @@ function Programme() {
         
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-10 lg:gap-12 w-full">
-          {ProgrammeData.map((program) => (
+          {programmeData.map(({ id, title, image , description }) => (
             <motion.div
-              key={program.id}
+              key={id}
               className="bg-white shadow-lg rounded-lg overflow-hidden w-full max-w-sm mx-auto flex flex-col border border-teal-500"
               initial="hidden"
               animate="visible"
@@ -57,14 +86,14 @@ function Programme() {
               <div className="relative">
                 <img
                   className="w-full h-48 md:h-56 lg:h-64 object-cover border border-teal-500"
-                  src={program.image}
-                  alt={program.title}
+                  src={image}
+                  alt={title}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-30"></div>
               </div>
               <div className="p-4 md:p-6 flex flex-col flex-1">
-                <h2 className="text-lg md:text-xl font-bold text-teal-600 mb-4">{program.title}</h2>
-                <p className="text-gray-600 mb-6 flex-1 text-sm md:text-base">{program.description}</p>
+                <h2 className="text-lg md:text-xl font-bold text-teal-600 mb-4">{title}</h2>
+                <p className="text-gray-600 mb-6 flex-1 text-sm md:text-base">{description}</p>
                 <div className="flex flex-col sm:flex-row sm:space-x-4 mt-auto">
                   <motion.button
                     className="px-4 py-2 mb-2 sm:mb-0 border border-teal-500 text-teal-500 rounded-full bg-transparent hover:bg-teal-500 hover:text-white transition-all duration-300"

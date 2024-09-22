@@ -5,6 +5,7 @@ import About from './pages/About'
 import Contact from './pages/Contact'
 import Schedule from './pages/Schedule'
 import Activities from './pages/Activities'
+import Programme from './pages/Programme'
 import Team from './pages/Team'
 import Registration from './pages/Registration'
 import Achievement from './pages/Achievement'
@@ -22,8 +23,8 @@ function App() {
       <Route path='team' element={ <Team />} />
       <Route path='schedule' element={ <Schedule />} />
       <Route path='Achievement' element={ <Achievement />} />
+      <Route path='programme' element={ <Programme />} />
       <Route path='Registration' element={ <Registration />} />
-      <Route path='Achievement' element={ <Achievement />} />
       <Route path='Activities' element={ <Activities />} />
       <Route path='Contact' element={ <Contact />} />
       <Route path='Leadership' element={ <Leader />} />

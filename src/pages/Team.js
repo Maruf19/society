@@ -1,90 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Footer from '../components/Footer';
 import Navbar from '../components/Navbar';
 import './team.css'; // Import the custom CSS file for flip animation
 
-// Sample team data
-const team = [
-  {
-    name: 'Toufiqur Rahaman Chowdhury',
-    role: 'President',
-    description: 'Leader and visionary behind the CSE society.',
-    image: 'https://via.placeholder.com/150', // Replace with actual image
-  },
-  {
-    name: 'Jane Smith',
-    role: 'Vice President',
-    description: 'Ensures smooth operations and coordinates events.',
-    image: 'https://via.placeholder.com/150', // Replace with actual image
-  },
-  {
-    name: 'Robert Brown',
-    role: 'Treasurer',
-    description: 'Manages the financials and budget for the society.',
-    image: 'https://via.placeholder.com/150', // Replace with actual image
-  },
-  {
-    name: 'Emily White',
-    role: 'Secretary',
-    description: 'Maintains records and handles administrative tasks.',
-    image: 'https://via.placeholder.com/150', // Replace with actual image
-  },
-  {
-    name: 'David Miller',
-    role: 'Event Coordinator',
-    description: 'Responsible for organizing society events.',
-    image: 'https://via.placeholder.com/150', // Replace with actual image
-  },
-  {
-    name: 'Michael Green',
-    role: 'Web Developer',
-    description: 'Handles the society’s online presence and website.',
-    image: 'https://via.placeholder.com/150', // Replace with actual image
-  },
-  {
-    name: 'Sarah Johnson',
-    role: 'Design Lead',
-    description: 'Leads the creative design of the society.',
-    image: 'https://via.placeholder.com/150', // Replace with actual image
-  },
-  {
-    name: 'Chris Lee',
-    role: 'Marketing Head',
-    description: 'In charge of promoting the society’s activities.',
-    image: 'https://via.placeholder.com/150', // Replace with actual image
-  },
-  // Advisory Panel
-  {
-    name: 'Toufiqur Rahaman Chowdhury',
-    role: 'Chief Advisor',
-    description: 'Pioneering computer science expert.',
-    image: 'https://via.placeholder.com/150', // Replace with actual image
-  },
-  {
-    name: 'Dr. Ada Lovelace',
-    role: 'Senior Advisor',
-    description: 'Mathematical genius and early programmer.',
-    image: 'https://via.placeholder.com/150', // Replace with actual image
-  },
-  {
-    name: 'Dr. Grace Hopper',
-    role: 'Technical Advisor',
-    description: 'Innovator in computer programming.',
-    image: 'https://via.placeholder.com/150', // Replace with actual image
-  },
-  {
-    name: 'Dr. Tim Berners-Lee',
-    role: 'Web Technology Advisor',
-    description: 'Inventor of the World Wide Web.',
-    image: 'https://via.placeholder.com/150', // Replace with actual image
-  },
-  {
-    name: 'Dr. Linus Torvalds',
-    role: 'Open Source Advisor',
-    description: 'Creator of the Linux kernel.',
-    image: 'https://via.placeholder.com/150', // Replace with actual image
-  },
-];
 
   
 
@@ -92,6 +10,34 @@ const team = [
 const Team = () => {
    const [yearRange] = useState('2024-2025'); // Update this as needed
 
+   const [teamData, setTeamData] = useState([]);
+   const [loading, setLoading] = useState(true);
+   const [error, setError] = useState(null);
+ 
+   useEffect(() => {
+     const fetchTeam = async () => {
+       try {
+         const response = await fetch('http://localhost:5000/team');
+         if (!response.ok) {
+           throw new Error('Network response was not ok');
+         }
+         const data = await response.json();
+         setTeamData(data);
+       } catch (err) {
+         console.error(err);
+         setError(err.message);
+       
+       } finally {
+         setLoading(false);
+       }
+     };
+ 
+     fetchTeam();
+   }, []);
+ 
+   if (loading) return <p>Loading...</p>;
+   if (error) return <p>Error: {error}</p>;
+ 
   return (
     <>
       <Navbar />
@@ -105,7 +51,7 @@ const Team = () => {
 
       {/* First row with 3 cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 mb-8 relative z-10">
-        {team.slice(0, 3).map((member, index) => (
+        {teamData.slice(0, 3).map((member, index) => (
        <div key={index} className="flip-card w-64 h-80 p-6">
             <div className="flip-card-inner w-full h-full absolute transform transition-transform duration-500 hover:rotate-y-180">
               <div className="flip-card-front border border-red-950 bg-white text-center rounded-lg shadow-lg p-4 flex flex-col items-center justify-center">
@@ -127,7 +73,7 @@ const Team = () => {
 
       {/* Second row with 4 cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 mb-8 relative z-10">
-        {team.slice(3).map((member, index) => (
+        {teamData.slice(3).map((member, index) => (
           <div key={index} className="flip-card w-64 h-80 p-6">
             <div className="flip-card-inner w-full h-full absolute transform transition-transform duration-500 hover:rotate-y-180">
               <div className="flip-card-front border border-red-950 bg-white text-center rounded-lg shadow-lg p-4 flex flex-col items-center justify-center">

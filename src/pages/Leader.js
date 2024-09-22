@@ -1,11 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 
-
-const fallbackLeader = [
-  // Define fallback data if needed
-];
-
 const cardVariants = {
   hidden: { opacity: 0, scale: 0.9 },
   visible: { opacity: 1, scale: 1, transition: { duration: 0.5 } },
@@ -28,7 +23,7 @@ const Leadership = () => {
       } catch (err) {
         console.error(err);
         setError(err.message);
-        setLeaderData(fallbackLeader);
+        // setLeaderData(fallbackLeader);
       } finally {
         setLoading(false);
       }
