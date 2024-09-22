@@ -1,82 +1,66 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 
-// Sample data for YouTube, Facebook, and News activities
-const youtubeActivities = [
-  {
-    id: 1,
-    title: 'Latest Webinar on AI',
-    embedLink: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
-    description: 'Watch our latest webinar on AI advancements.',
-  },
-  {
-    id: 2,
-    title: 'Deep Learning Tutorial',
-    embedLink: 'https://www.youtube.com/embed/vlDzYIIOYmM',
-    description: 'Learn the basics of deep learning with this tutorial.',
-  },
-  {
-    id: 3,
-    title: 'React Hooks Explained',
-    embedLink: 'https://www.youtube.com/embed/f687hBjwFcM',
-    description: 'Master React hooks in this comprehensive video.',
-  },
-];
-
-const facebookActivities = [
-  {
-    id: 1,
-    title: 'MU CSE Society Post',
-    embedLink: 'https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fmucses%2Fposts%2Fpfbid035mHceBSPVwEbb7ZJpkhSYd7FfCcQXMCxC3Z3tbRsnkdawNADsQLqbm4buGwmX1oJl&show_text=true&width=500',
-    description: 'Check out our recent activities and updates.',
-  },
-  {
-    id: 2,
-    title: 'Project Launch Announcement',
-    embedLink: 'https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fmucses%2Fposts%2Fpfbid0gXkDzPajJHEuZqAa4jLq2t2AvhsGjUPRJnaoRhBWeVRMdSizXJoi56xcxa6rr2Bwl&show_text=true&width=500',
-    description: 'We’re excited to launch our new project! Stay tuned.',
-  },
-  {
-    id: 3,
-    title: 'Tech Workshop Recap',
-    embedLink: 'https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fmucses%2Fposts%2Fpfbid0xkvDZkFN9UzNnFTpsGXCriNVb1iwjoxUzZkigKDQyZHUrUvCHDLqkVEtUsAAMkuYl&show_text=true&width=500',
-    description: 'Recap of our recent hands-on tech workshop.',
-  },
-];
-
-const newsActivities = [
-  {
-    id: 1,
-    title: 'লোডশেডিংয়ে বেশি কষ্টে ঢাকা, কুমিল্লা, ময়মনসিংহের গ্রামবাসী',
-    link: 'https://www.prothomalo.com/bangladesh/xhsnooymdj',
-    description: '- Ptothom Alo',
-  },
-  {
-    id: 2,
-    title: 'AI Revolution in Healthcare',
-    link: 'https://www.technews.com/ai-healthcare',
-    description: 'How AI is transforming the healthcare industry.',
-  },
-  {
-    id: 3,
-    title: 'Future of Web Development',
-    link: 'https://www.technews.com/future-web',
-    description: 'Discover the trends shaping the future of web development.',
-  },
-];
-
-function Activities() {
-  useEffect(() => {
-    // Smooth scroll to the top of the page when the component mounts
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth'
-    });
-  }, []); // Empty dependency array ensures this runs once on mount
-
-// const Activities = () => {
+const Activities = () => {
   const [activeSection, setActiveSection] = useState('all');
+  const [youtubeActivities, setYoutubeActivities] = useState([]);
+  const [facebookActivities, setFacebookActivities] = useState([]);
+  const [newsActivities, setNewsActivities] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        await Promise.all([
+          fetchYoutubeActivities(),
+          fetchFacebookActivities(),
+          fetchNewsActivities(),
+        ]);
+      } catch (err) {
+        setError('Error fetching activities. Please try again later.');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, []);
+
+  const fetchYoutubeActivities = async () => {
+    try {
+      const response = await fetch('http://localhost:5000/youtube');
+      const data = await response.json();
+      setYoutubeActivities(data);
+    } catch (error) {
+      console.error('Error fetching YouTube activities:', error);
+      throw error; // Throw error to be caught in the useEffect
+    }
+  };
+
+  const fetchFacebookActivities = async () => {
+    try {
+      const response = await fetch('http://localhost:5000/facebook');
+      const data = await response.json();
+      setFacebookActivities(data);
+    } catch (error) {
+      console.error('Error fetching Facebook activities:', error);
+      throw error; // Throw error to be caught in the useEffect
+    }
+  };
+
+  const fetchNewsActivities = async () => {
+    try {
+      const response = await fetch('http://localhost:5000/news');
+      const data = await response.json();
+      setNewsActivities(data);
+    } catch (error) {
+      console.error('Error fetching News activities:', error);
+      throw error; // Throw error to be caught in the useEffect
+    }
+  };
 
   const handleFilter = (section) => {
     setActiveSection(section);
@@ -106,6 +90,10 @@ function Activities() {
               </button>
             ))}
           </div>
+
+          {/* Loading and Error Messages */}
+          {loading && <div className="text-center py-6">Loading...</div>}
+          {error && <div className="text-center text-red-500 py-6">{error}</div>}
 
           {/* Display YouTube videos */}
           {(activeSection === 'all' || activeSection === 'youtube') && (
@@ -163,7 +151,7 @@ function Activities() {
                             {news.title}
                           </a>
                         </p>
-                        <p className="text-sm text-black text-bold">{news.description}</p>
+                        <p className="text-sm text-black">{news.description}</p>
                       </div>
                     ))}
                   </div>

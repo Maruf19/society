@@ -1,32 +1,9 @@
-import React from 'react';
-import { motion } from 'framer-motion'; // Import Framer Motion for animations
-import img from '../components/Assets/22.jpg';
-import img1 from '../components/Assets/11.jpg';
-import img2 from '../components/Assets/mu.jpeg';
+import React, { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
 
-// Sample data for President, VP, and GS
-const leaders = [
-  {
-    id: 1,
-    name: 'John Doe',
-    position: 'President',
-    image: img, // Replace with actual image path
-    description: 'John leads the society with a passion for innovation and teamwork.',
-  },
-  {
-    id: 2,
-    name: 'Jane Smith',
-    position: 'Vice President',
-    image: img1, // Replace with actual image path
-    description: 'Jane drives collaboration and ensures seamless operations.',
-  },
-  {
-    id: 3,
-    name: 'Robert Brown',
-    position: 'General Secretary',
-    image: img2, // Replace with actual image path
-    description: 'Robert oversees administrative tasks and community outreach.',
-  },
+
+const fallbackLeader = [
+  // Define fallback data if needed
 ];
 
 const cardVariants = {
@@ -35,15 +12,43 @@ const cardVariants = {
 };
 
 const Leadership = () => {
+  const [leaderData, setLeaderData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchLeadership = async () => {
+      try {
+        const response = await fetch('http://localhost:5000/leader');
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        const data = await response.json();
+        setLeaderData(data);
+      } catch (err) {
+        console.error(err);
+        setError(err.message);
+        setLeaderData(fallbackLeader);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchLeadership();
+  }, []);
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error: {error}</p>;
+
   return (
     <div className="container mx-auto p-4 lg:p-12">
       <h1 className="text-4xl font-bold text-center text-gray-800 mb-12 border-b-2 border-teal-500 pb-2 inline-block">Current Leadership</h1>
       
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-        {leaders.map((leader) => (
+        {leaderData.map(({ id, name, position, image }) => (
           <motion.div
-            key={leader.id}
-            className="bg-white shadow-lg rounded-lg overflow-hidden transform transition-all duration-300 hover:scale-105  border border-teal-500"
+            key={id}
+            className="bg-white shadow-lg rounded-lg overflow-hidden transform transition-all duration-300 hover:scale-105 border border-teal-500"
             initial="hidden"
             animate="visible"
             variants={cardVariants}
@@ -51,25 +56,22 @@ const Leadership = () => {
             whileTap={{ scale: 0.95 }}
           >
             <img
-              className="w-full h-48 object-cover" // Set a fixed height for images
-              src={leader.image}
-              alt={leader.name}
+              className="w-full h-48 object-cover"
+              src={image}
+              alt={name}
             />
             <div className="p-6 text-center">
-              <h2 className="text-2xl font-bold mb-2 text-gray-800">{leader.name}</h2>
-              <p className="text-md text-teal-500 font-semibold mb-4">{leader.position}</p>
-              {/* <p className="text-gray-600 mb-6">{leader.description}</p> */}
+              <h2 className="text-2xl font-bold mb-2 text-gray-800">{name}</h2>
+              <p className="text-md text-teal-500 font-semibold mb-4">{position}</p>
               
-              {/* Button */}
               <div className="text-center pt-2 pb-2">
                 <a
-                  href="/team" // Link to your team page
+                  href="/team"
                   className="bg-teal-500 text-white font-bold py-2 px-6 text-sm rounded-lg hover:bg-teal-400 transition duration-300"
                 >
                   View Full Team
                 </a>
               </div>
-
             </div>
           </motion.div>
         ))}
