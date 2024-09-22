@@ -3,6 +3,7 @@ import Navbar from '../components/Navbar';
 
 const ReviewSection = () => {
   const [name, setName] = useState('');
+  const [batch, setBatch] = useState(''); // New state for batch
   const [testimonial, setTestimonial] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [successMessage, setSuccessMessage] = useState('');
@@ -20,12 +21,13 @@ const ReviewSection = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ name, testimonial }),
+        body: JSON.stringify({ name, batch, testimonial }), // Include batch in the request body
       });
 
       if (response.ok) {
         setSuccessMessage('Thank you for your testimonial!');
         setName('');
+        setBatch(''); // Reset batch
         setTestimonial('');
       } else {
         throw new Error('Failed to submit your testimonial. Please try again.');
@@ -67,6 +69,20 @@ const ReviewSection = () => {
                 type="text"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
+                className="w-full p-2 border border-teal-500 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 mt-1"
+                required
+              />
+            </label>
+          </div>
+
+          {/* Batch input field */}
+          <div className="mb-4">
+            <label className="block text-gray-700 font-semibold mb-2">
+              Batch:
+              <input
+                type="text"
+                value={batch}
+                onChange={(e) => setBatch(e.target.value)}
                 className="w-full p-2 border border-teal-500 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 mt-1"
                 required
               />
