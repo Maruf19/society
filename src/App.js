@@ -10,6 +10,7 @@ import Team from './pages/Team'
 import Registration from './pages/Registration'
 import Achievement from './pages/Achievement'
 import Leader from './pages/Leader'
+import Review from './pages/review'
 import Login from './pages/Login'
 import SignUp from './pages/SignUp'
 import ForgotPassword from './pages/ForgotPassword'
@@ -28,6 +29,7 @@ function App() {
       <Route path='Activities' element={ <Activities />} />
       <Route path='Contact' element={ <Contact />} />
       <Route path='Leadership' element={ <Leader />} />
+      <Route path='review' element={ <Review />} />
       <Route path='Login' element={ <Login />} />
       <Route path='SignUP' element={ <SignUp />} />
       <Route path='ForgotPassword' element={ <ForgotPassword />} />

@@ -60,11 +60,11 @@ function About() {
 
       {/* Header Section */}
       <section className="relative py-20 flex items-center justify-center min-h-screen bg-blue-400">
-        <div className="relative z-10 container mx-auto px-12 py-16 text-center border border-teal-500 bg-gray-300">
+        <div className="relative z-10 container mx-auto px-12 py-16 text-center border border-teal-500 bg-white">
           {about ? (
             about.map(({ id, title, description }) => (
               <div key={id} className="relative z-10 mb-6">
-                <h1 className="text-4xl lg:text-5xl text-teal-500 font-extrabold">
+                <h1 className="text-4xl lg:text-4xl text-teal-500 font-extrabold mb-6">
                   {title}
                 </h1>
                 <p className="text-black text-lg lg:text-xl mb-8 px-4 lg:px-24">

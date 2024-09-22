@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import Navbar from '../components/Navbar';
-
+import { Link } from 'react-router-dom';
 // Sample data for the ProgrammeData
 const ProgrammeData = [
   {
@@ -102,6 +102,7 @@ const Programme = () => {
                   >
                     Learn More
                   </motion.button>
+                  <Link to="/review">
                   <motion.button
                     className="px-4 py-2 border border-teal-500 text-teal-500 rounded-full bg-transparent hover:bg-teal-500 hover:text-white transition-all duration-300"
                     whileHover={{ scale: 1.05 }}
@@ -109,9 +110,11 @@ const Programme = () => {
                   >
                     Review
                   </motion.button>
+                  </Link>
                 </div>
               </div>
             </motion.div>
+            
           ))}
         </div>
       </section>
