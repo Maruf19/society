@@ -8,52 +8,9 @@ const SchedulePage = () => {
   const [description, setDescription] = useState('');
   const [image, setImage] = useState(null);
   const [data, setData] = useState([]);
-  const [editingId, setEditingId] = useState(null);
+  const [editingId, setEditingId] = useState(null); // Track the ID being edited
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-  
-    try {
-      const formData = new FormData();
-      
-      // Add title and description to FormData
-      formData.append('title', title);
-      formData.append('description', description);
-  
-      // Upload image if one is selected
-      if (image) {
-        formData.append('image', image); // Include image in FormData
-      } else {
-        alert('Please select an image to upload.');
-        return;
-      }
-  
-      const uploadResponse = await fetch('http://localhost:5000/schedule', {
-        method: 'POST',
-        body: formData,
-      });
-  
-      if (uploadResponse.ok) {
-        const uploadResult = await uploadResponse.json();
-        alert(editingId ? 'Data successfully updated' : 'Data successfully uploaded');
-        
-        // Reset form fields
-        setTitle('');
-        setDescription('');
-        setImage(null);
-        setEditingId(null);
-        fetchData(); // Refresh data
-      } else {
-        const errorResult = await uploadResponse.text();
-        alert(`Failed to upload image: ${errorResult}`);
-      }
-    } catch (error) {
-      console.error('Error during upload/update:', error);
-      alert('An error occurred during the upload.');
-    }
-  };
-  
-
+  // Fetch the schedule data from the server
   const fetchData = async () => {
     try {
       const response = await fetch('http://localhost:5000/schedule');
@@ -65,33 +22,74 @@ const SchedulePage = () => {
   };
 
   useEffect(() => {
-    fetchData();
+    fetchData(); // Fetch data on component mount
   }, []);
 
-  const handleDelete = async (id) => {
-    if (window.confirm('Are you sure you want to delete this item?')) {
-      try {
-        const response = await fetch(`http://localhost:5000/schedule/${id}`, {
-          method: 'DELETE',
-        });
+  // Handle form submission for both adding and updating
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append('title', title);
+    formData.append('description', description);
+    if (image) {
+      formData.append('image', image);
+    }
 
-        if (response.ok) {
-          alert('Data successfully deleted');
-          fetchData();
-        } else {
-          alert('Failed to delete data');
-        }
-      } catch (error) {
-        console.error('Error during deletion:', error);
+    try {
+      let requestMethod = editingId ? 'PUT' : 'POST';
+      let url = editingId
+        ? `http://localhost:5000/schedule/${editingId}`
+        : 'http://localhost:5000/schedule';
+
+      const response = await fetch(url, {
+        method: requestMethod,
+        body: formData,
+      });
+
+      if (response.ok) {
+        alert(editingId ? 'Data successfully updated' : 'Data successfully uploaded');
+        setTitle('');
+        setDescription('');
+        setImage(null);
+        setEditingId(null);
+        fetchData(); // Refresh the data after submission
+      } else {
+        alert('Failed to submit the form');
       }
+    } catch (error) {
+      console.error('Error during form submission:', error);
     }
   };
 
+  // Handle deletion of a schedule
+ const handleDelete = async (id) => {
+  if (window.confirm('Are you sure you want to delete this item?')) {
+    try {
+      const response = await fetch(`http://localhost:5000/schedule/${id}`, {
+        method: 'DELETE',
+      });
+
+      if (response.ok) {
+        alert('Data successfully deleted');
+        fetchData();
+      } else {
+        const errorText = await response.text();
+        alert(`Failed to delete data: ${errorText}`);
+      }
+    } catch (error) {
+      console.error('Error during deletion:', error);
+      alert('An error occurred during deletion.');
+    }
+  }
+};
+  
+
+  // Handle editing by setting the form with the selected schedule's data
   const handleEdit = (item) => {
     setTitle(item.title);
     setDescription(item.description);
-    setImage(item.imageUrl); // Set image URL for editing
-    setEditingId(item.id);
+    setImage(null); // Reset the image upload for edit
+    setEditingId(item._id); // Set the ID for editing
     document.getElementById('form-container').scrollIntoView({ behavior: 'smooth' });
   };
 
@@ -104,12 +102,18 @@ const SchedulePage = () => {
           Back
         </Link>
       </div>
+
+      {/* Form Section */}
       <div className="flex items-center justify-center min-h-screen">
         <div id="form-container" className="bg-white border border-black rounded-lg shadow-lg px-8 py-2 w-96 max-w-full">
-          <h1 className="text-2xl font-semibold text-center mb-2">Schedule</h1>
+          <h1 className="text-2xl font-semibold text-center mb-2">
+            {editingId ? 'Edit Schedule' : 'Add Schedule'}
+          </h1>
           <form onSubmit={handleSubmit}>
             <div className="mb-4">
-              <label htmlFor="title" className="block text-gray-700 font-bold mb-2">Title</label>
+              <label htmlFor="title" className="block text-gray-700 font-bold mb-2">
+                Title
+              </label>
               <input
                 type="text"
                 id="title"
@@ -122,7 +126,9 @@ const SchedulePage = () => {
             </div>
 
             <div className="mb-4">
-              <label htmlFor="description" className="block text-gray-700 font-bold mb-2">Description</label>
+              <label htmlFor="description" className="block text-gray-700 font-bold mb-2">
+                Description
+              </label>
               <textarea
                 id="description"
                 value={description}
@@ -135,7 +141,9 @@ const SchedulePage = () => {
             </div>
 
             <div className="mb-4">
-              <label htmlFor="image" className="block text-gray-700 font-bold mb-2">Image</label>
+              <label htmlFor="image" className="block text-gray-700 font-bold mb-2">
+                Image
+              </label>
               <input
                 type="file"
                 id="image"
@@ -170,12 +178,14 @@ const SchedulePage = () => {
           </thead>
           <tbody>
             {data.map(item => (
-              <tr key={item.id} className="hover:bg-gray-100">
-                <td className="border border-gray-300 p-2">{item.id}</td>
+              <tr key={item._id} className="hover:bg-gray-100">
+                <td className="border border-gray-300 p-2">{item._id}</td>
                 <td className="border border-gray-300 p-2">{item.title}</td>
                 <td className="border border-gray-300 p-2">{item.description}</td>
                 <td className="border border-gray-300 p-2">
-                  {item.imageUrl && <img src={item.imageUrl} alt={item.title} className="w-20 h-20 object-cover" />}
+                  {item.imageUrl && (
+                    <img src={item.imageUrl} alt={item.title} className="w-20 h-20 object-cover" />
+                  )}
                 </td>
                 <td className="border border-gray-300 p-2 flex justify-center space-x-2">
                   <button
@@ -186,7 +196,7 @@ const SchedulePage = () => {
                   </button>
                   <button
                     className="p-2 text-black"
-                    onClick={() => handleDelete(item.id)}
+                    onClick={() => handleDelete(item._id)}
                   >
                     <FaTrash />
                   </button>

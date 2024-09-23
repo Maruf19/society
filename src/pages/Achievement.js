@@ -2,53 +2,53 @@ import React, { useEffect, useState } from 'react';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 
-const fallbackAchievements = [
-  {
-    id: 1,
-    type: 'Programming Contest',
-    date: '2024-09-10',
-    position: '1st Position',
-    location: 'MU Campus',
-    locationDate: '12/12/2024',
-    image: 'https://via.placeholder.com/150',
-  },
-  {
-    id: 2,
-    type: 'Hackathon Winner',
-    date: '2024-08-15',
-    position: '2nd Position',
-    location: 'Tech Fest 2024',
-    locationDate: '15/11/2024',
-    image: 'https://via.placeholder.com/150',
-  },
-  {
-    id: 3,
-    type: 'Code Challenge',
-    date: '2024-07-25',
-    position: '1st Position',
-    location: 'Online',
-    locationDate: '01/09/2024',
-    image: 'https://via.placeholder.com/150',
-  },
-  {
-    id: 4,
-    type: 'Cultural Festival',
-    date: '2024-06-20',
-    position: 'Participation',
-    location: 'University Hall',
-    locationDate: '20/06/2024',
-    image: 'https://via.placeholder.com/150',
-  },
-  {
-    id: 5,
-    type: 'Science Fair',
-    date: '2024-05-30',
-    position: 'Honorable Mention',
-    location: 'MU Campus',
-    locationDate: '30/05/2024',
-    image: 'https://via.placeholder.com/150',
-  },
-];
+// const fallbackAchievements = [
+//   {
+//     id: 1,
+//     type: 'Programming Contest',
+//     date: '2024-09-10',
+//     position: '1st Position',
+//     location: 'MU Campus',
+//     locationDate: '12/12/2024',
+//     image: 'https://via.placeholder.com/150',
+//   },
+//   {
+//     id: 2,
+//     type: 'Hackathon Winner',
+//     date: '2024-08-15',
+//     position: '2nd Position',
+//     location: 'Tech Fest 2024',
+//     locationDate: '15/11/2024',
+//     image: 'https://via.placeholder.com/150',
+//   },
+//   {
+//     id: 3,
+//     type: 'Code Challenge',
+//     date: '2024-07-25',
+//     position: '1st Position',
+//     location: 'Online',
+//     locationDate: '01/09/2024',
+//     image: 'https://via.placeholder.com/150',
+//   },
+//   {
+//     id: 4,
+//     type: 'Cultural Festival',
+//     date: '2024-06-20',
+//     position: 'Participation',
+//     location: 'University Hall',
+//     locationDate: '20/06/2024',
+//     image: 'https://via.placeholder.com/150',
+//   },
+//   {
+//     id: 
+//     type: 
+//     date: 
+//     position: 
+//     location: 
+//     locationDate: 
+//     image: 
+//   },
+// ];
 
 const Achievement = () => {
   const [achievementData, setAchievementData] = useState([]);
@@ -59,29 +59,29 @@ const Achievement = () => {
     // Smooth scroll to the top of the page when the component mounts
     window.scrollTo({ top: 0, behavior: 'smooth' });
 
-    const fetchAchievements = async () => {
-      try {
-        const response = await fetch('http://localhost:5000/achievement');
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        const data = await response.json();
-        setAchievementData(data);
-      } catch (err) {
-        console.error(err); // Log the error for debugging
-        setError(err.message);
-        // Fallback to hardcoded achievements if fetch fails
-        setAchievementData(fallbackAchievements);
-      } finally {
-        setLoading(false);
-      }
-    };
+ // Fetch the achievement data from the server
+const fetchData = async () => {
+  try {
+    const response = await fetch('http://localhost:5000/achievement');
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    const result = await response.json();
+    console.log('Fetched data:', result); // Debugging line
+    setAchievementData(result);
+  } catch (error) {
+    console.error('Error fetching data:', error);
+    setError(error.message);
+  } finally {
+    setLoading(false);
+  }
+};
 
-    fetchAchievements();
-  }, []);
+fetchData();
+}, []);
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error: {error}</p>;
+if (loading) return <p>Loading...</p>;
+if (error) return <p>Error: {error}</p>;
 
   // Sort achievements by date, latest first
   const sortedAchievements = [...achievementData].sort((a, b) => new Date(b.date) - new Date(a.date));
@@ -101,7 +101,7 @@ const Achievement = () => {
             >
               <div className="w-full h-48 md:h-64 overflow-hidden rounded-lg mb-4 mt-3 border border-teal-500">
                 <img
-                  src={achievement.image}
+                  src={achievement.imageUrl}
                   alt={`Achievement ${achievement.id}`}
                   className="w-full h-full object-cover transition-transform transform hover:scale-105 border border-teal-500"
                 />

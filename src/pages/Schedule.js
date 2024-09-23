@@ -18,27 +18,27 @@ function Schedule() {
     // Smooth scroll to the top of the page when the component mounts
     window.scrollTo({ top: 0, behavior: 'smooth' });
 
-    // Fetch schedule data
+    // Fetch schedule data from the backend API
     const fetchScheduleData = async () => {
       try {
-        const response = await fetch('http://localhost:5000/schedule');
+        const response = await fetch('http://localhost:5000/schedule'); // Fetching data from API
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
-        const data = await response.json();
-        setScheduleData(data);
+        const data = await response.json(); // Parsing JSON data from the response
+        setScheduleData(data); // Set the fetched data in state
       } catch (err) {
-        setError(err.message);
+        setError(err.message); // Handle any errors
       } finally {
-        setLoading(false);
+        setLoading(false); // Stop the loading state
       }
     };
 
-    fetchScheduleData();
+    fetchScheduleData(); // Invoke the fetch function
   }, []); // Empty dependency array ensures this runs once on mount
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error: {error}</p>;
+  if (loading) return <p>Loading...</p>; // Display loading text while fetching data
+  if (error) return <p>Error: {error}</p>; // Display error if fetch fails
 
   return (
     <>
@@ -51,7 +51,7 @@ function Schedule() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 justify-center">
           {scheduleData.map((schedule) => (
             <motion.div
-              key={schedule.id}
+              key={schedule._id} // Use MongoDB's _id field as key
               className="bg-white shadow-lg rounded-lg overflow-hidden max-w-xs mx-auto transition-transform transform hover:scale-105 border border-teal-500 flex flex-col h-full"
               initial="hidden"
               animate="visible"
@@ -61,14 +61,14 @@ function Schedule() {
               <div className="relative">
                 <img
                   className="w-full h-40 object-cover border border-teal-500"
-                  src={schedule.image}
-                  alt={schedule.title}
+                  src={schedule.imageUrl} // Use schedule.imageUrl to display the image
+                  alt={schedule.title} // Use schedule title for alt text
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-30"></div>
               </div>
               <div className="p-6 flex flex-col flex-grow">
-                <h2 className="text-lg font-bold text-teal-600 mb-4">{schedule.title}</h2>
-                <p className="text-gray-600 mb-6">{schedule.description}</p>
+                <h2 className="text-lg font-bold text-teal-600 mb-4">{schedule.title}</h2> {/* Use schedule title */}
+                <p className="text-gray-600 mb-6">{schedule.description}</p> {/* Use schedule description */}
                 <div className="mt-auto">
                   <Link to="/registration">
                     <motion.button
@@ -76,7 +76,7 @@ function Schedule() {
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
                     >
-                      Registration Now
+                      Register Now
                     </motion.button>
                   </Link>
                 </div>

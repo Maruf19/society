@@ -22,6 +22,7 @@ import Dashboard from './components/Dashboard/Dashboard'
 import HomePage from './components/Dashboard/HomePage'
 import AboutPage from './components/Dashboard/AboutPage'
 import SchedulePage from './components/Dashboard/SchedulePage'
+import FeaturePage from './components/Dashboard/FeaturePage'
 
 function App() {
   return (
@@ -50,7 +51,7 @@ function App() {
        <Route path='homePage' element={ < HomePage />} />
        <Route path='aboutPage' element={ < AboutPage />} />
        <Route path='schedulePage' element={ < SchedulePage />} />
-
+       <Route path='featurePage' element={ < FeaturePage />} />
 
 
     </Routes>
