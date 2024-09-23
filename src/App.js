@@ -14,6 +14,15 @@ import Review from './pages/review'
 import Login from './pages/Login'
 import SignUp from './pages/SignUp'
 import ForgotPassword from './pages/ForgotPassword'
+//Dashboard Import
+import Header from './components/Dashboard/header'
+import Sidebar from './components/Dashboard/Sidebar'
+import DashHome from './components/Dashboard/DashHome'
+import Dashboard from './components/Dashboard/Dashboard'
+import HomePage from './components/Dashboard/HomePage'
+import AboutPage from './components/Dashboard/AboutPage'
+import SchedulePage from './components/Dashboard/SchedulePage'
+
 function App() {
   return (
         <BrowserRouter>
@@ -33,6 +42,17 @@ function App() {
       <Route path='Login' element={ <Login />} />
       <Route path='SignUP' element={ <SignUp />} />
       <Route path='ForgotPassword' element={ <ForgotPassword />} />
+       {/* Dashboard Routes */}
+       <Route path='header' element={ <Header  />} />
+       <Route path='Sidebar' element={ <Sidebar />} />
+       <Route path='DashHome' element={ < DashHome />} />
+       <Route path='Dashboard' element={ < Dashboard />} />
+       <Route path='homePage' element={ < HomePage />} />
+       <Route path='aboutPage' element={ < AboutPage />} />
+       <Route path='schedulePage' element={ < SchedulePage />} />
+
+
+
     </Routes>
     </BrowserRouter>
   )
