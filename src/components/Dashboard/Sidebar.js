@@ -38,10 +38,10 @@ const Sidebar = () => {
         </Link>
 
         <Link
-          to="/settings"
+          to="/teamPage"
           className="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700"
         >
-          Activities
+         Committee Team
         </Link>
 
         <Link

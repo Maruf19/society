@@ -24,6 +24,7 @@ import AboutPage from './components/Dashboard/AboutPage'
 import SchedulePage from './components/Dashboard/SchedulePage'
 import FeaturePage from './components/Dashboard/FeaturePage'
 import ProgrammePage from './components/Dashboard/ProgrammePage'
+import TeamPage from './components/Dashboard/TeamPage'
 
 function App() {
   return (
@@ -54,6 +55,7 @@ function App() {
        <Route path='schedulePage' element={ < SchedulePage />} />
        <Route path='featurePage' element={ < FeaturePage />} />
        <Route path='programmePage' element={ < ProgrammePage />} />
+       <Route path='teamPage' element={ < TeamPage />} />
 
   
 
