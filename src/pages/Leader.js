@@ -23,6 +23,7 @@ const Leadership = () => {
       } catch (err) {
         console.error(err);
         setError(err.message);
+        // Uncomment the following line to set fallback data
         // setLeaderData(fallbackLeader);
       } finally {
         setLoading(false);
@@ -40,9 +41,9 @@ const Leadership = () => {
       <h1 className="text-4xl font-bold text-center text-gray-800 mb-12 border-b-2 border-teal-500 pb-2 inline-block">Current Leadership</h1>
       
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-        {leaderData.map(({ id, name, position, image }) => (
+        {leaderData.slice(0, 3).map((leader) => (
           <motion.div
-            key={id}
+            key={leader.id}  // Use leader.id for the key
             className="bg-white shadow-lg rounded-lg overflow-hidden transform transition-all duration-300 hover:scale-105 border border-teal-500"
             initial="hidden"
             animate="visible"
@@ -52,12 +53,12 @@ const Leadership = () => {
           >
             <img
               className="w-full h-48 object-cover"
-              src={image}
-              alt={name}
+              src={leader.imageUrl}  // Use leader.image
+              alt={leader.name}    // Use leader.name
             />
             <div className="p-6 text-center">
-              <h2 className="text-2xl font-bold mb-2 text-gray-800">{name}</h2>
-              <p className="text-md text-teal-500 font-semibold mb-4">{position}</p>
+              <h2 className="text-2xl font-bold mb-2 text-gray-800">{leader.name}</h2>  
+              <p className="text-md text-teal-500 font-semibold mb-4">{leader.position}</p> 
               
               <div className="text-center pt-2 pb-2">
                 <a

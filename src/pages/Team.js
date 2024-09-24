@@ -76,7 +76,7 @@ function Team() {
           <img
             src={team.imageUrl || team.image}
             alt={team.name}
-            className="w-36 h-36 rounded-full object-cover mb-4"
+            className="w-44 h-44 rounded-full object-cover mb-4"
           />
           <h3 className="text-xl font-bold text-teal-600">{team.name}</h3>
         </div>
@@ -100,7 +100,7 @@ function Team() {
                     <img
                       src={team.imageUrl || team.image}
                       alt={team.name}
-                      className="w-36 h-36 rounded-full object-cover mb-4"
+                      className="w-44 h-44 rounded-full object-cover mb-4"
                     />
                     <h3 className="text-xl font-bold text-teal-600">{team.name}</h3>
                   </div>
@@ -115,14 +115,14 @@ function Team() {
 
           {/* Current Committee: Second row with 4 members */}
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 mb-12">
-            {teamData.slice(8, 12).map((team, index) => (
+            {teamData.slice(8).map((team, index) => (
               <div key={index} className="flip-card w-full h-80 p-4">
                 <div className="flip-card-inner w-full h-full transition-transform duration-500 ease-in-out transform hover:rotate-y-180">
                   <div className="flip-card-front bg-white border border-teal-600 rounded-lg shadow-lg p-6 flex flex-col items-center">
                     <img
                       src={team.imageUrl || team.image}
                       alt={team.name}
-                      className="w-36 h-36 rounded-full object-cover mb-4"
+                      className="w-44 h-44 rounded-full object-cover mb-4"
                     />
                     <h3 className="text-xl font-bold text-teal-600">{team.name}</h3>
                   </div>
