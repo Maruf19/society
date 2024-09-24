@@ -1,69 +1,43 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import Navbar from '../components/Navbar';
 import { Link } from 'react-router-dom';
-// Sample data for the ProgrammeData
-const ProgrammeData = [
-  {
-    id: 1,
-    title: 'Artificial Intelligence Workshop',
-    description: 'Dive into the world of AI with hands-on workshops on machine learning, neural networks, and more.',
-    image: 'https://via.placeholder.com/150',
-  },
-  {
-    id: 2,
-    title: 'Web Development Bootcamp',
-    description: 'Learn full-stack web development, from frontend design to backend APIs using modern technologies.',
-    image: 'https://via.placeholder.com/150',
-  },
-  {
-    id: 3,
-    title: 'Cybersecurity Seminar',
-    description: 'Understand the fundamentals of cybersecurity and learn how to protect systems and networks from threats.',
-    image: 'https://via.placeholder.com/150',
-  },
-  {
-    id: 4,
-    title: 'Hackathon',
-    description: 'Participate in our 48-hour hackathon and showcase your coding skills by solving real-world challenges.',
-    image: 'https://via.placeholder.com/150',
-  },
-];
 
 const cardVariants = {
   hidden: { opacity: 0, y: 30 },
   visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
 };
 
-const Programme = () => {
+function Programme() {
   const [programmeData, setProgrammeData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchProgramme = async () => {
+    // Smooth scroll to the top of the page when the component mounts
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    // Fetch Programme data from the backend API
+    const fetchProgrammeData = async () => {
       try {
-        const response = await fetch('http://localhost:5000/programme');
+        const response = await fetch('http://localhost:5000/programme'); // Fetching data from API
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
-        const data = await response.json();
-        setProgrammeData(data);
+        const data = await response.json(); // Parsing JSON data from the response
+        setProgrammeData(data); // Set the fetched data in state
       } catch (err) {
-        console.error(err);
-        setError(err.message);
-        // setLeaderData(fallbackLeader);
+        setError(err.message); // Handle any errors
       } finally {
-        setLoading(false);
+        setLoading(false); // Stop the loading state
       }
     };
 
-    fetchProgramme();
-  }, []);
+    fetchProgrammeData(); // Invoke the fetch function
+  }, []); // Empty dependency array ensures this runs once on mount
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error: {error}</p>;
-
+  if (loading) return <p>Loading...</p>; // Display loading text while fetching data
+  if (error) return <p>Error: {error}</p>; // Display error if fetch fails
 
   return (
     <>
@@ -71,10 +45,9 @@ const Programme = () => {
       <section className="container mx-auto py-6 px-4 md:px-6 lg:px-8 flex flex-col items-center">
         <h2 className="text-4xl font-bold text-center text-gray-800 mb-6 border-b-2 border-teal-500 pb-2 inline-block">
           Our Recent Programme
-        
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-10 lg:gap-12 w-full">
-          {programmeData.map(({ id, title, image , description }) => (
+          {programmeData.map(({ id, title, imageUrl, description }) => (
             <motion.div
               key={id}
               className="bg-white shadow-lg rounded-lg overflow-hidden w-full max-w-sm mx-auto flex flex-col border border-teal-500"
@@ -86,7 +59,7 @@ const Programme = () => {
               <div className="relative">
                 <img
                   className="w-full h-48 md:h-56 lg:h-64 object-cover border border-teal-500"
-                  src={image}
+                  src={imageUrl} // Use the correct image URL
                   alt={title}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-30"></div>
@@ -103,18 +76,17 @@ const Programme = () => {
                     Learn More
                   </motion.button>
                   <Link to="/review">
-                  <motion.button
-                    className="px-4 py-2 border border-teal-500 text-teal-500 rounded-full bg-transparent hover:bg-teal-500 hover:text-white transition-all duration-300"
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                  >
-                    Review
-                  </motion.button>
+                    <motion.button
+                      className="px-4 py-2 border border-teal-500 text-teal-500 rounded-full bg-transparent hover:bg-teal-500 hover:text-white transition-all duration-300"
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                    >
+                      Review
+                    </motion.button>
                   </Link>
                 </div>
               </div>
             </motion.div>
-            
           ))}
         </div>
       </section>
