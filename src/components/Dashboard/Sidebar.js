@@ -78,6 +78,12 @@ const Sidebar = () => {
         >
          Contact Info
         </Link>
+        <Link
+          to="/reviewPage"
+          className="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700"
+        >
+        Review
+        </Link>
       </nav>
     </aside>
   );

@@ -29,6 +29,7 @@ import LeaderPage from './components/Dashboard/LeaderPage'
 import ActivityPage from './components/Dashboard/ActivityPage'
 import ContactPage from './components/Dashboard/ContactPage'
 import ContactInfo from './components/Dashboard/ContactInfo'
+import ReviewPage from './components/Dashboard/ReviewPage'
 
 
 function App() {
@@ -65,7 +66,7 @@ function App() {
        <Route path='activityPage' element={ < ActivityPage />} />
        <Route path='contactPage' element={ < ContactPage />} />
        <Route path='contactInfo' element={ < ContactInfo />} />
-  
+       <Route path='reviewPage' element={ < ReviewPage />} />
   
 
     </Routes>

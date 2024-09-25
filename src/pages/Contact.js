@@ -22,24 +22,22 @@ const Contact = () => {
     email: '',
     phone: '',
     message: '',
-    name: '' // Added name to formData
+    name: ''
   });
 
-  // Initialize contactInfo with default values
   const [contactInfo, setContactInfo] = useState({
     address: '',
     phone: '',
     email: ''
   });
 
-  // Fetch contact information from the server
   useEffect(() => {
     const fetchContactInfo = async () => {
       try {
         const response = await fetch('http://localhost:5000/contact-info');
         if (!response.ok) throw new Error('Failed to fetch contact info');
         const data = await response.json();
-        setContactInfo(data[0] || {}); // Set to empty object if data[0] is undefined
+        setContactInfo(data[0] || {});
       } catch (error) {
         console.error('Error fetching contact info:', error);
         setContactInfo({ address: 'Error loading address', phone: 'Error loading phone', email: 'Error loading email' });
@@ -237,27 +235,43 @@ const Contact = () => {
               animate={{ x: 0, opacity: 1 }}
               transition={{ duration: 0.6 }}
             >
-              <h3 className="text-xl lg:text-2xl font-semibold mb-4 lg:mb-6 text-white">Contact Info</h3>
-              
               <div className="text-center">
-                <h4 className="text-lg font-semibold text-white">Address</h4>
-                <p style={{ wordWrap: 'break-word', color: 'white' }}>
-                  {contactInfo.address || 'Loading...'}
-                </p>
-              </div>
+                <h3 className="text-xl lg:text-2xl font-semibold mb-4 lg:mb-6 text-white">Contact Info</h3>
+                
+                <div className="mb-4">
+                  <h4 className="text-lg font-semibold text-white">Address</h4>
+                  <p style={{ wordWrap: 'break-word', color: 'white' }}>
+                    {contactInfo.address || 'Loading...'}
+                  </p>
+                </div>
 
-              <div className="text-center">
-                <h4 className="text-lg font-semibold text-white">Phone</h4>
-                <p style={{ wordWrap: 'break-word', color: 'white' }}>
-                  {contactInfo.phone || 'Loading...'}
-                </p>
-              </div>
+                <div className="mb-4">
+                  <h4 className="text-lg font-semibold text-white">Phone</h4>
+                  <p style={{ wordWrap: 'break-word', color: 'white' }}>
+                    {contactInfo.phone || 'Loading...'}
+                  </p>
+                </div>
 
-              <div className="text-center">
-                <h4 className="text-lg font-semibold text-white">Email</h4>
-                <p style={{ wordWrap: 'break-word', color: 'white' }}>
-                  {contactInfo.email || 'Loading...'}
-                </p>
+                <div className="mb-4">
+                  <h4 className="text-lg font-semibold text-white">Email</h4>
+                  <p style={{ wordWrap: 'break-word', color: 'white' }}>
+                    {contactInfo.email || 'Loading...'}
+                  </p>
+                </div>
+
+                {/* Map Section */}
+                <div className="mt-4">
+                  <iframe
+                    title="Google Map"
+                    className="rounded-lg shadow-lg w-full"
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4302.620190763403!2d91.97005454948531!3d24.93009757974487!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3750552bc71c899d%3A0x804e438bcc32b390!2sSylhet%20Metropolitan%20University!5e0!3m2!1sen!2sau!4v1727275668882!5m2!1sen!2sau"
+                    width="300"
+                    height="250"
+                    style={{ border: 0 }}
+                    allowFullScreen=""
+                    loading="lazy"
+                  ></iframe>
+                </div>
               </div>
             </motion.div>
           </motion.div>
