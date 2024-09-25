@@ -13,83 +13,89 @@ const colors = {
 
 const Contact = () => {
   useEffect(() => {
-    // Smooth scroll to the top of the page when the component mounts
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth'
-    });
-  }, []); // Empty dependency array ensures this runs once on mount
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, []);
 
   const [isSubmitted, setIsSubmitted] = useState(false);
-  
-  // State to manage form fields
+  const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
-    name: '',
     email: '',
     phone: '',
-    message: ''
+    message: '',
+    name: '' // Added name to formData
   });
 
-  // Update form data on input change
-  const handlecontact = (e) => {
+  // Initialize contactInfo with default values
+  const [contactInfo, setContactInfo] = useState({
+    address: '',
+    phone: '',
+    email: ''
+  });
+
+  // Fetch contact information from the server
+  useEffect(() => {
+    const fetchContactInfo = async () => {
+      try {
+        const response = await fetch('http://localhost:5000/contact-info');
+        if (!response.ok) throw new Error('Failed to fetch contact info');
+        const data = await response.json();
+        setContactInfo(data[0] || {}); // Set to empty object if data[0] is undefined
+      } catch (error) {
+        console.error('Error fetching contact info:', error);
+        setContactInfo({ address: 'Error loading address', phone: 'Error loading phone', email: 'Error loading email' });
+      }
+    };
+
+    fetchContactInfo();
+  }, []);
+
+  const handleContact = (e) => {
     const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value
-    });
+    setFormData({ ...formData, [name]: value });
   };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData); // You can send formData to your backend here
-    setIsSubmitted(true);
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth'
-    });
-  
+    setIsLoading(true);
+
     try {
       const response = await fetch('http://localhost:5000/contact', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json' // Ensure correct content type
-        },
-        body: JSON.stringify(formData) // Send formData instead of handlecontact
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
       });
-  
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-  
+
+      if (!response.ok) throw new Error('Network response was not ok');
+
       const data = await response.json();
-      // console.log(data); // Handle the response data as needed
-  
+      console.log(data);
+      setIsSubmitted(true);
+      setFormData({ email: '', phone: '', message: '', name: '' });
     } catch (error) {
       console.error('Error:', error);
     } finally {
-      // Optional: reset form or perform any cleanup
-      // setFormData({ name: '', email: '', phone: '', message: '' });
+      setIsLoading(false);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   };
-  
-  
 
   return (
     <>
       <Navbar />
       <motion.section
-        className="py-12 lg:py-16"
+        className="py-12 lg:py-16 min-h-screen"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.8 }}
         style={{
-          background: `linear-gradient(to right, ${colors.teal} 0%, ${colors.white} 50%, ${colors.teal} 100%)`
+          background: `linear-gradient(to right, ${colors.teal} 0%, ${colors.white} 80%, ${colors.teal} 100%)`
         }}
       >
         {!isSubmitted && (
           <div className="text-center py-6">
             <h1 className="text-4xl font-bold text-gray-800 border-b-2 border-teal-500 pb-2 inline-block">
-              Contact With us <br/>
-              <span className='text-sm'>Feel Free to Contact With Us. </span>
+              Contact Us <br />
+              <span className='text-sm'>Feel Free to Reach Out!</span>
             </h1>
           </div>
         )}
@@ -97,7 +103,7 @@ const Contact = () => {
         {isSubmitted ? (
           <div className="flex items-center justify-center min-h-screen">
             <motion.div
-              className="p-6 lg:p-8 rounded-lg shadow-lg"
+              className="p-6 lg:p-8 rounded-lg shadow-xl"
               style={{
                 backgroundColor: colors.white,
                 borderColor: colors.primaryBlue,
@@ -151,12 +157,12 @@ const Contact = () => {
                   <input
                     type="text"
                     id="name"
-                    name="name" // Add name attribute
+                    name="name"
                     className="w-full px-3 lg:px-4 py-2 lg:py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-teal-400 focus:outline-none transition duration-150 ease-in-out"
-                    placeholder="Enter your full name"
+                    placeholder="Enter your name"
                     required
                     value={formData.name}
-                    onChange={handlecontact} // Handle input change
+                    onChange={handleContact}
                   />
                 </div>
 
@@ -168,29 +174,29 @@ const Contact = () => {
                   <input
                     type="email"
                     id="email"
-                    name="email" // Add name attribute
+                    name="email"
                     className="w-full px-3 lg:px-4 py-2 lg:py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-teal-400 focus:outline-none transition duration-150 ease-in-out"
                     placeholder="Enter your email address"
                     required
                     value={formData.email}
-                    onChange={handlecontact} // Handle input change
+                    onChange={handleContact}
                   />
                 </div>
 
                 {/* Mobile Number Input */}
                 <div className="mb-4 lg:mb-6">
-                  <label htmlFor="mobile" className="block text-base lg:text-lg font-medium text-black">
+                  <label htmlFor="phone" className="block text-base lg:text-lg font-medium text-black">
                     Your Mobile Number
                   </label>
                   <input
                     type="tel"
-                    id="mobile"
-                    name="phone" // Add name attribute
+                    id="phone"
+                    name="phone"
                     className="w-full px-3 lg:px-4 py-2 lg:py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-teal-400 focus:outline-none transition duration-150 ease-in-out"
                     placeholder="Enter your mobile number"
                     required
                     value={formData.phone}
-                    onChange={handlecontact} // Handle input change
+                    onChange={handleContact}
                   />
                 </div>
 
@@ -201,56 +207,57 @@ const Contact = () => {
                   </label>
                   <textarea
                     id="message"
-                    name="message" // Add name attribute
+                    name="message"
                     className="w-full px-3 lg:px-4 py-2 lg:py-3 border border-gray-300 rounded-lg shadow-sm h-32 focus:ring-2 focus:ring-teal-400 focus:outline-none transition duration-150 ease-in-out"
                     placeholder="Write your message"
                     required
                     value={formData.message}
-                    onChange={handlecontact} // Handle input change
+                    onChange={handleContact}
                   ></textarea>
                 </div>
 
                 {/* Submit Button */}
                 <motion.button
                   type="submit"
-                  className="w-full py-2 lg:py-3 rounded-lg"
-                  style={{ backgroundColor: colors.primaryBlue, color: colors.white }}
+                  className="w-full py-2 lg:py-3 rounded-lg text-white transition duration-300 ease-in-out"
+                  style={{ backgroundColor: colors.primaryBlue }}
                   whileHover={{ scale: 1.05, boxShadow: '0 8px 25px rgba(0, 0, 0, 0.2)' }}
                   whileTap={{ scale: 0.95 }}
+                  disabled={isLoading}
                 >
-                  Send Message
+                  {isLoading ? 'Sending...' : 'Send Message'}
                 </motion.button>
               </form>
             </motion.div>
 
-            {/* Contact Info */}
+            {/* Contact Information */}
             <motion.div
-              className="w-full lg:w-1/3 bg-primaryBlue p-6 lg:p-8 rounded-lg shadow-lg"
-              style={{ backgroundColor: colors.primaryBlue }}
+              className="w-full lg:w-1/3 bg-[#407df4] p-6 lg:p-8 rounded-lg shadow-lg"
               initial={{ x: 50, opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
               transition={{ duration: 0.6 }}
             >
-              <h3 className="text-2xl lg:text-3xl font-bold mb-4 lg:mb-6 text-white text-center">Contact Information</h3>
-              <p className="text-base lg:text-lg mb-6 text-white text-center">
-                Feel free to contact us via phone or email.
-              </p>
+              <h3 className="text-xl lg:text-2xl font-semibold mb-4 lg:mb-6 text-white">Contact Info</h3>
+              
+              <div className="text-center">
+                <h4 className="text-lg font-semibold text-white">Address</h4>
+                <p style={{ wordWrap: 'break-word', color: 'white' }}>
+                  {contactInfo.address || 'Loading...'}
+                </p>
+              </div>
 
-              <div className="space-y-4 lg:space-y-6 text-white">
-                <div className="text-center">
-                  <h4 className="text-lg font-semibold">Address</h4>
-                  <p>123 Main Street, Suite 101<br />Your City, Country</p>
-                </div>
+              <div className="text-center">
+                <h4 className="text-lg font-semibold text-white">Phone</h4>
+                <p style={{ wordWrap: 'break-word', color: 'white' }}>
+                  {contactInfo.phone || 'Loading...'}
+                </p>
+              </div>
 
-                <div className="text-center">
-                  <h4 className="text-lg font-semibold">Phone</h4>
-                  <p>+1 (234) 567-890</p>
-                </div>
-
-                <div className="text-center">
-                  <h4 className="text-lg font-semibold">Email</h4>
-                  <p>info@example.com</p>
-                </div>
+              <div className="text-center">
+                <h4 className="text-lg font-semibold text-white">Email</h4>
+                <p style={{ wordWrap: 'break-word', color: 'white' }}>
+                  {contactInfo.email || 'Loading...'}
+                </p>
               </div>
             </motion.div>
           </motion.div>

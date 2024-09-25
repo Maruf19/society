@@ -57,6 +57,27 @@ const Sidebar = () => {
         >
           Recent Programme
         </Link>
+
+        <Link
+          to="/activityPage"
+          className="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700"
+        >
+         Activities
+        </Link>
+
+        <Link
+          to="/contactPage"
+          className="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700"
+        >
+         Contact
+        </Link>
+
+        <Link
+          to="/contactInfo"
+          className="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700"
+        >
+         Contact Info
+        </Link>
       </nav>
     </aside>
   );

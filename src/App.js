@@ -26,6 +26,10 @@ import FeaturePage from './components/Dashboard/FeaturePage'
 import ProgrammePage from './components/Dashboard/ProgrammePage'
 import TeamPage from './components/Dashboard/TeamPage'
 import LeaderPage from './components/Dashboard/LeaderPage'
+import ActivityPage from './components/Dashboard/ActivityPage'
+import ContactPage from './components/Dashboard/ContactPage'
+import ContactInfo from './components/Dashboard/ContactInfo'
+
 
 function App() {
   return (
@@ -58,7 +62,10 @@ function App() {
        <Route path='programmePage' element={ < ProgrammePage />} />
        <Route path='teamPage' element={ < TeamPage />} />
        <Route path='leaderPage' element={ < LeaderPage />} />
-
+       <Route path='activityPage' element={ < ActivityPage />} />
+       <Route path='contactPage' element={ < ContactPage />} />
+       <Route path='contactInfo' element={ < ContactInfo />} />
+  
   
 
     </Routes>

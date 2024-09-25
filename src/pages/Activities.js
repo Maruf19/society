@@ -36,7 +36,7 @@ const Activities = () => {
       setYoutubeActivities(data);
     } catch (error) {
       console.error('Error fetching YouTube activities:', error);
-      throw error; // Throw error to be caught in the useEffect
+      throw error;
     }
   };
 
@@ -47,7 +47,7 @@ const Activities = () => {
       setFacebookActivities(data);
     } catch (error) {
       console.error('Error fetching Facebook activities:', error);
-      throw error; // Throw error to be caught in the useEffect
+      throw error;
     }
   };
 
@@ -58,7 +58,7 @@ const Activities = () => {
       setNewsActivities(data);
     } catch (error) {
       console.error('Error fetching News activities:', error);
-      throw error; // Throw error to be caught in the useEffect
+      throw error;
     }
   };
 
@@ -100,7 +100,7 @@ const Activities = () => {
             <div>
               <h3 className="text-3xl font-bold text-center text-gray-800 mb-4 border-b-2 border-teal-500 pb-2 inline-block">YouTube Videos</h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-                {youtubeActivities.map((video) => (
+                {youtubeActivities.slice(0, 3).map((video) => (
                   <div key={video.id} className="bg-white shadow-lg rounded-lg overflow-hidden">
                     <iframe
                       className="w-full h-56 sm:h-64 lg:h-72"
@@ -116,15 +116,16 @@ const Activities = () => {
             </div>
           )}
 
-          {/* Display Facebook posts */}
+        
+                      {/* Display Facebook posts */}
           {(activeSection === 'all' || activeSection === 'facebook') && (
             <div className="mt-12">
               <h3 className="text-3xl font-bold text-center text-gray-800 mb-4 border-b-2 border-teal-500 pb-2 inline-block">Facebook Posts</h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-                {facebookActivities.map((post) => (
+                {facebookActivities.slice(0, 3).map((post) => (
                   <div key={post.id} className="bg-white shadow-lg rounded-lg overflow-hidden">
                     <iframe
-                      className="w-full h-56 sm:h-72 lg:h-80"
+                      className="w-full h-96 sm:h-80 md:h-96 lg:h-96"
                       src={post.embedLink}
                       title={post.title}
                       frameBorder="0"
@@ -144,7 +145,7 @@ const Activities = () => {
               <div className="relative bg-blue-800 bg-opacity-50 p-4 sm:p-6 md:p-8">
                 <div className="flex flex-col items-center justify-center text-white">
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {newsActivities.map((news) => (
+                    {newsActivities.slice(0, 3).map((news) => (
                       <div key={news.id} className="bg-white bg-opacity-80 shadow-lg rounded-lg overflow-hidden p-4">
                         <p className="text-sm font-semibold text-teal-500 mb-2">
                           <a href={news.link} target="_blank" rel="noopener noreferrer" className="hover:underline">
