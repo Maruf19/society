@@ -78,8 +78,8 @@ const TestimonialSlider = () => {
             <div className="flex flex-col items-center h-full">
               <img
                 src={img}
-                alt="#"
-                className="w-20 h-20 rounded-full border-2 border-teal-500 mb-3"
+                alt="Student"
+                className="w-20 h-20 rounded-full border-2 border-teal-500 mb-3 object-cover"
               />
               <h3 className="text-md md:text-md lg:text-md font-semibold text-gray-800 text-center">
                 {testimonials[currentIndex].name}
