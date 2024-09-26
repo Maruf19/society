@@ -49,7 +49,7 @@ function Navbar() {
                 Feature
               </Link>
               <Link to="/activities" className="block mt-2 lg:mt-0 text-white hover:bg-blue-500 px-2 py-1 rounded transition duration-300 ease-in-out mx-1">
-                Activities
+                NewsLetter
               </Link>
               <Link to="/contact" className="block mt-2 lg:mt-0 text-white hover:bg-blue-500 px-2 py-1 rounded transition duration-300 ease-in-out mx-1">
                 Contact us

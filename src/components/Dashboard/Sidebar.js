@@ -25,6 +25,13 @@ const Sidebar = () => {
           About
         </Link>
         <Link
+          to="/missionvisionpage"
+          className="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700"
+        >
+          Mission And Vision
+        </Link>
+
+        <Link
           to="/schedulepage"
           className="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700"
         >

@@ -135,7 +135,6 @@
       <table className="min-w-full border border-gray-300 text-center">
         <thead>
           <tr className="bg-gray-200">
-            <th className="border border-gray-300 p-2">ID</th>
             <th className="border border-gray-300 p-2">Title</th>
             <th className="border border-gray-300 p-2">Description</th>
             <th className="border border-gray-300 p-2">Actions</th>
@@ -144,7 +143,6 @@
         <tbody>
           {data.map(item => (
             <tr key={item.id} className="hover:bg-gray-100">
-              <td className="border border-gray-300 p-2">{item.id}</td>
               <td className="border border-gray-300 p-2">{item.title}</td>
               <td className="border border-gray-300 p-2">{item.description}</td>
               <td className="border border-gray-300 p-2 flex justify-center space-x-2">
@@ -156,7 +154,7 @@
                 </button>
                 <button
                   className="p-2 text-black"
-                  onClick={() => handleDelete(item.id)}
+                  onClick={() => handleDelete(item._id)}
                 >
                   <FaTrash />
                 </button>

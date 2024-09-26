@@ -1,241 +1,202 @@
-import { useState, useEffect } from 'react';
-import { FaEdit, FaTrash } from 'react-icons/fa'; // Importing icons from react-icons
+import React, { useState, useEffect } from 'react'; 
+import Header from '../Dashboard/header';
+import { FaArrowLeft, FaEdit, FaTrash, FaCheck } from 'react-icons/fa'; 
+import { Link } from 'react-router-dom';
 
-const ActiveSeason = () => {
-  const [formData, setFormData] = useState({
-    facebookEmbedLink: '',
-    facebookDescription: '',
-    youtubeEmbedLink: '',
-    youtubeDescription: '',
-    newsLink: '',
-    newsDescription: '',
-  });
+const ActivityPage = () => {
+  const [link, setLink] = useState('');
+  const [description, setDescription] = useState('');
+  const [title, setTitle] = useState(''); // New state for title
+  const [data, setData] = useState([]);
+  const [editingId, setEditingId] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  const [activeForm, setActiveForm] = useState('facebook'); // Set the default active form
-
-  const [entries, setEntries] = useState({
-    facebook: [],
-    youtube: [],
-    news: [],
-  });
-
-  // Fetch data from the APIs
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const facebookResponse = await fetch('http://localhost:5000/facebook');
-        const youtubeResponse = await fetch('http://localhost:5000/youtube');
-        const newsResponse = await fetch('http://localhost:5000/news');
-
-        const facebookData = await facebookResponse.json();
-        const youtubeData = await youtubeResponse.json();
-        const newsData = await newsResponse.json();
-
-        // Update entries with fetched data
-        setEntries({
-          facebook: facebookData.map(entry => ({
-            embedLink: entry.embedLink,
-            description: entry.description,
-          })),
-          youtube: youtubeData.map(entry => ({
-            embedLink: entry.embedLink,
-            description: entry.description,
-          })),
-          news: newsData.map(entry => ({
-            link: entry.link,
-            description: entry.description,
-          })),
-        });
-      } catch (error) {
-        console.error('Error fetching data:', error);
+  const fetchData = async () => {
+    setLoading(true);
+    try {
+      const response = await fetch('http://localhost:5000/news');
+      if (!response.ok) {
+        throw new Error('Failed to fetch data');
       }
-    };
-
-    fetchData();
-  }, []); // Empty dependency array means this runs once on mount
-
-  const handleInputChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  };
-
-  const handleSubmit = (e, platform) => {
-    e.preventDefault();
-
-    // Create an entry structure based on the platform
-    let newEntry;
-    if (platform === 'news') {
-      newEntry = {
-        link: formData.newsLink,
-        description: formData.newsDescription,
-      };
-    } else {
-      newEntry = {
-        embedLink: formData[`${platform}EmbedLink`],
-        description: formData[`${platform}Description`],
-      };
+      const result = await response.json();
+      setData(result);
+    } catch (error) {
+      setError('Error fetching data. Please try again later.');
+    } finally {
+      setLoading(false);
     }
-
-    setEntries((prev) => ({
-      ...prev,
-      [platform]: [...prev[platform], newEntry],
-    }));
-
-    // Reset the form data after submission
-    setFormData({
-      facebookEmbedLink: '',
-      facebookDescription: '',
-      youtubeEmbedLink: '',
-      youtubeDescription: '',
-      newsLink: '',
-      newsDescription: '',
-    });
   };
 
-  const toggleFormVisibility = (platform) => {
-    setActiveForm(platform); // Set the active form to the selected platform
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const payload = { title, link, description }; // Include title in the payload
+
+    try {
+      const url = editingId ? `http://localhost:5000/news/${editingId}` : 'http://localhost:5000/news';
+      const method = editingId ? 'PUT' : 'POST';
+
+      const response = await fetch(url, {
+        method,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (response.ok) {
+        alert(editingId ? 'Data successfully updated' : 'Data successfully uploaded');
+        setLink('');
+        setDescription('');
+        setTitle(''); // Reset title after submission
+        setEditingId(null);
+        fetchData();  // Refresh data after submission
+      } else {
+        alert('Failed to upload/update data');
+      }
+    } catch (error) {
+      console.error('Error during upload/update:', error);
+    }
   };
 
-  // Dummy handlers for edit and delete
-  const handleEdit = (entry) => {
-    console.log("Edit entry:", entry);
+  const handleDelete = async (id) => {
+    if (window.confirm('Are you sure you want to delete this item?')) {
+      try {
+        const response = await fetch(`http://localhost:5000/news/${id}`, {
+          method: 'DELETE',
+        });
+  
+        if (response.ok) {
+          alert('Data successfully deleted');
+          fetchData();  // Fetch updated data after deletion
+        } else {
+          const errorMessage = await response.text();
+          alert(`Failed to delete data: ${errorMessage}`);
+        }
+      } catch (error) {
+        console.error('Error during deletion:', error);
+        alert(`Error during deletion: ${error.message}`);
+      }
+    }
   };
 
-  const handleDelete = (entry) => {
-    console.log("Delete entry:", entry);
+  const handleEdit = (item) => {
+    setLink(item.link);
+    setDescription(item.description);
+    setTitle(item.title); // Set title for editing
+    setEditingId(item._id);  // Use _id for editing
+    document.getElementById('form-container').scrollIntoView({ behavior: 'smooth' });
   };
+
+  useEffect(() => {
+    fetchData();  // Fetch data when component mounts
+  }, []);
 
   return (
-    <div className="container mx-auto p-6 max-w-4xl">
-      <h2 className="text-4xl font-bold text-center text-gray-800 mb-8">Active Season</h2>
+    <>
+      <Header />
+      <div className="flex items-center justify-between p-4">
+        <Link to="/dashboard" className="flex items-center text-gray-700">
+          <FaArrowLeft className="mr-2" />
+          Back
+        </Link>
+      </div>
+      <div className="flex items-center justify-center min-h-screen">
+        <div id="form-container" className="bg-white border border-black rounded-lg shadow-lg px-8 py-2 w-96 max-w-full">
+          <h1 className="text-2xl font-semibold text-center mb-2">Home</h1>
+          <form onSubmit={handleSubmit}>
+            <div className="mb-4">
+              <label htmlFor="title" className="block text-gray-700 font-bold mb-2">Title</label> {/* New title label */}
+              <input
+                type="text"
+                id="title"
+                value={title} // Bind title state
+                onChange={(e) => setTitle(e.target.value)} // Update title state
+                placeholder="Enter a title"
+                required
+                className="w-full px-3 py-2 border border-black rounded-md focus:outline-none"
+              />
+            </div>
 
-      {/* Filter Buttons */}
-      <div className="flex flex-wrap justify-center space-x-4 mb-6">
-        {['facebook', 'youtube', 'news'].map((platform) => (
-          <button
-            key={platform}
-            className={`py-2 px-4 sm:px-6 text-white rounded-md transition duration-300 ${activeForm === platform ? 'bg-indigo-600' : 'bg-gray-400 hover:bg-gray-500'}`}
-            onClick={() => toggleFormVisibility(platform)}
-          >
-            {`${platform.charAt(0).toUpperCase() + platform.slice(1)} Form`}
-          </button>
-        ))}
+            <div className="mb-4">
+              <label htmlFor="link" className="block text-gray-700 font-bold mb-2">Link</label>
+              <input
+                type="text"
+                id="link"
+                value={link}
+                onChange={(e) => setLink(e.target.value)}
+                placeholder="Enter a link"
+                required
+                className="w-full px-3 py-2 border border-black rounded-md focus:outline-none"
+              />
+            </div>
+
+            <div className="mb-4">
+              <label htmlFor="description" className="block text-gray-700 font-bold mb-2">Description</label>
+              <textarea
+                id="description"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                placeholder="Enter the description"
+                required
+                rows="6"
+                className="w-full px-3 py-2 border border-black rounded-md focus:outline-none"
+              ></textarea>
+            </div>
+
+            <button
+              type="submit"
+              className="w-full py-2 bg-pink-500 text-white font-bold rounded-md hover:bg-pink-400 transition duration-200"
+            >
+              {editingId ? 'Update' : 'Upload'} <FaCheck className="inline ml-2" />
+            </button>
+          </form>
+        </div>
       </div>
 
-      {/* Form and Data Tables */}
-      {['facebook', 'youtube', 'news'].map((platform) => (
-        activeForm === platform && (
-          <div key={platform} className="bg-white shadow-lg rounded-lg p-6 mb-8">
-            <h3 className="text-2xl font-semibold text-gray-700 mb-4">{platform.charAt(0).toUpperCase() + platform.slice(1)}</h3>
-            <form onSubmit={(e) => handleSubmit(e, platform)} className="space-y-4">
-              {platform !== 'news' ? (
-                <>
-                  <label className="block text-gray-600 mb-2">{`${platform.charAt(0).toUpperCase() + platform.slice(1)} Embed Link`}</label>
-                  <input
-                    type="url"
-                    name={`${platform}EmbedLink`}
-                    value={formData[`${platform}EmbedLink`]}
-                    onChange={handleInputChange}
-                    placeholder={`Enter ${platform} embed link`}
-                    className="w-full p-3 border border-gray-300 rounded-md"
-                  />
-                  <label className="block text-gray-600">{`${platform.charAt(0).toUpperCase() + platform.slice(1)} Description`}</label>
-                  <textarea
-                    name={`${platform}Description`}
-                    value={formData[`${platform}Description`] || ''}
-                    onChange={handleInputChange}
-                    placeholder="Enter a description"
-                    className="w-full p-3 border border-gray-300 rounded-md"
-                  />
-                </>
-              ) : (
-                <>
-                  <label className="block text-gray-600 mb-2">News Link</label>
-                  <input
-                    type="url"
-                    name="newsLink"
-                    value={formData.newsLink}
-                    onChange={handleInputChange}
-                    placeholder="Enter news link"
-                    className="w-full p-3 border border-gray-300 rounded-md"
-                  />
-                  <label className="block text-gray-600">{`News Description`}</label>
-                  <textarea
-                    name="newsDescription"
-                    value={formData.newsDescription || ''}
-                    onChange={handleInputChange}
-                    placeholder="Enter a description"
-                    className="w-full p-3 border border-gray-300 rounded-md"
-                  />
-                </>
-              )}
-              <button type="submit" className="w-full py-2 px-4 bg-indigo-600 text-white rounded-md mt-4 hover:bg-indigo-700 transition duration-300">Submit</button>
-            </form>
+      {/* Loading and Error Messages */}
+      {loading && <div className="text-center py-6">Loading...</div>}
+      {error && <div className="text-center text-red-500 py-6">{error}</div>}
 
-            {/* Data Table */}
-            <h4 className="text-lg font-semibold text-gray-700 mt-6 mb-4">{`${platform.charAt(0).toUpperCase() + platform.slice(1)} Data Table`}</h4>
-            <div className="overflow-x-auto">
-              <div className="bg-white border border-gray-300 rounded-md shadow-md">
-                {/* Header */}
-                <div className="flex bg-gray-100 font-semibold">
-                  <div className="flex-1 py-2 px-4 border-b">Link</div>
-                  <div className="flex-1 py-2 px-4 border-b">Description</div>
-                  <div className="py-2 px-4 border-b">Actions</div> {/* Actions Column */}
-                </div>
-
-                {/* Body */}
-                <div>
-                  {entries[platform].map((entry, index) => (
-                    <div key={index} className="flex hover:bg-gray-50">
-                      {/* Link Column */}
-                      <div className="flex-1 py-2 px-4 border-b overflow-hidden">
-                        {platform === 'news' ? (
-                          <a
-                            href={entry.link}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-blue-600 underline overflow-hidden whitespace-nowrap overflow-ellipsis"
-                            title={entry.link} // Show full link on hover
-                          >
-                            {entry.link}
-                          </a>
-                        ) : (
-                          <div dangerouslySetInnerHTML={{ __html: entry.embedLink }} className="overflow-hidden whitespace-nowrap overflow-ellipsis" />
-                        )}
-                      </div>
-                      {/* Description Column */}
-                      <div className="flex-1 py-2 px-4 border-b overflow-hidden">
-                        <div className="overflow-hidden whitespace-nowrap overflow-ellipsis">{entry.description}</div>
-                      </div>
-                      {/* Actions Column */}
-                      <div className="py-2 px-4 border-b flex items-center">
-                        <button
-                          onClick={() => handleEdit(entry)} // Your edit function
-                          className="text-black hover:text-blue-600 transition duration-200"
-                          aria-label="Edit"
-                        >
-                          <FaEdit className="mr-2" />
-                        </button>
-                        <button
-                          onClick={() => handleDelete(entry)} // Your delete function
-                          className="text-black hover:text-red-600 transition duration-200"
-                          aria-label="Delete"
-                        >
-                          <FaTrash />
-                        </button>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-        )
-      ))}
-    </div>
+      {/* Data Table */}
+      <div className="p-4">
+        <h2 className="text-xl font-semibold mb-2">Data Table</h2>
+        <table className="min-w-full border border-gray-300 text-center">
+          <thead>
+            <tr className="bg-gray-200">
+              <th className="border border-gray-300 p-2">Title</th>
+              <th className="border border-gray-300 p-2">Link</th>
+              <th className="border border-gray-300 p-2">Description</th>
+              <th className="border border-gray-300 p-2">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {data.map(item => (
+              <tr key={item._id} className="hover:bg-gray-100">
+                <td className="border border-gray-300 p-2">{item.title}</td>
+                <td className="border border-gray-300 p-2">{item.link}</td>
+                <td className="border border-gray-300 p-2">{item.description}</td>
+                <td className="border border-gray-300 p-2 flex justify-center space-x-2">
+                  <button
+                    className="p-2 text-black"
+                    onClick={() => handleEdit(item)}
+                  >
+                    <FaEdit />
+                  </button>
+                  <button
+                    className="p-2 text-black"
+                    onClick={() => handleDelete(item._id)}
+                  >
+                    <FaTrash />
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </>
   );
-};
+}
 
-export default ActiveSeason;
+export default ActivityPage;

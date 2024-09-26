@@ -30,6 +30,7 @@ import ActivityPage from './components/Dashboard/ActivityPage'
 import ContactPage from './components/Dashboard/ContactPage'
 import ContactInfo from './components/Dashboard/ContactInfo'
 import ReviewPage from './components/Dashboard/ReviewPage'
+import MissionVision from './components/Dashboard/MissionVision'
 
 
 function App() {
@@ -58,6 +59,7 @@ function App() {
        <Route path='Dashboard' element={ < Dashboard />} />
        <Route path='homePage' element={ < HomePage />} />
        <Route path='aboutPage' element={ < AboutPage />} />
+       <Route path='missionvisionPage' element={ < MissionVision />} />
        <Route path='schedulePage' element={ < SchedulePage />} />
        <Route path='featurePage' element={ < FeaturePage />} />
        <Route path='programmePage' element={ < ProgrammePage />} />
