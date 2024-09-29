@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 
 const Dashboard = () => {
-  const [title, setTitle] = useState('Welcome to Our Amazing Website');
-  const [description, setDescription] = useState(
+  const [title] = useState('Welcome to Our Amazing Website');
+  const [description] = useState(
     'This is the default home page description. You can update this section using the admin panel below.'
   );
 

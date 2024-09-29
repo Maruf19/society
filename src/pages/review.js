@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Navbar from '../components/Navbar';
 
 const ReviewSection = () => {
+  
   const [name, setName] = useState('');
   const [batch, setBatch] = useState('');
   const [testimonial, setTestimonial] = useState('');
@@ -151,7 +152,9 @@ const ReviewSection = () => {
         )}
       </div>
     </>
+   
   );
+  
 };
 
 export default ReviewSection;

@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [isSideScreenOpen, setIsSideScreenOpen] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false); // For login/logout state management
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -13,13 +14,21 @@ function Navbar() {
     setIsSideScreenOpen(!isSideScreenOpen);
   };
 
+  const handleLogin = () => {
+    setIsAuthenticated(true); // Simulating login
+  };
+
+  const handleLogout = () => {
+    setIsAuthenticated(false); // Simulating logout
+  };
+
   return (
     <>
       <nav className="fixed top-0 left-0 right-0 py-1 px-4 z-50 bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 shadow-lg">
         <div className="flex items-center justify-between flex-wrap">
           <div className="flex items-center flex-shrink-0 text-white mr-6">
             <svg className="fill-current h-6 w-6 mr-2 text-white" width="36" height="36" viewBox="0 0 54 54" xmlns="http://www.w3.org/2000/svg">
-              <path d="M13.5 22.1c1.8-7.2 6.3-10.8 13.5-10.8 10.8 0 12.15 8.1 17.55 9.45 3.6.9 6.75-.45 9.45-4.05-1.8 7.2-6.3 10.8-13.5 10.8-10.8 0-12.15-8.1-17.55-9.45-3.6-.9-6.75.45-9.45 4.05zM0 38.3c1.8-7.2 6.3-10.8 13.5-10.8 10.8 0 12.15 8.1 17.55 9.45 3.6.9 6.75-.45 9.45-4.05-1.8 7.2-6.3 10.8-13.5 10.8-10.8 0-12.15-8.1-17.55-9.45-3.6-.9-6.75.45-9.45 4.05z"/>
+              <path d="M13.5 22.1c1.8-7.2 6.3-10.8 13.5-10.8 10.8 0 12.15 8.1 17.55 9.45 3.6.9 6.75-.45 9.45-4.05-1.8 7.2-6.3 10.8-13.5 10.8-10.8 0-12.15-8.1-17.55-9.45-3.6-.9-6.75.45-9.45 4.05zM0 38.3c1.8-7.2 6.3-10.8 13.5-10.8 10.8 0 12.15 8.1 17.55 9.45 3.6.9 6.75-.45 9.45-4.05-1.8 7.2-6.3 10.8-13.5 10.8-10.8 0-12.15-8.1-17.55-9.45-3.6-.9-6.75.45-9.45 4.05z" />
             </svg>
             <span className="font-semibold text-xl tracking-tight">MU CSE Society</span>
           </div>
@@ -30,7 +39,7 @@ function Navbar() {
             >
               <svg className="fill-current h-4 w-4" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                 <title>Menu</title>
-                <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z"/>
+                <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z" />
               </svg>
             </button>
           </div>
@@ -56,15 +65,31 @@ function Navbar() {
               </Link>
             </div>
             <div className="flex justify-center lg:justify-end mt-2 lg:mt-0 space-x-3">
-              <Link
-                to="/login"
-                className="inline-flex items-center justify-center text-sm px-4 py-1 leading-none border rounded-lg text-white bg-gradient-to-r from-yellow-400 to-yellow-600 hover:from-yellow-500 hover:to-yellow-700 shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out transform hover:scale-105"
-              >
-                Login
-              </Link>
+              {!isAuthenticated ? (
+                // Login button shown when user is not logged in
+                <Link
+                  to="/login"
+                  onClick={handleLogin} // Handling login
+                  className="inline-flex items-center justify-center text-sm px-4 py-1 leading-none border rounded-lg text-white bg-gradient-to-r from-yellow-400 to-yellow-600 hover:from-yellow-500 hover:to-yellow-700 shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out transform hover:scale-105"
+                >
+                  Login
+                </Link>
+              ) : null}
+
+              {isAuthenticated && (
+                // Logout button shown when user is logged in
+                <button
+                  onClick={handleLogout} // Handling logout
+                  className="inline-flex items-center justify-center text-sm px-4 py-1 leading-none border rounded-lg text-white bg-gradient-to-r from-red-400 to-red-600 hover:from-red-500 hover:to-red-700 shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out transform hover:scale-105"
+                >
+                  Logout
+                </button>
+              )}
+
               <button
                 onClick={toggleSideScreen}
-                className="inline-flex items-center justify-center text-xs px-4 py-1 leading-none border rounded-lg text-white bg-gradient-to-r from-teal-400 to-teal-600 hover:from-teal-500 hover:to-teal-700 shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out transform hover:scale-105">
+                className="inline-flex items-center justify-center text-xs px-4 py-1 leading-none border rounded-lg text-white bg-gradient-to-r from-teal-400 to-teal-600 hover:from-teal-500 hover:to-teal-700 shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out transform hover:scale-105"
+              >
                 Dev Speech
               </button>
             </div>
