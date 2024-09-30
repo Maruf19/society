@@ -1,16 +1,26 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
+import { registerUser } from "../Firbase/authFunctions";
+import PasswordReset from '../pages/PasswordReset';
 
-function Login() {
+const Login = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [showForgotPassword, setShowForgotPassword] = useState(false);
 
-  const handleForgotPassword = (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
-    setShowForgotPassword(true);
+    try {
+      await registerUser(email, password);
+      // Redirect or perform actions after registration
+    } catch (error) {
+      setError(error.message);
+    }
   };
 
-  const handleCloseModal = () => {
-    setShowForgotPassword(false);
+  const handleForgotPassword = () => {
+    setShowForgotPassword(true);
   };
 
   return (
@@ -18,24 +28,28 @@ function Login() {
       {!showForgotPassword ? (
         <div className="bg-white bg-opacity-10 p-8 rounded-lg shadow-lg backdrop-blur-md w-full max-w-md border border-teal-500">
           <h2 className="text-3xl font-semibold text-center text-black mb-6">Login</h2>
-          <form className="space-y-4">
+          <form className="space-y-4" onSubmit={handleRegister}>
             {/* Email Input */}
             <div className="relative">
               <input 
                 type="email" 
                 placeholder="Email ID" 
                 className="w-full px-4 py-2 text-black placeholder-gray-500 bg-transparent border border-teal-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400"
-                aria-label="Email ID"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
               />
             </div>
 
-            {/* Password Input with Improved Eye Icon */}
+            {/* Password Input with Eye Icon */}
             <div className="relative">
               <input 
                 type={showPassword ? 'text' : 'password'} 
                 placeholder="Password" 
                 className="w-full px-4 py-2 text-black placeholder-gray-500 bg-transparent border border-teal-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400"
-                aria-label="Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
               />
               <span 
                 className="absolute inset-y-0 right-4 flex items-center text-gray-500 cursor-pointer transition-transform transform hover:scale-110"
@@ -53,65 +67,39 @@ function Login() {
               </span>
             </div>
 
+            {/* Error Message */}
+            {error && <p className="text-red-500 text-sm">{error}</p>}
+
             {/* Remember Me and Forgot Password */}
             <div className="flex items-center justify-between text-black text-sm">
               <label className="flex items-center">
-                <input 
-                  type="checkbox" 
-                  className="form-checkbox h-4 w-4 text-indigo-400" 
-                />
-                <span className="ml-2">Remember me</span>
+                {/* <span className="ml-2">Remember me</span> */}
               </label>
-              <a href="#" className="hover:underline" onClick={handleForgotPassword}>Forgot Password?</a>
+              <button 
+                type="button" 
+                className="hover:underline text-blue-600"
+                onClick={handleForgotPassword}
+              >
+                Forgot Password?
+              </button>
             </div>
 
-            {/* Login Button */}
+            {/* Register Button */}
             <button className="w-full bg-indigo-500 hover:bg-indigo-600 text-white font-semibold py-2 px-4 rounded-lg transition duration-300">
               Login
             </button>
 
-            {/* Register Link */}
+            {/* Sign Up Link */}
             <p className="text-center text-black text-sm">
               Don't have an account? <a href="/SignUp" className="underline">SignUp</a>
             </p>
-
-            {/* Google Login Button */}
-            <button 
-              className="w-full bg-white border border-gray-300 rounded-lg flex items-center justify-center py-2 px-4 text-gray-700 font-semibold hover:bg-gray-100 transition duration-300 mt-4"
-              onClick={() => console.log('Google Login Clicked')}
-            >
-              <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" alt="Google logo" className="w-6 h-6 mr-2" />
-              <span>Sign in with Google</span>
-            </button>
           </form>
         </div>
       ) : (
-        <div className="fixed inset-0 flex items-center justify-center ">
-          <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md border border-teal-500">
-            <h3 className="text-lg font-semibold mb-4">Forgot Password</h3>
-            <form>
-              <div className="mb-4">
-                <label htmlFor="reset-email" className="block text-sm font-medium text-gray-700">Email Address</label>
-                <input 
-                  type="email" 
-                  id="reset-email" 
-                  placeholder="Enter your email" 
-                  className="w-full px-4 py-2 border border-teal-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400"
-                />
-              </div>
-              <button 
-                type="submit" 
-                className="w-full bg-indigo-500 hover:bg-indigo-600 text-white font-semibold py-2 px-4 rounded-lg transition duration-300"
-              >
-                Send Reset Link
-              </button>
-              
-            </form>
-          </div>
-        </div>
+        <PasswordReset />
       )}
     </div>
   );
-}
+};
 
 export default Login;

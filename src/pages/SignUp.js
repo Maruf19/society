@@ -1,31 +1,58 @@
-
-
-import React, { useState } from 'react';
+// SignUp.js
+import React, { useState, useEffect } from 'react';
+import { getAuth, createUserWithEmailAndPassword, sendEmailVerification, onAuthStateChanged } from "firebase/auth";
+import { useNavigate } from 'react-router-dom';
 
 const SignUp = () => {
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [passwordMatch, setPasswordMatch] = useState(true);
     const [formSubmitted, setFormSubmitted] = useState(false);
+    const auth = getAuth();
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, (user) => {
+            if (user && formSubmitted) {
+                console.log("User is authenticated:", user);
+                navigate('/home'); // Redirect to the home page or dashboard
+            }
+        });
+
+        return () => unsubscribe();
+    }, [auth, formSubmitted, navigate]);
 
     const handlePasswordChange = (e) => {
-        setPassword(e.target.value);
-        checkPasswordMatch(e.target.value, confirmPassword);
+        const newPassword = e.target.value;
+        setPassword(newPassword);
+        checkPasswordMatch(newPassword, confirmPassword);
     };
 
     const handleConfirmPasswordChange = (e) => {
-        setConfirmPassword(e.target.value);
-        checkPasswordMatch(password, e.target.value);
+        const newConfirmPassword = e.target.value;
+        setConfirmPassword(newConfirmPassword);
+        checkPasswordMatch(password, newConfirmPassword);
     };
 
     const checkPasswordMatch = (password, confirmPassword) => {
         setPasswordMatch(password === confirmPassword || confirmPassword === '');
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        // Simulate form submission and show the verification message
-        setFormSubmitted(true);
+        
+        if (passwordMatch && password && email) {
+            try {
+                const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+                console.log("User registered:", userCredential.user);
+                await sendEmailVerification(userCredential.user);
+                console.log("Verification email sent.");
+                setFormSubmitted(true);
+            } catch (error) {
+                console.error("Error registering user:", error);
+            }
+        }
     };
 
     return (
@@ -40,7 +67,6 @@ const SignUp = () => {
                             <input
                                 type="text"
                                 id="name"
-                                name="name"
                                 className="mt-1 block w-full px-3 py-2 border border-teal-500 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 sm:text-sm"
                                 required
                             />
@@ -50,7 +76,8 @@ const SignUp = () => {
                             <input
                                 type="email"
                                 id="email"
-                                name="email"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
                                 className="mt-1 block w-full px-3 py-2 border border-teal-500 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 sm:text-sm"
                                 required
                             />
@@ -60,7 +87,6 @@ const SignUp = () => {
                             <input
                                 type="text"
                                 id="student-id"
-                                name="student-id"
                                 className="mt-1 block w-full px-3 py-2 border border-teal-500 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 sm:text-sm"
                                 required
                             />
@@ -70,7 +96,6 @@ const SignUp = () => {
                             <input
                                 type="password"
                                 id="password"
-                                name="password"
                                 className="mt-1 block w-full px-3 py-2 border border-teal-500 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 sm:text-sm"
                                 value={password}
                                 onChange={handlePasswordChange}
@@ -82,7 +107,6 @@ const SignUp = () => {
                             <input
                                 type="password"
                                 id="confirm-password"
-                                name="confirm-password"
                                 className={`mt-1 block w-full px-3 py-2 border ${passwordMatch ? 'border-teal-500' : 'border-red-500'} rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 sm:text-sm`}
                                 value={confirmPassword}
                                 onChange={handleConfirmPasswordChange}
@@ -96,7 +120,6 @@ const SignUp = () => {
                             <input
                                 type="checkbox"
                                 id="terms"
-                                name="terms"
                                 className="h-4 w-4 text-teal-600 border-gray-300 rounded focus:ring-teal-500"
                                 required
                             />
@@ -113,7 +136,7 @@ const SignUp = () => {
                         </button>
                         <p className="mt-4 text-center text-sm text-gray-600">
                             Already have an account?{' '}
-                            <a href="Login" className="text-teal-600 hover:underline">Log In</a>
+                            <a href="/login" className="text-teal-600 hover:underline">Log In</a>
                         </p>
                     </form>
                 ) : (

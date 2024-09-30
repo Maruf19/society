@@ -14,6 +14,7 @@ import Review from './pages/review'
 import Login from './pages/Login'
 import SignUp from './pages/SignUp'
 import ForgotPassword from './pages/ForgotPassword'
+import PasswordReset from './pages/PasswordReset'
 //Dashboard Import
 import Header from './components/Dashboard/header'
 import Sidebar from './components/Dashboard/Sidebar'
@@ -69,6 +70,8 @@ function App() {
        <Route path='contactPage' element={ < ContactPage />} />
        <Route path='contactInfo' element={ < ContactInfo />} />
        <Route path='reviewPage' element={ < ReviewPage />} />
+       <Route path='passwordReset' element={ < PasswordReset />} />
+  
   
 
     </Routes>
