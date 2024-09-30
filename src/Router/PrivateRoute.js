@@ -1,9 +1,14 @@
-// src/components/PrivateRoute.js
 import React from 'react';
-import { Navigate } from 'react-router-dom';
+import { Navigate, useLocation } from 'react-router-dom';
 
 const PrivateRoute = ({ element, isAuthenticated }) => {
-  return isAuthenticated ? element : <Navigate to="/Login" />;
+  const location = useLocation();
+
+  return isAuthenticated ? (
+    element
+  ) : (
+    <Navigate to="/Login" state={{ from: location }} replace />
+  );
 };
 
 export default PrivateRoute;

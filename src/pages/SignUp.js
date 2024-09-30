@@ -1,24 +1,12 @@
-import React, { useState, useContext } from 'react';
-import { AuthContext } from '../components/context/AuthProvider'; // Adjust the path according to your folder structure
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
+
+
+import React, { useState } from 'react';
 
 const SignUp = () => {
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [passwordMatch, setPasswordMatch] = useState(true);
     const [formSubmitted, setFormSubmitted] = useState(false);
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(null);
-
-    const { createUser, verifyEmail } = useContext(AuthContext); // Access the createUser function
-
-    const [formValues, setFormValues] = useState({
-        name: '',
-        email: '',
-        studentId: '',
-    });
-
-    const navigate = useNavigate(); // Initialize useNavigate
 
     const handlePasswordChange = (e) => {
         setPassword(e.target.value);
@@ -34,36 +22,10 @@ const SignUp = () => {
         setPasswordMatch(password === confirmPassword || confirmPassword === '');
     };
 
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormValues((prevValues) => ({
-            ...prevValues,
-            [name]: value,
-        }));
-    };
-
-    const handleSubmit = async (e) => {
+    const handleSubmit = (e) => {
         e.preventDefault();
-        if (!passwordMatch) {
-            setError("Passwords do not match");
-            return;
-        }
-
-        try {
-            setLoading(true);
-            setError(null);
-            const userCredential = await createUser(formValues.email, password);
-            await verifyEmail();
-            setFormSubmitted(true); // Show the email verification message
-            
-            // Redirect to the login page after successful sign up
-            setTimeout(() => {
-                navigate('/login'); // Change '/login' to the actual path of your login page
-            }, 2000); // Optional: Delay before redirecting (e.g., 2 seconds)
-        } catch (error) {
-            setError(error.message);
-            setLoading(false);
-        }
+        // Simulate form submission and show the verification message
+        setFormSubmitted(true);
     };
 
     return (
@@ -79,8 +41,6 @@ const SignUp = () => {
                                 type="text"
                                 id="name"
                                 name="name"
-                                value={formValues.name}
-                                onChange={handleChange}
                                 className="mt-1 block w-full px-3 py-2 border border-teal-500 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 sm:text-sm"
                                 required
                             />
@@ -91,8 +51,6 @@ const SignUp = () => {
                                 type="email"
                                 id="email"
                                 name="email"
-                                value={formValues.email}
-                                onChange={handleChange}
                                 className="mt-1 block w-full px-3 py-2 border border-teal-500 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 sm:text-sm"
                                 required
                             />
@@ -102,9 +60,7 @@ const SignUp = () => {
                             <input
                                 type="text"
                                 id="student-id"
-                                name="studentId"
-                                value={formValues.studentId}
-                                onChange={handleChange}
+                                name="student-id"
                                 className="mt-1 block w-full px-3 py-2 border border-teal-500 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 sm:text-sm"
                                 required
                             />
@@ -136,7 +92,6 @@ const SignUp = () => {
                                 <p className="text-red-500 text-sm mt-1">Passwords do not match</p>
                             )}
                         </div>
-                        {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
                         <div className="mb-4 flex items-center">
                             <input
                                 type="checkbox"
@@ -153,9 +108,8 @@ const SignUp = () => {
                         <button
                             type="submit"
                             className="w-full bg-teal-600 text-white py-2 px-4 rounded-md shadow-sm hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2"
-                            disabled={loading}
                         >
-                            {loading ? 'Signing Up...' : 'Sign Up'}
+                            Sign Up
                         </button>
                         <p className="mt-4 text-center text-sm text-gray-600">
                             Already have an account?{' '}

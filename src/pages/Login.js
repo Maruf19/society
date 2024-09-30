@@ -1,36 +1,11 @@
-import React, { useContext, useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import { AuthContext } from "../components/context/AuthProvider";
-import { useForm } from "react-hook-form";
+import React, { useState } from 'react';
 
-const Login = () => {
-  const { signIn } = useContext(AuthContext);
+function Login() {
   const [showPassword, setShowPassword] = useState(false);
-  const [loading, setLoading] = useState(false);
   const [showForgotPassword, setShowForgotPassword] = useState(false);
-  const [alertMessage, setAlertMessage] = useState("");
-  const { register, handleSubmit } = useForm();
 
-  const location = useLocation();
-  const navigate = useNavigate();
-
-  const from = location.state?.from?.pathname || "/home";
-
-  const handleLogin = async (data) => {
-    setLoading(true);
-    try {
-      await signIn(data.email, data.password);
-      setAlertMessage("Successfully logged in!");
-      navigate(from, { replace: true });
-      window.location.reload(); // Refresh the home page after login
-    } catch (error) {
-      setAlertMessage(error.message);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleForgotPassword = () => {
+  const handleForgotPassword = (e) => {
+    e.preventDefault();
     setShowForgotPassword(true);
   };
 
@@ -38,46 +13,29 @@ const Login = () => {
     setShowForgotPassword(false);
   };
 
-  const handleResetPassword = async (event) => {
-    event.preventDefault();
-    const email = event.target.resetEmail.value;
-    // Implement reset password logic here
-    setShowForgotPassword(false);
-    alert("Reset link sent to " + email);
-  };
-
   return (
-    <div className="min-h-screen flex items-center justify-center relative">
-      {/* Alert Message */}
-      {alertMessage && (
-        <div className="absolute top-4 left-1/2 transform -translate-x-1/2 bg-indigo-600 text-white py-2 px-4 rounded-lg shadow-lg">
-          {alertMessage}
-        </div>
-      )}
-
+    <div className="min-h-screen flex items-center justify-center">
       {!showForgotPassword ? (
         <div className="bg-white bg-opacity-10 p-8 rounded-lg shadow-lg backdrop-blur-md w-full max-w-md border border-teal-500">
           <h2 className="text-3xl font-semibold text-center text-black mb-6">Login</h2>
-          <form className="space-y-4" onSubmit={handleSubmit(handleLogin)}>
+          <form className="space-y-4">
             {/* Email Input */}
             <div className="relative">
               <input 
                 type="email" 
-                {...register("email", { required: true })}
                 placeholder="Email ID" 
                 className="w-full px-4 py-2 text-black placeholder-gray-500 bg-transparent border border-teal-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400"
-                required 
+                aria-label="Email ID"
               />
             </div>
 
-            {/* Password Input */}
+            {/* Password Input with Improved Eye Icon */}
             <div className="relative">
               <input 
                 type={showPassword ? 'text' : 'password'} 
-                {...register("password", { required: true })}
                 placeholder="Password" 
                 className="w-full px-4 py-2 text-black placeholder-gray-500 bg-transparent border border-teal-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400"
-                required 
+                aria-label="Password"
               />
               <span 
                 className="absolute inset-y-0 right-4 flex items-center text-gray-500 cursor-pointer transition-transform transform hover:scale-110"
@@ -98,37 +56,47 @@ const Login = () => {
             {/* Remember Me and Forgot Password */}
             <div className="flex items-center justify-between text-black text-sm">
               <label className="flex items-center">
-                <input type="checkbox" className="form-checkbox h-4 w-4 text-indigo-400" />
+                <input 
+                  type="checkbox" 
+                  className="form-checkbox h-4 w-4 text-indigo-400" 
+                />
                 <span className="ml-2">Remember me</span>
               </label>
               <a href="#" className="hover:underline" onClick={handleForgotPassword}>Forgot Password?</a>
             </div>
 
             {/* Login Button */}
-            <button type="submit" className={`w-full bg-indigo-500 hover:bg-indigo-600 text-white font-semibold py-2 px-4 rounded-lg transition duration-300 ${loading ? 'opacity-50 cursor-not-allowed' : ''}`} disabled={loading}>
-              {loading ? 'Logging in...' : 'Login'}
+            <button className="w-full bg-indigo-500 hover:bg-indigo-600 text-white font-semibold py-2 px-4 rounded-lg transition duration-300">
+              Login
             </button>
 
             {/* Register Link */}
             <p className="text-center text-black text-sm">
-              Don't have an account? <Link to="/SignUp" className="underline">Sign Up</Link>
+              Don't have an account? <a href="/SignUp" className="underline">SignUp</a>
             </p>
+
+            {/* Google Login Button */}
+            <button 
+              className="w-full bg-white border border-gray-300 rounded-lg flex items-center justify-center py-2 px-4 text-gray-700 font-semibold hover:bg-gray-100 transition duration-300 mt-4"
+              onClick={() => console.log('Google Login Clicked')}
+            >
+              <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" alt="Google logo" className="w-6 h-6 mr-2" />
+              <span>Sign in with Google</span>
+            </button>
           </form>
         </div>
       ) : (
-        <div className="fixed inset-0 flex items-center justify-center" onClick={handleCloseModal}>
-          <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md border border-teal-500" onClick={(e) => e.stopPropagation()}>
+        <div className="fixed inset-0 flex items-center justify-center ">
+          <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md border border-teal-500">
             <h3 className="text-lg font-semibold mb-4">Forgot Password</h3>
-            <form onSubmit={handleResetPassword}>
+            <form>
               <div className="mb-4">
                 <label htmlFor="reset-email" className="block text-sm font-medium text-gray-700">Email Address</label>
                 <input 
                   type="email" 
                   id="reset-email" 
-                  name="reset-email"
                   placeholder="Enter your email" 
                   className="w-full px-4 py-2 border border-teal-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400"
-                  required 
                 />
               </div>
               <button 
@@ -137,12 +105,13 @@ const Login = () => {
               >
                 Send Reset Link
               </button>
+              
             </form>
           </div>
         </div>
       )}
     </div>
   );
-};
+}
 
 export default Login;
