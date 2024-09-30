@@ -1,26 +1,66 @@
-import React, { useState } from "react";
-import { registerUser } from "../Firbase/authFunctions";
-import PasswordReset from '../pages/PasswordReset';
+import React, { useState } from 'react';
+import { auth } from '../Firbase/firebase.config'; // Ensure this path is correct
+import { signInWithEmailAndPassword, sendPasswordResetEmail } from 'firebase/auth';
+import { useNavigate } from 'react-router-dom';
 
-const Login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+const loginUser = async (email, password) => {
+  try {
+    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+    console.log("User logged in:", userCredential.user);
+    return userCredential.user; // Return user info if needed
+  } catch (error) {
+    throw new Error(error.message); // Rethrow the error for handling in the component
+  }
+};
+
+function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const [showForgotPassword, setShowForgotPassword] = useState(false);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const [resetEmail, setResetEmail] = useState('');
+  const [loading, setLoading] = useState(false); // Loading state
+  const navigate = useNavigate(); // Initialize the navigate function
 
-  const handleRegister = async (e) => {
+  const handleForgotPassword = (e) => {
     e.preventDefault();
+    setShowForgotPassword(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowForgotPassword(false);
+  };
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    setError(''); // Clear previous errors
+    setLoading(true); // Start loading
+
     try {
-      await registerUser(email, password);
-      // Redirect or perform actions after registration
-    } catch (error) {
-      setError(error.message);
+      await loginUser(email, password); // Use the loginUser function
+      console.log("Login successful!");
+      navigate('/home'); // Navigate to the home page
+    } catch (err) {
+      console.error('Error logging in:', err);
+      setError(err.message || "Login failed!"); // Set the error message to display
+    } finally {
+      setLoading(false); // End loading
     }
   };
 
-  const handleForgotPassword = () => {
-    setShowForgotPassword(true);
+  const handleResetPassword = async (e) => {
+    e.preventDefault();
+    setError(''); // Clear previous errors
+
+    try {
+      await sendPasswordResetEmail(auth, resetEmail);
+      console.log('Password reset link sent to:', resetEmail);
+      handleCloseModal(); // Close the modal after sending the link
+    } catch (err) {
+      console.error('Error sending password reset email:', err);
+      setError(err.message || "Failed to send reset email."); // Set the error message to display
+    }
   };
 
   return (
@@ -28,7 +68,7 @@ const Login = () => {
       {!showForgotPassword ? (
         <div className="bg-white bg-opacity-10 p-8 rounded-lg shadow-lg backdrop-blur-md w-full max-w-md border border-teal-500">
           <h2 className="text-3xl font-semibold text-center text-black mb-6">Login</h2>
-          <form className="space-y-4" onSubmit={handleRegister}>
+          <form className="space-y-4" onSubmit={handleLogin}>
             {/* Email Input */}
             <div className="relative">
               <input 
@@ -41,7 +81,7 @@ const Login = () => {
               />
             </div>
 
-            {/* Password Input with Eye Icon */}
+            {/* Password Input */}
             <div className="relative">
               <input 
                 type={showPassword ? 'text' : 'password'} 
@@ -73,33 +113,68 @@ const Login = () => {
             {/* Remember Me and Forgot Password */}
             <div className="flex items-center justify-between text-black text-sm">
               <label className="flex items-center">
-                {/* <span className="ml-2">Remember me</span> */}
+                <input 
+                  type="checkbox" 
+                  className="form-checkbox h-4 w-4 text-indigo-400" 
+                />
+                <span className="ml-2">Remember me</span>
               </label>
-              <button 
-                type="button" 
-                className="hover:underline text-blue-600"
-                onClick={handleForgotPassword}
-              >
-                Forgot Password?
-              </button>
+              <a href="#" className="hover:underline" onClick={handleForgotPassword}>Forgot Password?</a>
             </div>
 
-            {/* Register Button */}
-            <button className="w-full bg-indigo-500 hover:bg-indigo-600 text-white font-semibold py-2 px-4 rounded-lg transition duration-300">
-              Login
+            {/* Login Button */}
+            <button 
+              type="submit"
+              disabled={loading} 
+              className={`w-full ${loading ? 'bg-gray-500' : 'bg-indigo-500 hover:bg-indigo-600'} text-white font-semibold py-2 px-4 rounded-lg transition duration-300`}
+            >
+              {loading ? 'Logging in...' : 'Login'}
             </button>
 
-            {/* Sign Up Link */}
+            {/* Register Link */}
             <p className="text-center text-black text-sm">
               Don't have an account? <a href="/SignUp" className="underline">SignUp</a>
             </p>
           </form>
         </div>
       ) : (
-        <PasswordReset />
+        <div className="fixed inset-0 flex items-center justify-center">
+          <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md border border-teal-500">
+            <h3 className="text-lg font-semibold mb-4">Forgot Password</h3>
+            <form onSubmit={handleResetPassword}>
+              <div className="mb-4">
+                <label htmlFor="reset-email" className="block text-sm font-medium text-gray-700">Email Address</label>
+                <input 
+                  type="email" 
+                  id="reset-email" 
+                  placeholder="Enter your email" 
+                  className="w-full px-4 py-2 border border-teal-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400"
+                  value={resetEmail}
+                  onChange={(e) => setResetEmail(e.target.value)}
+                  required
+                />
+              </div>
+              <button 
+                type="submit" 
+                disabled={loading} 
+                className={`w-full ${loading ? 'bg-gray-500' : 'bg-indigo-500 hover:bg-indigo-600'} text-white font-semibold py-2 px-4 rounded-lg transition duration-300`}
+              >
+                {loading ? 'Sending...' : 'Send Reset Link'}
+              </button>
+              <button 
+                type="button" 
+                onClick={handleCloseModal}
+                className="mt-2 text-indigo-600 hover:underline"
+              >
+                Cancel
+              </button>
+            </form>
+            {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
+          </div>
+        </div>
       )}
     </div>
   );
-};
+}
 
 export default Login;

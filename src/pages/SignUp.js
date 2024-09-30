@@ -1,4 +1,3 @@
-// SignUp.js
 import React, { useState, useEffect } from 'react';
 import { getAuth, createUserWithEmailAndPassword, sendEmailVerification, onAuthStateChanged } from "firebase/auth";
 import { useNavigate } from 'react-router-dom';
@@ -9,14 +8,22 @@ const SignUp = () => {
     const [confirmPassword, setConfirmPassword] = useState('');
     const [passwordMatch, setPasswordMatch] = useState(true);
     const [formSubmitted, setFormSubmitted] = useState(false);
+    const [verificationEmailSent, setVerificationEmailSent] = useState(false);
+    const [studentId, setStudentId] = useState('');
+    const [batch, setBatch] = useState('');
+    const [phoneNumber, setPhoneNumber] = useState('');
+    const [studentIdValid, setStudentIdValid] = useState(true);
     const auth = getAuth();
     const navigate = useNavigate();
+
+    // Required middle part of student ID for validation
+    const requiredMiddlePart = '115';
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (user) => {
             if (user && formSubmitted) {
                 console.log("User is authenticated:", user);
-                navigate('/home'); // Redirect to the home page or dashboard
+                // You can navigate to a different route here
             }
         });
 
@@ -39,16 +46,33 @@ const SignUp = () => {
         setPasswordMatch(password === confirmPassword || confirmPassword === '');
     };
 
+    const handleStudentIdChange = (e) => {
+        const newStudentId = e.target.value;
+        setStudentId(newStudentId);
+        validateStudentId(newStudentId);
+    };
+
+    const validateStudentId = (id) => {
+        const idPattern = /^\d{3}-\d{3}-\d{3}$/; // Pattern for 173-115-012
+        const isValid = idPattern.test(id) && id.split('-')[1] === requiredMiddlePart;
+        setStudentIdValid(isValid);
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         
-        if (passwordMatch && password && email) {
+        if (passwordMatch && password && email && studentIdValid && studentId && batch && phoneNumber) {
             try {
+                // Create user account first
                 const userCredential = await createUserWithEmailAndPassword(auth, email, password);
                 console.log("User registered:", userCredential.user);
+                
+                // Send verification email
                 await sendEmailVerification(userCredential.user);
                 console.log("Verification email sent.");
+                
                 setFormSubmitted(true);
+                setVerificationEmailSent(true); // Set flag to true
             } catch (error) {
                 console.error("Error registering user:", error);
             }
@@ -83,10 +107,37 @@ const SignUp = () => {
                             />
                         </div>
                         <div className="mb-4">
-                            <label htmlFor="student-id" className="block text-sm font-medium text-gray-700">Student ID</label>
+                            <label htmlFor="student-id" className="block text-sm font-medium text-gray-700">Student ID (format: XXX-115-XXX)</label>
                             <input
                                 type="text"
                                 id="student-id"
+                                value={studentId}
+                                onChange={handleStudentIdChange}
+                                className={`mt-1 block w-full px-3 py-2 border ${studentIdValid ? 'border-teal-500' : 'border-red-500'} rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 sm:text-sm`}
+                                required
+                            />
+                            {!studentIdValid && (
+                                <p className="text-red-500 text-sm mt-1">Invalid Student ID format or middle part does not match.</p>
+                            )}
+                        </div>
+                        <div className="mb-4">
+                            <label htmlFor="batch" className="block text-sm font-medium text-gray-700">Batch</label>
+                            <input
+                                type="text"
+                                id="batch"
+                                value={batch}
+                                onChange={(e) => setBatch(e.target.value)}
+                                className="mt-1 block w-full px-3 py-2 border border-teal-500 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 sm:text-sm"
+                                required
+                            />
+                        </div>
+                        <div className="mb-4">
+                            <label htmlFor="phone" className="block text-sm font-medium text-gray-700">Phone Number</label>
+                            <input
+                                type="tel"
+                                id="phone"
+                                value={phoneNumber}
+                                onChange={(e) => setPhoneNumber(e.target.value)}
                                 className="mt-1 block w-full px-3 py-2 border border-teal-500 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 sm:text-sm"
                                 required
                             />
@@ -141,8 +192,14 @@ const SignUp = () => {
                     </form>
                 ) : (
                     <div className="text-center text-gray-600">
-                        <p className="text-lg font-semibold">Check your email!</p>
-                        <p className="mt-2">A verification email has been sent to your address.</p>
+                        {verificationEmailSent ? (
+                            <>
+                                <p className="text-lg font-semibold">Check your email!</p>
+                                <p className="mt-2">A verification email has been sent to your address.</p>
+                            </>
+                        ) : (
+                            <p>Loading...</p>
+                        )}
                     </div>
                 )}
             </div>
