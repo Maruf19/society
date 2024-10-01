@@ -1,14 +1,11 @@
 import React from 'react';
-import { Navigate, useLocation } from 'react-router-dom';
+import { Navigate, Outlet } from 'react-router-dom';
+import { useAuth } from '../Firbase/authContext';
 
-const PrivateRoute = ({ element, isAuthenticated }) => {
-  const location = useLocation();
+const PrivateRoute = () => {
+  const { user } = useAuth(); // Access user from AuthContext
 
-  return isAuthenticated ? (
-    element
-  ) : (
-    <Navigate to="/Login" state={{ from: location }} replace />
-  );
+  return user ? <Outlet /> : <Navigate to="/login" />; // Redirect to login if not authenticated
 };
 
 export default PrivateRoute;

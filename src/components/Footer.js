@@ -3,22 +3,22 @@ import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
-    <footer className="bg-gradient-to-r from-gray-100 via-[#7fe7e3] to-gray-100 w-full py-10">
+    <footer className="bg-gradient-to-r from-blue-600 via-blue-500 to-blue-400 w-full py-10">
       <div className="max-w-screen-xl px-4 mx-auto sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
           {/* Logo & Description */}
           <div>
-            <Link to="/" className="text-2xl font-bold text-teal-600 uppercase">
-              Cholo BD
+            <Link to="/" className="text-2xl font-bold text-white uppercase">
+              MU CSE Society
             </Link>
-            <p className="max-w-xs mt-4 text-sm text-gray-700">
+            <p className="max-w-xs mt-4 text-sm text-gray-200">
               Discover new experiences, explore different places, and enjoy unforgettable moments with us.
             </p>
             {/* Social Media Links */}
             <div className="flex mt-8 space-x-6">
               {socialIcons.map(({ to, label, icon: Icon }) => (
                 <Link key={label} to={to} className="hover:opacity-75" target="_blank" rel="noreferrer">
-                  <Icon className="w-6 h-6 text-gray-600" />
+                  <Icon className="w-6 h-6 text-gray-200" />
                   <span className="sr-only">{label}</span>
                 </Link>
               ))}
@@ -29,10 +29,10 @@ const Footer = () => {
           <div className="grid grid-cols-2 gap-8 sm:grid-cols-2 lg:grid-cols-4 lg:col-span-2">
             {footerLinks.map(({ title, links }) => (
               <div key={title}>
-                <p className="text-lg font-medium text-teal-600">{title}</p>
-                <nav className="flex flex-col mt-4 space-y-2 text-sm text-gray-600">
+                <p className="text-lg font-medium text-white">{title}</p>
+                <nav className="flex flex-col mt-4 space-y-2 text-sm text-gray-200">
                   {links.map((link) => (
-                    <Link key={link} to={`/${link.toLowerCase().replace(/\s+/g, '-')}`} className="hover:text-teal-600">
+                    <Link key={link} to={`/${link.toLowerCase().replace(/\s+/g, '-')}`} className="hover:text-white">
                       {link}
                     </Link>
                   ))}
@@ -42,8 +42,8 @@ const Footer = () => {
           </div>
         </div>
         {/* Footer Bottom Text */}
-        <p className="mt-8 text-xs text-gray-800 text-center">
-          © 2024 Cholo BD. All rights reserved.
+        <p className="mt-8 text-xs text-gray-200 text-center">
+          © 2024 MU CSE Society. All rights reserved.
         </p>
       </div>
     </footer>

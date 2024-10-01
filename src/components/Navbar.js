@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom'; // Import useNavigate
+import { useAuth, logoutUser } from '../Firbase/authFunctions'; // Import useAuth from Firebase Auth Context
+import img from '../components/Assets//logo.jpg';
 
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [isSideScreenOpen, setIsSideScreenOpen] = useState(false);
-  const [isAuthenticated, setIsAuthenticated] = useState(false); // For login/logout state management
+  const { user, logout } = useAuth(); // Access user and logout function from AuthContext
+  const navigate = useNavigate(); // Initialize useNavigate
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -14,12 +17,17 @@ function Navbar() {
     setIsSideScreenOpen(!isSideScreenOpen);
   };
 
-  const handleLogin = () => {
-    setIsAuthenticated(true); // Simulating login
-  };
-
-  const handleLogout = () => {
-    setIsAuthenticated(false); // Simulating logout
+  const handleLogout = async () => {
+    const confirmLogout = window.confirm("Are you sure you want to logout?");
+    
+    if (confirmLogout) {
+      try {
+        await logoutUser(); // Call the logout function
+        navigate('/home'); // Redirect to home page after logout
+      } catch (error) {
+        console.error("Logout failed:", error); // Handle error
+      }
+    }
   };
 
   return (
@@ -27,10 +35,18 @@ function Navbar() {
       <nav className="fixed top-0 left-0 right-0 py-1 px-4 z-50 bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 shadow-lg">
         <div className="flex items-center justify-between flex-wrap">
           <div className="flex items-center flex-shrink-0 text-white mr-6">
-            <svg className="fill-current h-6 w-6 mr-2 text-white" width="36" height="36" viewBox="0 0 54 54" xmlns="http://www.w3.org/2000/svg">
-              <path d="M13.5 22.1c1.8-7.2 6.3-10.8 13.5-10.8 10.8 0 12.15 8.1 17.55 9.45 3.6.9 6.75-.45 9.45-4.05-1.8 7.2-6.3 10.8-13.5 10.8-10.8 0-12.15-8.1-17.55-9.45-3.6-.9-6.75.45-9.45 4.05zM0 38.3c1.8-7.2 6.3-10.8 13.5-10.8 10.8 0 12.15 8.1 17.55 9.45 3.6.9 6.75-.45 9.45-4.05-1.8 7.2-6.3 10.8-13.5 10.8-10.8 0-12.15-8.1-17.55-9.45-3.6-.9-6.75.45-9.45 4.05z" />
-            </svg>
-            <span className="font-semibold text-xl tracking-tight">MU CSE Society</span>
+          <div className="flex items-center flex-shrink-0 text-white mr-6">
+  <img
+    src={img}
+    alt="MU CSE Society Logo"
+    className="h-6 w-6 mr-2"
+    width="45"
+    height="45"
+  />
+  <span className="font-semibold text-xl tracking-tight">MU CSE Society</span>
+</div>
+
+            {/* <span className="font-semibold text-xl tracking-tight">MU CSE Society</span> */}
           </div>
           <div className="block lg:hidden">
             <button
@@ -65,27 +81,21 @@ function Navbar() {
               </Link>
             </div>
             <div className="flex justify-center lg:justify-end mt-2 lg:mt-0 space-x-3">
-              {!isAuthenticated ? (
-                // Login button shown when user is not logged in
+              {!user ? (
                 <Link
                   to="/login"
-                  onClick={handleLogin} // Handling login
                   className="inline-flex items-center justify-center text-sm px-4 py-1 leading-none border rounded-lg text-white bg-gradient-to-r from-yellow-400 to-yellow-600 hover:from-yellow-500 hover:to-yellow-700 shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out transform hover:scale-105"
                 >
                   Login
                 </Link>
-              ) : null}
-
-              {isAuthenticated && (
-                // Logout button shown when user is logged in
+              ) : (
                 <button
-                  onClick={handleLogout} // Handling logout
+                  onClick={handleLogout} // Handling logout with confirmation
                   className="inline-flex items-center justify-center text-sm px-4 py-1 leading-none border rounded-lg text-white bg-gradient-to-r from-red-400 to-red-600 hover:from-red-500 hover:to-red-700 shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out transform hover:scale-105"
                 >
                   Logout
                 </button>
               )}
-
               <button
                 onClick={toggleSideScreen}
                 className="inline-flex items-center justify-center text-xs px-4 py-1 leading-none border rounded-lg text-white bg-gradient-to-r from-teal-400 to-teal-600 hover:from-teal-500 hover:to-teal-700 shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out transform hover:scale-105"

@@ -60,27 +60,29 @@ function About() {
 
       {/* Header Section */}
       <section className="relative py-20 flex items-center justify-center min-h-screen bg-blue-400">
-        <div className="relative z-10 container mx-auto px-12 py-16 text-center border border-teal-500 bg-white">
-          {about ? (
-            about.map(({ id, title, description }) => (
-              <div key={id} className="relative z-10 mb-6">
-                <h1 className="text-4xl lg:text-4xl text-teal-500 font-extrabold mb-6">
-                  {title}
-                </h1>
-                <p className="text-black text-lg lg:text-xl mb-8 px-4 lg:px-24">
-                  {description}
-                </p>
-              </div>
-            ))
-          ) : (
-            <div>Loading...</div>
-          )}
-          <a
-            href='/team'
-            className="bg-teal-500 text-white font-bold py-3 px-8 rounded-full hover:bg-teal-400 transition duration-300"
-          >
-            Existing Committee
-          </a>
+        <div className="container mx-auto px-12">
+          <div className="relative z-10 py-16 text-center border border-blue-500 bg-white">
+            {about ? (
+              about.map(({ id, title, description }) => (
+                <div key={id} className="relative z-10 mb-6">
+                  <h1 className="text-4xl lg:text-4xl text-black font-semibold mb-6">
+                    {title}
+                  </h1>
+                  <p className="text-black text-lg lg:text-xl mb-8 px-4 lg:px-24">
+                    {description}
+                  </p>
+                </div>
+              ))
+            ) : (
+              <div>Loading...</div>
+            )}
+            <a
+              href='/team'
+              className="bg-blue-500 text-white font-bold py-3 px-8 rounded-full hover:bg-teal-500 transition duration-300"
+            >
+              Existing Committee
+            </a>
+          </div>
         </div>
       </section>
 
@@ -91,13 +93,13 @@ function About() {
             missionVision.map(({ id, title, description }) => ( // Ensure correct destructuring
               <motion.div
                 key={id}
-                className="bg-white shadow-lg rounded-lg px-8 py-4 border border-teal-500"
+                className="bg-white shadow-lg rounded-lg px-8 py-4 border border-blue-500"
                 variants={cardVariants}
                 initial="hidden"
                 animate="visible"
                 whileHover="hover"
               >
-                <h2 className="text-2xl font-bold text-center text-gray-800 mb-2 border-b-2 border-teal-500 pb-2 inline-block">{title}</h2>
+                <h2 className="text-2xl font-bold text-center text-gray-800 mb-2 border-b-2 border-blue-500 pb-2 inline-block">{title}</h2>
                 <p className="leading-relaxed text-base text-gray-700">
                   {description}
                 </p>

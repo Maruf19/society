@@ -44,7 +44,7 @@ function Schedule() {
     <>
       <Navbar />
       <section className="container mx-auto mb-10 px-4 mt-16 flex flex-col items-center">
-        <h1 className="text-4xl font-bold text-center text-gray-800 mb-10 border-b-2 border-teal-500 pb-2 inline-block">
+        <h1 className="text-4xl font-bold text-center text-gray-800 mb-10 border-b-2 border-blue-500 pb-2 inline-block">
           Upcoming Activities
         </h1>
 
@@ -52,7 +52,7 @@ function Schedule() {
           {scheduleData.map((schedule) => (
             <motion.div
               key={schedule._id} // Use MongoDB's _id field as key
-              className="bg-white shadow-lg rounded-lg overflow-hidden max-w-xs mx-auto transition-transform transform hover:scale-105 border border-teal-500 flex flex-col h-full"
+              className="bg-white shadow-lg rounded-lg overflow-hidden max-w-xs mx-auto transition-transform transform hover:scale-105 border border-blue-500 flex flex-col h-full"
               initial="hidden"
               animate="visible"
               variants={cardVariants}
@@ -60,19 +60,19 @@ function Schedule() {
             >
               <div className="relative">
                 <img
-                  className="w-full h-40 object-cover border border-teal-500"
+                  className="w-full h-52 object-cover border border-blue-500"
                   src={schedule.imageUrl} // Use schedule.imageUrl to display the image
                   alt={schedule.title} // Use schedule title for alt text
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-30"></div>
               </div>
               <div className="p-6 flex flex-col flex-grow">
-                <h2 className="text-lg font-bold text-teal-600 mb-4">{schedule.title}</h2> {/* Use schedule title */}
+                <h2 className="text-lg font-bold text-blue-500 mb-2">{schedule.title}</h2> {/* Use schedule title */}
                 <p className="text-gray-600 mb-6">{schedule.description}</p> {/* Use schedule description */}
                 <div className="mt-auto">
                   <Link to="/registration">
                     <motion.button
-                      className="px-4 py-2 border border-teal-500 text-teal-500 rounded-full bg-transparent hover:bg-teal-500 hover:text-white transition-all duration-300"
+                      className="px-4 py-2 border border-blue-500 text-black rounded-full bg-transparent hover:bg-blue-500 hover:text-white transition-all duration-300"
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
                     >

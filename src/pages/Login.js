@@ -2,18 +2,27 @@ import React, { useState } from 'react';
 import { auth } from '../Firbase/firebase.config'; // Ensure this path is correct
 import { signInWithEmailAndPassword, sendPasswordResetEmail } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
+import { MdArrowBack } from 'react-icons/md'; // Import back icon from react-icons
+import img from '../components/Assets/33.avif';
 
 const loginUser = async (email, password) => {
   try {
     const userCredential = await signInWithEmailAndPassword(auth, email, password);
-    console.log("User logged in:", userCredential.user);
-    return userCredential.user; // Return user info if needed
+    const user = userCredential.user;
+
+    // Check if the email is verified
+    if (!user.emailVerified) {
+      throw new Error("Please verify your email before logging in.");
+    }
+
+    console.log("User logged in:", user);
+    return user; // Return user info if needed
   } catch (error) {
     throw new Error(error.message); // Rethrow the error for handling in the component
   }
 };
 
-function Login() {
+const Login = ({ onLogin = () => {} }) => { // Default prop value
   const [showPassword, setShowPassword] = useState(false);
   const [showForgotPassword, setShowForgotPassword] = useState(false);
   const [email, setEmail] = useState('');
@@ -40,6 +49,7 @@ function Login() {
     try {
       await loginUser(email, password); // Use the loginUser function
       console.log("Login successful!");
+      onLogin(); // Call the onLogin prop to update authentication state
       navigate('/home'); // Navigate to the home page
     } catch (err) {
       console.error('Error logging in:', err);
@@ -64,9 +74,30 @@ function Login() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center">
+    <div className="min-h-screen flex items-center justify-center relative">
+      {/* Background Image */}
+      <div className="absolute inset-0 bg-cover bg-center ">
+          <img src={img} alt='background img' className='h-full w-full object-cover' />
+        </div>
+      {/* Warning Message Container */}
+      <div className="absolute top-4 w-full flex justify-center animate-fade-in">
+        <div className="bg-gradient-to-r from-red-400 to-red-600 text-white text-center p-4 rounded-lg shadow-lg max-w-3xl">
+          <p className="font-semibold">
+          This website features sections exclusively crafted for members of the Computer Science and Engineering (CSE) Society, a departmental club. If you are not part of the CSE Society, you will not have access to certain pages (such as the Programme Schedule) that are intended specifically for CSE students to provide important resources and updates.
+          </p>
+        </div>
+      </div>
+
+      {/* Back Icon */}
+      <div className="absolute top-4 left-4">
+        <MdArrowBack 
+          className="cursor-pointer text-2xl text-white hover:text-indigo-600"
+          onClick={() => navigate('/home')} 
+        />
+      </div>
+
       {!showForgotPassword ? (
-        <div className="bg-white bg-opacity-10 p-8 rounded-lg shadow-lg backdrop-blur-md w-full max-w-md border border-teal-500">
+        <div className="bg-white mt-20 bg-opacity-80 p-8 rounded-lg shadow-lg backdrop-blur-md w-full max-w-md border border-teal-500">
           <h2 className="text-3xl font-semibold text-center text-black mb-6">Login</h2>
           <form className="space-y-4" onSubmit={handleLogin}>
             {/* Email Input */}
@@ -113,11 +144,11 @@ function Login() {
             {/* Remember Me and Forgot Password */}
             <div className="flex items-center justify-between text-black text-sm">
               <label className="flex items-center">
-                <input 
+                {/* <input 
                   type="checkbox" 
                   className="form-checkbox h-4 w-4 text-indigo-400" 
-                />
-                <span className="ml-2">Remember me</span>
+                /> */}
+                {/* <span className="ml-2">Remember me</span> */}
               </label>
               <a href="#" className="hover:underline" onClick={handleForgotPassword}>Forgot Password?</a>
             </div>
@@ -175,6 +206,6 @@ function Login() {
       )}
     </div>
   );
-}
+};
 
 export default Login;

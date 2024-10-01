@@ -49,10 +49,10 @@ const TestimonialSlider = () => {
   };
 
   return (
-    <section className="container mx-auto py-6 px-4 md:px-6 lg:px-8 flex flex-col items-center">
+    <section className="container mx-auto py-6 px-4 md:px-6 lg:px-8 flex flex-col items-center mb-4">
       <h2 className="text-2xl md:text-2xl sm:text-xl lg:text-3xl font-extrabold text-gray-800 mb-12 text-center">
         Student's Thought
-        <span className="block mt-2 border-b-4 border-teal-500"></span>
+        <span className="block mt-2 border-b-2 border-blue-500"></span>
       </h2>
       <div className="relative flex justify-center">
         <div
@@ -61,14 +61,14 @@ const TestimonialSlider = () => {
           onMouseLeave={() => setIsPaused(false)}
         >
           <button
-            className="absolute left-2 md:left-4 top-1/2 transform -translate-y-1/2 bg-gradient-to-r from-green-400 to-blue-500 text-white p-2 md:p-3 rounded-full shadow-lg hover:opacity-80 focus:outline-none transition-opacity"
+            className="absolute left-2 md:left-4 top-1/2 transform -translate-y-1/2 bg-gradient-to-r from-blue-400 to-blue-500 text-white p-2 md:p-3 rounded-full shadow-lg hover:opacity-80 focus:outline-none transition-opacity"
             onClick={handlePrevious}
           >
             <FontAwesomeIcon icon={faChevronLeft} />
           </button>
 
           <button
-            className="absolute right-2 md:right-4 top-1/2 transform -translate-y-1/2 bg-gradient-to-r from-green-400 to-blue-500 text-white p-2 md:p-3 rounded-full shadow-lg hover:opacity-80 focus:outline-none transition-opacity"
+            className="absolute right-2 md:right-4 top-1/2 transform -translate-y-1/2 bg-gradient-to-r from-blue-400 to-blue-500 text-white p-2 md:p-3 rounded-full shadow-lg hover:opacity-80 focus:outline-none transition-opacity"
             onClick={handleNext}
           >
             <FontAwesomeIcon icon={faChevronRight} />
@@ -79,7 +79,7 @@ const TestimonialSlider = () => {
               <img
                 src={img}
                 alt="Student"
-                className="w-20 h-20 rounded-full border-2 border-teal-500 mb-3 object-cover"
+                className="w-16 h-16 rounded-full border-2 border-blue-500 mb-3 object-cover" // This keeps the image rounded
               />
               <h3 className="text-md md:text-md lg:text-md font-semibold text-gray-800 text-center">
                 {testimonials[currentIndex].name}

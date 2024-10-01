@@ -38,13 +38,13 @@ const Leadership = () => {
 
   return (
     <div className="container mx-auto p-4 lg:p-12">
-      <h1 className="text-4xl font-bold text-center text-gray-800 mb-12 border-b-2 border-teal-500 pb-2 inline-block">Current Leadership</h1>
+      <h1 className="text-4xl font-bold text-center text-gray-800 mb-12 border-b-2 border-blue-500 pb-2 inline-block">Current Leadership</h1>
       
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
         {leaderData.slice(0, 3).map((leader) => (
           <motion.div
             key={leader.id}  // Use leader.id for the key
-            className="bg-white shadow-lg rounded-lg overflow-hidden transform transition-all duration-300 hover:scale-105 border border-teal-500"
+            className="bg-white shadow-lg rounded-lg overflow-hidden transform transition-all duration-300 hover:scale-105 border border-blue-500"
             initial="hidden"
             animate="visible"
             variants={cardVariants}
@@ -52,18 +52,18 @@ const Leadership = () => {
             whileTap={{ scale: 0.95 }}
           >
             <img
-              className="w-full h-48 object-cover"
+              className="w-full h-52 object-cover"
               src={leader.imageUrl}  // Use leader.image
               alt={leader.name}    // Use leader.name
             />
             <div className="p-6 text-center">
-              <h2 className="text-2xl font-bold mb-2 text-gray-800">{leader.name}</h2>  
-              <p className="text-md text-teal-500 font-semibold mb-4">{leader.position}</p> 
+              <h2 className="text-2xl font-bold  text-gray-800">{leader.name}</h2>  
+              <p className="text-md text-black font-semibold mb-2">{leader.position}</p> 
               
               <div className="text-center pt-2 pb-2">
                 <a
                   href="/team"
-                  className="bg-teal-500 text-white font-bold py-2 px-6 text-sm rounded-lg hover:bg-teal-400 transition duration-300"
+                  className="bg-blue-500 text-white font-bold py-2 px-6 text-sm rounded-lg hover:bg-teal-400 transition duration-300"
                 >
                   View Full Team
                 </a>
