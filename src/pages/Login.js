@@ -74,30 +74,19 @@ const Login = ({ onLogin = () => {} }) => { // Default prop value
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center relative">
+    <section className="relative bg-gradient-to-r from-blue-500 to-teal-500 py-20 text-white overflow-hidden h-screen flex items-center justify-center">
       {/* Background Image */}
-      <div className="absolute inset-0 bg-cover bg-center ">
-          <img src={img} alt='background img' className='h-full w-full object-cover' />
-        </div>
-      {/* Warning Message Container */}
-      <div className="absolute top-4 w-full flex justify-center animate-fade-in">
-        <div className="bg-gradient-to-r from-red-400 to-red-600 text-white text-center p-4 rounded-lg shadow-lg max-w-3xl">
-          <p className="font-semibold">
-          This website features sections exclusively crafted for members of the Computer Science and Engineering (CSE) Society, a departmental club. If you are not part of the CSE Society, you will not have access to certain pages (such as the Programme Schedule) that are intended specifically for CSE students to provide important resources and updates.
-          </p>
-        </div>
-      </div>
-
-      {/* Back Icon */}
-      <div className="absolute top-4 left-4">
-        <MdArrowBack 
-          className="cursor-pointer text-2xl text-white hover:text-indigo-600"
-          onClick={() => navigate('/home')} 
-        />
+      <div className="absolute inset-0 bg-cover bg-center opacity-30">
+        <img src={img} alt="background img" className="h-full w-full object-cover" />
       </div>
 
       {!showForgotPassword ? (
-        <div className="bg-white mt-20 bg-opacity-80 p-8 rounded-lg shadow-lg backdrop-blur-md w-full max-w-md border border-teal-500">
+        <div className="bg-white bg-opacity-80 p-8 rounded-lg shadow-lg backdrop-blur-md w-full max-w-md border border-teal-500">
+         {/* Back Icon */}
+         <MdArrowBack 
+            className="text-black text-2xl cursor-pointer mb-4 hover:scale-110 transition-transform" 
+            onClick={() => navigate('/home')} 
+          />
           <h2 className="text-3xl font-semibold text-center text-black mb-6">Login</h2>
           <form className="space-y-4" onSubmit={handleLogin}>
             {/* Email Input */}
@@ -143,13 +132,6 @@ const Login = ({ onLogin = () => {} }) => { // Default prop value
 
             {/* Remember Me and Forgot Password */}
             <div className="flex items-center justify-between text-black text-sm">
-              <label className="flex items-center">
-                {/* <input 
-                  type="checkbox" 
-                  className="form-checkbox h-4 w-4 text-indigo-400" 
-                /> */}
-                {/* <span className="ml-2">Remember me</span> */}
-              </label>
               <a href="#" className="hover:underline" onClick={handleForgotPassword}>Forgot Password?</a>
             </div>
 
@@ -194,7 +176,7 @@ const Login = ({ onLogin = () => {} }) => { // Default prop value
               </button>
               <button 
                 type="button" 
-                onClick={handleCloseModal}
+                onClick={handleCloseModal} 
                 className="mt-2 text-indigo-600 hover:underline"
               >
                 Cancel
@@ -204,7 +186,7 @@ const Login = ({ onLogin = () => {} }) => { // Default prop value
           </div>
         </div>
       )}
-    </div>
+    </section>
   );
 };
 

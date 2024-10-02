@@ -62,7 +62,8 @@ if (error) return <p>Error: {error}</p>;
               <div className="absolute top-0 left-0 bg-blue-600 text-white text-xs md:text-sm font-bold rounded-br-lg px-2 py-1 md:px-3 md:py-2">
                 {achievement.type}
               </div>
-              <div className="flex flex-col items-center justify-center mt-4 md:mt-6 lg:mt-8 space-y-2">
+
+              <div className="flex flex-col items-center justify-center  ">
                 {achievement.position && (
                   <p className="text-sm sm:text-base md:text-sm mb-1 md:mb-2 border font-semibold border-blue-500 px-3 py-1 rounded-lg shadow-md text-center transition-transform transform hover:scale-105">
                     <strong>Position:</strong> {achievement.position}

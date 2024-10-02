@@ -79,7 +79,8 @@ function Home() {
           >
             <a
               href="/about"
-              className="bg-teal-500 text-white font-bold py-3 px-8 rounded-full hover:bg-teal-400 transition duration-300"
+              className=" border border-white text-white font-bold py-3 px-8 rounded-full hover:bg-blue-600 transition duration-300"
+            
             >
               About Us
             </a>

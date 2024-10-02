@@ -18,6 +18,8 @@ const SignUp = () => {
     const [studentIdValid, setStudentIdValid] = useState(true);
     const [passwordLengthValid, setPasswordLengthValid] = useState(true);
     const [emailVerified, setEmailVerified] = useState(false); // New state for email verification
+    const [name, setName] = useState(''); // Added missing name state
+    const [loading, setLoading] = useState(false); // Added loading state
     const auth = getAuth();
     const db = getFirestore();
     const navigate = useNavigate();
@@ -37,7 +39,7 @@ const SignUp = () => {
     }, [auth, formSubmitted]);
 
     useEffect(() => {
-        if (emailVerified) {
+        if (emailVerified && auth.currentUser) {
             // Create the Firestore user profile after email verification
             const createProfile = async () => {
                 await setDoc(doc(db, "users", auth.currentUser.uid), {
@@ -45,6 +47,7 @@ const SignUp = () => {
                     studentId,
                     batch,
                     phoneNumber,
+                    name // Added name to Firestore document
                 });
                 console.log("User profile created in Firestore after verification");
                 // Navigate to dashboard or another route
@@ -52,7 +55,7 @@ const SignUp = () => {
             };
             createProfile();
         }
-    }, [emailVerified, auth.currentUser, email, studentId, batch, phoneNumber, navigate]);
+    }, [emailVerified, auth.currentUser, email, studentId, batch, phoneNumber, name, navigate]);
 
     const handlePasswordChange = (e) => {
         const newPassword = e.target.value;
@@ -88,6 +91,7 @@ const SignUp = () => {
 
         if (passwordMatch && passwordLengthValid && password && email && studentIdValid && studentId && batch && phoneNumber) {
             try {
+                setLoading(true); // Start loading
                 // Create user account first
                 const userCredential = await createUserWithEmailAndPassword(auth, email, password);
                 console.log("User registered:", userCredential.user);
@@ -100,6 +104,8 @@ const SignUp = () => {
                 setVerificationEmailSent(true); // Set flag to true
             } catch (error) {
                 console.error("Error registering user:", error);
+            } finally {
+                setLoading(false); // Stop loading
             }
         }
     };
@@ -108,97 +114,105 @@ const SignUp = () => {
     const handleBackClick = () => {
         navigate('/login');
     };
-    
+
     return (
-        <div className="min-h-screen flex items-center justify-center relative bg-cover bg-center bg-no-repeat" style={{ backgroundImage: `url(${img})` }}>
-            {/* Back Icon positioned absolutely */}
-            <MdArrowBack 
-                className="absolute top-5 left-5 text-2xl cursor-pointer text-white z-20" 
-                onClick={handleBackClick} 
-            />
-            <div className="relative z-10 mt-20 bg-white border border-teal-500 p-6 rounded-lg shadow-lg w-full max-w-md">
-                <h1 className="text-2xl font-bold mb-4">Sign Up</h1>
-                <p className="mb-6 text-gray-600">Create your account</p>
+        <section className="relative bg-gradient-to-r from-blue-500 to-teal-500 py-20 text-white overflow-hidden flex items-center justify-center min-h-screen">
+            {/* Background Image */}
+            <div className="absolute inset-0 bg-cover bg-center opacity-30">
+                <img src={img} alt="background img" className="h-full w-full object-cover" style={{ minHeight: '100vh' }} />
+            </div>
+            
+            <div className="relative z-10 bg-black bg-opacity-20 border border-teal-500 p-6 rounded-lg shadow-lg w-full max-w-md h-fit overflow-hidden">
+                {/* Back Icon */}
+                <MdArrowBack 
+                    className="text-black text-2xl cursor-pointer mb-4 hover:scale-110 transition-transform" 
+                    onClick={handleBackClick} // Using the handleBackClick function here
+                />
+                
+                <h1 className="text-2xl font-bold text-white text-center">Sign Up</h1>
+                <p className="mb-1 text-black font-bold text-center">Create your account</p>
                 {!formSubmitted ? (
                     <form onSubmit={handleSubmit}>
                         <div className="mb-4">
-                            <label htmlFor="name" className="block text-sm font-medium text-gray-700">Full Name</label>
+                            <label htmlFor="name" className="block text-sm font-medium text-white">Full Name</label>
                             <input
                                 type="text"
                                 id="name"
-                                className="mt-1 block w-full px-3 py-2 border border-teal-500 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 sm:text-sm"
+                                value={name} // Added missing value binding
+                                onChange={(e) => setName(e.target.value)} // Added missing onChange handler
+                                className="mt-1 block text-black w-full px-3 py-2 border border-teal-500 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 sm:text-sm"
                                 required
                             />
                         </div>
                         <div className="mb-4">
-                            <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email Address</label>
+                            <label htmlFor="email" className="block text-sm font-medium text-white">Email Address</label>
                             <input
                                 type="email"
                                 id="email"
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
-                                className="mt-1 block w-full px-3 py-2 border border-teal-500 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 sm:text-sm"
+                                className="mt-1 block text-black w-full px-3 py-2 border border-teal-500 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 sm:text-sm"
                                 required
                             />
                         </div>
                         <div className="mb-4">
-                            <label htmlFor="student-id" className="block text-sm font-medium text-gray-700">Student ID (Format: XXX-XXX-XXX)</label>
+                            <label htmlFor="student-id" className="block text-sm font-medium text-white">Student ID (Format: XXX-XXX-XXX)</label>
                             <input
                                 type="text"
                                 id="student-id"
                                 value={studentId}
                                 onChange={handleStudentIdChange}
-                                className={`mt-1 block w-full px-3 py-2 border ${studentIdValid ? 'border-teal-500' : 'border-red-500'} rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 sm:text-sm`}
+                                className={`mt-1 block text-black w-full px-3 py-2 border ${studentIdValid ? 'border-teal-500' : 'border-red-500'} rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 sm:text-sm`}
                                 required
                             />
                             {!studentIdValid && (
-                                <p className="text-red-500 text-sm mt-1">Invalid Student ID format or middle part does not match.</p>
+                                <p className="text-red-500 text-sm mt-1">You are not selected for Registration.</p>
                             )}
                         </div>
                         <div className="mb-4">
-                            <label htmlFor="batch" className="block text-sm font-medium text-gray-700">Batch</label>
+                            <label htmlFor="batch" className="block text-sm font-medium text-white">Batch</label>
                             <input
                                 type="text"
                                 id="batch"
                                 value={batch}
                                 onChange={(e) => setBatch(e.target.value)}
-                                className="mt-1 block w-full px-3 py-2 border border-teal-500 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 sm:text-sm"
+                                className="mt-1 block text-black w-full px-3 py-2 border border-teal-500 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 sm:text-sm"
                                 required
                             />
                         </div>
                         <div className="mb-4">
-                            <label htmlFor="phone" className="block text-sm font-medium text-gray-700">Phone Number</label>
+                            <label htmlFor="phone-number" className="block text-sm font-medium text-white">Phone Number</label>
                             <input
-                                type="tel"
-                                id="phone"
+                                type="text"
+                                id="phone-number"
                                 value={phoneNumber}
                                 onChange={(e) => setPhoneNumber(e.target.value)}
-                                className="mt-1 block w-full px-3 py-2 border border-teal-500 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 sm:text-sm"
+                                className="mt-1 block text-black w-full px-3 py-2 border border-teal-500 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 sm:text-sm"
                                 required
                             />
                         </div>
                         <div className="mb-4">
-                            <label htmlFor="password" className="block text-sm font-medium text-gray-700">New Password</label>
+                            <label htmlFor="password" className="block text-sm font-medium text-white">Password</label>
                             <input
                                 type="password"
                                 id="password"
-                                className={`mt-1 block w-full px-3 py-2 border ${passwordLengthValid ? 'border-teal-500' : 'border-red-500'} rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 sm:text-sm`}
                                 value={password}
                                 onChange={handlePasswordChange}
+                                className={`mt-1 block text-black w-full px-3 py-2 border ${!passwordLengthValid ? 'border-red-500' : 'border-teal-500'} rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 sm:text-sm`}
                                 required
                             />
                             {!passwordLengthValid && (
-                                <p className="text-red-500 text-sm mt-1">Password must be at least 8 characters long.</p>
+                                <p className="text-red-500 text-sm mt-1">Password must be at least 8 characters.</p>
                             )}
                         </div>
                         <div className="mb-4">
-                            <label htmlFor="confirm-password" className="block text-sm font-medium text-gray-700">Confirm Password</label>
+                            <label htmlFor="confirm-password" className="block text-sm font-medium text-white">Confirm Password</label>
                             <input
                                 type="password"
                                 id="confirm-password"
-                                className={`mt-1 block w-full px-3 py-2 border ${passwordMatch ? 'border-teal-500' : 'border-red-500'} rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 sm:text-sm`}
                                 value={confirmPassword}
                                 onChange={handleConfirmPasswordChange}
+                                className={`mt-1 block text-black w-full px-3 py-2 border ${!passwordMatch && confirmPassword ? 'border-red-500' : 'border-teal-500'} rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 sm:text-sm`}
                                 required
                             />
                             {!passwordMatch && (
@@ -207,22 +221,25 @@ const SignUp = () => {
                         </div>
                         <button
                             type="submit"
-                            className="w-full bg-teal-500 hover:bg-teal-600 text-white font-semibold py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-opacity-50"
+                            className={`w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-teal-500 hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
+                            disabled={loading}
                         >
-                            Sign Up
+                            {loading ? 'Loading...' : 'Sign Up'}
                         </button>
                     </form>
                 ) : (
-                    <div>
-                        {verificationEmailSent ? (
-                            <p className="text-teal-500">Verification email sent. Please check your inbox and verify your email before proceeding.</p>
-                        ) : (
-                            <p className="text-red-500">An error occurred while sending the verification email. Please try again.</p>
-                        )}
+                    <div className="relative flex items-center justify-center h-full z-20">
+                        <div className="absolute inset-0 bg-cover bg-center opacity-30" style={{ backgroundImage: `url(${img})`, minHeight: '100vh' }} />
+                        <div className="relative z-10 p-4 bg-white rounded-lg shadow-lg max-w-md w-full">
+                            <p className="text-gray-700">Verification email sent!</p>
+                            {verificationEmailSent && (
+                                <p className="text-gray-700 mt-2">Please check {email} to verify your account. Verify your email before logging in.</p>
+                            )}
+                        </div>
                     </div>
                 )}
             </div>
-        </div>
+        </section>
     );
 };
 

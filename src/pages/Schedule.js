@@ -69,17 +69,18 @@ function Schedule() {
               <div className="p-6 flex flex-col flex-grow">
                 <h2 className="text-lg font-bold text-blue-500 mb-2">{schedule.title}</h2> {/* Use schedule title */}
                 <p className="text-gray-600 mb-6">{schedule.description}</p> {/* Use schedule description */}
-                <div className="mt-auto">
-                  <Link to="/registration">
-                    <motion.button
-                      className="px-4 py-2 border border-blue-500 text-black rounded-full bg-transparent hover:bg-blue-500 hover:text-white transition-all duration-300"
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                    >
-                      Register Now
-                    </motion.button>
-                  </Link>
-                </div>
+                <div className="mt-auto flex justify-center">
+  <Link to="/registration">
+    <motion.button
+      className="px-4 py-2 border border-blue-500 text-black rounded-full bg-transparent hover:bg-blue-500 hover:text-white transition-all duration-300"
+      whileHover={{ scale: 1.05 }}
+      whileTap={{ scale: 0.95 }}
+    >
+      Register Now
+    </motion.button>
+  </Link>
+</div>
+
               </div>
             </motion.div>
           ))}

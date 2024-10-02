@@ -34,7 +34,7 @@ const Activities = () => {
         <div className="container mx-auto px-4">
           {/* Main Section Headline */}
           <div className="text-center py-6">
-            <h1 className="text-4xl font-bold text-gray-800 border-b-2 border-teal-500 pb-2 inline-block">
+            <h1 className="text-4xl font-bold text-gray-800 border-b-2 border-blue-500 pb-2 inline-block">
               NewsLetter
             </h1>
           </div>
@@ -45,7 +45,7 @@ const Activities = () => {
 
           {/* Display News articles */}
           <div className="relative mt-12">
-            <div className="relative bg-blue-800 bg-opacity-50 p-4 sm:p-6 md:p-8">
+            <div className="relative bg-blue-500 p-4 sm:p-6 md:p-8">
               <div className="flex flex-col items-center justify-center text-white">
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 ">
                   {newsActivities.slice().reverse().map((news) => (
@@ -53,17 +53,17 @@ const Activities = () => {
                       key={news.id}
                       className="bg-white border border-blue-800 bg-opacity-80 shadow-lg rounded-lg overflow-hidden p-4 transition-transform duration-300 ease-in-out transform hover:scale-105 hover:shadow-2xl"
                     >
-                      <p className="text-sm font-semibold text-teal-500 mb-2">
+                      <p className="text-sm font-semibold text-black mb-2 text-center ">
                         <a
                           href={news.link}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="hover:underline"
+                          
                         >
                           {news.title}
                         </a>
                       </p>
-                      <p className="text-sm text-black">{news.description}</p>
+                      <p className="text-sm text-blue-500 font-semibold text-center">{news.description}</p>
                     </div>
                   ))}
                 </div>

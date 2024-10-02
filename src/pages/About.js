@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import Footer from '../components/Footer';
 import Navbar from '../components/Navbar';
 import Leadership from './Leader';
+import img from '../components/Assets/33.avif';
 
 // Animation variants for Framer Motion
 const cardVariants = {
@@ -60,8 +61,12 @@ function About() {
 
       {/* Header Section */}
       <section className="relative py-20 flex items-center justify-center min-h-screen bg-blue-400">
+         {/* Background Image */}
+         <div className="absolute inset-0 bg-cover bg-center opacity-30">
+          <img src={img} alt='background img' className='h-full w-full object-cover' />
+        </div>
         <div className="container mx-auto px-12">
-          <div className="relative z-10 py-16 text-center border border-blue-500 bg-white">
+          <div className="relative z-10 py-16 text-center border border-blue-500 bg-white bg-opacity-60">
             {about ? (
               about.map(({ id, title, description }) => (
                 <div key={id} className="relative z-10 mb-6">
@@ -78,7 +83,7 @@ function About() {
             )}
             <a
               href='/team'
-              className="bg-blue-500 text-white font-bold py-3 px-8 rounded-full hover:bg-teal-500 transition duration-300"
+              className=" border border-blue-500 text-black font-bold py-3 px-8 rounded-full hover:bg-blue-600 transition duration-300"
             >
               Existing Committee
             </a>
