@@ -1,5 +1,8 @@
 import React from 'react'; 
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import PrivateRoute from './Router/PrivateRoute';
+import { AuthProvider } from './Firbase/authContext';
+//user interface
 import Home from './pages/Home';
 import About from './pages/About';
 import Contact from './pages/Contact';
@@ -15,8 +18,26 @@ import Login from './pages/Login';
 import SignUp from './pages/SignUp';
 import ForgotPassword from './pages/ForgotPassword';
 import PasswordReset from './pages/PasswordReset';
-import PrivateRoute from './Router/PrivateRoute';
-import { AuthProvider } from './Firbase/authContext';
+
+//Dashboard
+// import Header from './components/Dashboard/header'
+import Dashboard from './components/Dashboard/Dashboard'
+import HomePage from './components/Dashboard/HomePage'
+ import AboutPage from './components/Dashboard/AboutPage'
+import MissionVision from './components/Dashboard/MissionVision'
+import SchedulePage from './components/Dashboard/SchedulePage'
+import FeaturePage from './components/Dashboard/FeaturePage'
+import LeaderPage from './components/Dashboard/LeaderPage'
+import TeamPage from './components/Dashboard/TeamPage'
+import ProgrammePage from './components/Dashboard/ProgrammePage'
+import ActivityPage from './components/Dashboard/ActivityPage'
+import ContactPage from './components/Dashboard/ContactPage'
+import ContactInfo from './components/Dashboard/ContactInfo'
+import ReviewPage from './components/Dashboard/ReviewPage'
+
+
+
+
 
 function App() {
   return (
@@ -38,11 +59,27 @@ function App() {
           <Route path="/contact" element={<Contact />} />
           <Route path="/leadership" element={<Leader />} />
           <Route path="/achievement" element={<Achievement />} />
-
+          // Dashboard
+          <Route path="/dashboard" element={<Dashboard/>} />
+          <Route path="/homepage" element={<HomePage />} />
+          <Route path="/aboutpage" element={<AboutPage />} />
+         <Route path="/homepage" element={<HomePage />} />
+          <Route path="/missionvision" element={<MissionVision />} />
+          <Route path="/schedulepage" element={<SchedulePage />} />
+          <Route path="/featurepage" element={<FeaturePage />} />
+          <Route path="/leaderPage" element={<LeaderPage />} />
+          <Route path="/teamPage" element={<TeamPage />} />
+          <Route path="/programmePage" element={<ProgrammePage />} />
+          <Route path="/activityPage" element={<ActivityPage />} />
+          <Route path="/contactPage" element={<ContactPage />} />
+          <Route path="/contactInfo" element={<ContactInfo />} />
+          <Route path="/reviewPage" element={<ReviewPage />} />
+          
           {/* Private Routes */}
           <Route element={<PrivateRoute />}>
             <Route path="/schedule" element={<Schedule />} />
             <Route path="/review" element={<Review />} />
+            
           </Route>
 
           {/* Redirect all unmatched paths to Login */}

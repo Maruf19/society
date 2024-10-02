@@ -56,7 +56,7 @@ const TestimonialSlider = () => {
       </h2>
       <div className="relative flex justify-center">
         <div
-          className="relative bg-white p-4 md:p-6 lg:p-8 h-64 w-96 rounded-lg shadow-xl ring-2 ring-gradient-500 transition-transform duration-500"
+          className="relative bg-blue-500 bg-opacity-10 p-4 md:p-6 lg:p-8 h-64 w-[600px] rounded-lg shadow-xl ring-2 ring-gradient-500 transition-transform duration-500"
           onMouseEnter={() => setIsPaused(true)}
           onMouseLeave={() => setIsPaused(false)}
         >
@@ -79,7 +79,7 @@ const TestimonialSlider = () => {
               <img
                 src={img}
                 alt="Student"
-                className="w-16 h-16 rounded-full border-2 border-blue-500 mb-3 object-cover" // This keeps the image rounded
+                className="w-16 h-16 rounded-full border-2 border-blue-500 mb-3 object-cover"
               />
               <h3 className="text-md md:text-md lg:text-md font-semibold text-gray-800 text-center">
                 {testimonials[currentIndex].name}
@@ -87,8 +87,8 @@ const TestimonialSlider = () => {
               <p className="text-sm md:text-sm lg:text-sm text-gray-600 text-center">
                 {testimonials[currentIndex].batch}
               </p>
-              <p className="text-gray-700 italic text-sm md:text-sm lg:text-sm text-center overflow-hidden">
-                <span className="block h-20 overflow-hidden text-ellipsis">
+              <p className="text-gray-700 italic text-sm md:text-sm lg:text-sm text-center h-20 overflow-hidden">
+                <span className="block overflow-hidden text-ellipsis whitespace-normal">
                   "{testimonials[currentIndex].testimonial}"
                 </span>
               </p>

@@ -25,7 +25,7 @@ const Sidebar = () => {
           About
         </Link>
         <Link
-          to="/missionvisionpage"
+          to="/missionvision"
           className="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700"
         >
           Mission And Vision

@@ -66,14 +66,14 @@ function About() {
           <img src={img} alt='background img' className='h-full w-full object-cover' />
         </div>
         <div className="container mx-auto px-12">
-          <div className="relative z-10 py-16 text-center border border-blue-500 bg-white bg-opacity-60">
+          <div className="relative z-10 py-16 text-center border border-blue-500 bg-black bg-opacity-60">
             {about ? (
               about.map(({ id, title, description }) => (
                 <div key={id} className="relative z-10 mb-6">
-                  <h1 className="text-4xl lg:text-4xl text-black font-semibold mb-6">
+                  <h1 className="text-4xl lg:text-4xl text-white font-semibold mb-6">
                     {title}
                   </h1>
-                  <p className="text-black text-lg lg:text-xl mb-8 px-4 lg:px-24">
+                  <p className="text-white text-lg lg:text-xl mb-8 px-4 lg:px-24">
                     {description}
                   </p>
                 </div>
@@ -83,7 +83,7 @@ function About() {
             )}
             <a
               href='/team'
-              className=" border border-blue-500 text-black font-bold py-3 px-8 rounded-full hover:bg-blue-600 transition duration-300"
+              className=" border border-blue-500 text-white font-bold py-3 px-8 rounded-full hover:bg-blue-600 transition duration-300"
             >
               Existing Committee
             </a>
@@ -92,13 +92,13 @@ function About() {
       </section>
 
       {/* Mission and Vision Section */}
-      <section className="mb-4 px-6 lg:px-24 pt-12 bg-gray-50">
+      <section className="mb-4 px-6 lg:px-24 pt-12">
         <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12">
           {missionVision ? (
             missionVision.map(({ id, title, description }) => ( // Ensure correct destructuring
               <motion.div
                 key={id}
-                className="bg-white shadow-lg rounded-lg px-8 py-4 border border-blue-500"
+                className="bg-blue-500 bg-opacity-20 text-black font-semibold shadow-lg rounded-lg px-8 py-4 border border-blue-500"
                 variants={cardVariants}
                 initial="hidden"
                 animate="visible"
