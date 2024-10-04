@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { getAuth, createUserWithEmailAndPassword, sendEmailVerification, onAuthStateChanged } from "firebase/auth";
 import { getFirestore, doc, setDoc } from "firebase/firestore";
 import { useNavigate } from 'react-router-dom';
-import { MdArrowBack } from 'react-icons/md'; // Import the back icon
-import img from '../components/Assets/33.avif'; // Keep the image import for other uses
+import { MdArrowBack } from 'react-icons/md';
+import img from '../components/Assets/33.avif';
 
 const SignUp = () => {
     const [email, setEmail] = useState('');
@@ -17,21 +17,20 @@ const SignUp = () => {
     const [phoneNumber, setPhoneNumber] = useState('');
     const [studentIdValid, setStudentIdValid] = useState(true);
     const [passwordLengthValid, setPasswordLengthValid] = useState(true);
-    const [emailVerified, setEmailVerified] = useState(false); // New state for email verification
-    const [name, setName] = useState(''); // Added missing name state
-    const [loading, setLoading] = useState(false); // Added loading state
+    const [emailVerified, setEmailVerified] = useState(false);
+    const [name, setName] = useState('');
+    const [loading, setLoading] = useState(false);
     const auth = getAuth();
     const db = getFirestore();
     const navigate = useNavigate();
 
-    // Required middle part of student ID for validation
     const requiredMiddlePart = '115';
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, async (user) => {
             if (user && formSubmitted) {
-                await user.reload(); // Reload user data to check verification status
-                setEmailVerified(user.emailVerified); // Set email verification status
+                await user.reload();
+                setEmailVerified(user.emailVerified);
             }
         });
 
@@ -40,28 +39,26 @@ const SignUp = () => {
 
     useEffect(() => {
         if (emailVerified && auth.currentUser) {
-            // Create the Firestore user profile after email verification
             const createProfile = async () => {
                 await setDoc(doc(db, "users", auth.currentUser.uid), {
                     email,
                     studentId,
                     batch,
                     phoneNumber,
-                    name // Added name to Firestore document
+                    name
                 });
                 console.log("User profile created in Firestore after verification");
-                // Navigate to dashboard or another route
                 navigate('/dashboard');
             };
             createProfile();
         }
-    }, [emailVerified, auth.currentUser, email, studentId, batch, phoneNumber, name, navigate]);
+    }, [emailVerified, auth.currentUser, email, studentId, batch, phoneNumber, name, navigate, db]); // Include db here
 
     const handlePasswordChange = (e) => {
         const newPassword = e.target.value;
         setPassword(newPassword);
         checkPasswordMatch(newPassword, confirmPassword);
-        setPasswordLengthValid(newPassword.length >= 8); // Check password length
+        setPasswordLengthValid(newPassword.length >= 8);
     };
 
     const handleConfirmPasswordChange = (e) => {
@@ -81,7 +78,7 @@ const SignUp = () => {
     };
 
     const validateStudentId = (id) => {
-        const idPattern = /^\d{3}-\d{3}-\d{3}$/; // Pattern for XXX-115-XXX
+        const idPattern = /^\d{3}-\d{3}-\d{3}$/;
         const isValid = idPattern.test(id) && id.split('-')[1] === requiredMiddlePart;
         setStudentIdValid(isValid);
     };
@@ -91,42 +88,53 @@ const SignUp = () => {
 
         if (passwordMatch && passwordLengthValid && password && email && studentIdValid && studentId && batch && phoneNumber) {
             try {
-                setLoading(true); // Start loading
-                // Create user account first
+                setLoading(true);
                 const userCredential = await createUserWithEmailAndPassword(auth, email, password);
                 console.log("User registered:", userCredential.user);
+
+                // Send user data to your MongoDB backend
+                await fetch('http://localhost:5000/users', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        email,
+                        studentId,
+                        batch,
+                        phoneNumber,
+                        name
+                    }),
+                });
 
                 // Send verification email
                 await sendEmailVerification(userCredential.user);
                 console.log("Verification email sent.");
 
                 setFormSubmitted(true);
-                setVerificationEmailSent(true); // Set flag to true
+                setVerificationEmailSent(true);
             } catch (error) {
                 console.error("Error registering user:", error);
             } finally {
-                setLoading(false); // Stop loading
+                setLoading(false);
             }
         }
     };
 
-    // Function to handle back navigation to login page
     const handleBackClick = () => {
         navigate('/login');
     };
 
     return (
         <section className="relative bg-gradient-to-r from-blue-500 to-teal-500 py-20 text-white overflow-hidden flex items-center justify-center min-h-screen">
-            {/* Background Image */}
             <div className="absolute inset-0 bg-cover bg-center opacity-30">
                 <img src={img} alt="background img" className="h-full w-full object-cover" style={{ minHeight: '100vh' }} />
             </div>
             
             <div className="relative z-10 bg-black bg-opacity-20 border border-teal-500 p-6 rounded-lg shadow-lg w-full max-w-md h-fit overflow-hidden">
-                {/* Back Icon */}
                 <MdArrowBack 
                     className="text-black text-2xl cursor-pointer mb-4 hover:scale-110 transition-transform" 
-                    onClick={handleBackClick} // Using the handleBackClick function here
+                    onClick={handleBackClick}
                 />
                 
                 <h1 className="text-2xl font-bold text-white text-center">Sign Up</h1>
@@ -138,8 +146,8 @@ const SignUp = () => {
                             <input
                                 type="text"
                                 id="name"
-                                value={name} // Added missing value binding
-                                onChange={(e) => setName(e.target.value)} // Added missing onChange handler
+                                value={name}
+                                onChange={(e) => setName(e.target.value)}
                                 className="mt-1 block text-black w-full px-3 py-2 border border-teal-500 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 sm:text-sm"
                                 required
                             />

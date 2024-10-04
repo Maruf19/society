@@ -1,9 +1,9 @@
-// firebase.config.js
 import { initializeApp } from "firebase/app";
 import { getAuth } from 'firebase/auth';
+import { getFirestore } from 'firebase/firestore'; // Import Firestore
 
 const firebaseConfig = {
-   apiKey: "AIzaSyCligAzzdYKRXyXrSFTD9Gag05uurQw2V8",
+  apiKey: "AIzaSyCligAzzdYKRXyXrSFTD9Gag05uurQw2V8",
   authDomain: "cse-society-2a318.firebaseapp.com",
   projectId: "cse-society-2a318",
   storageBucket: "cse-society-2a318.appspot.com",
@@ -12,8 +12,10 @@ const firebaseConfig = {
   measurementId: "G-ZQHC5B7RLJ"
 };
 
+// Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
+const auth = getAuth(app); // Initialize Firebase Authentication
+const firestore = getFirestore(app); // Initialize Firestore
 
-// Export both app and auth as named exports
-export { app, auth };
+// Export app, auth, and firestore as named exports
+export { app, auth, firestore };
