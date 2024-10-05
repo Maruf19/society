@@ -11,7 +11,7 @@ import Schedule from './pages/Schedule';
 import Activities from './pages/Activities';
 import Programme from './pages/Programme';
 import Team from './pages/Team';
-import Registration from './pages/Registration';
+import PaymentMethod from './pages/PaymentMethod';
 import Achievement from './pages/Achievement';
 import Leader from './pages/Leader';
 import Review from './pages/review';
@@ -35,6 +35,7 @@ import ContactPage from './components/Dashboard/ContactPage';
 import ContactInfo from './components/Dashboard/ContactInfo';
 import ReviewPage from './components/Dashboard/ReviewPage';
 
+
 function App() {
   return (
     <AuthProvider> {/* Wrap your app with AuthProvider */}
@@ -50,7 +51,7 @@ function App() {
           <Route path="/about" element={<About />} />
           <Route path="/team" element={<Team />} />
           <Route path="/programme" element={<Programme />} />
-          <Route path="/registration" element={<Registration />} />
+          <Route path="/payment" element={<PaymentMethod />} />
           <Route path="/activities" element={<Activities />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/leadership" element={<Leader />} />
@@ -71,11 +72,12 @@ function App() {
             <Route path="/contactPage" element={<ContactPage />} />
             <Route path="/contactInfo" element={<ContactInfo />} />
             <Route path="/reviewPage" element={<ReviewPage />} />
+            <Route path="/schedule" element={<Schedule />} /> 
           </Route>
 
           {/* Private Routes */}
           <Route element={<PrivateRoute />}>
-            <Route path="/schedule" element={<Schedule />} />
+            {/* <Route path="/schedule" element={<Schedule />} /> */}
             <Route path="/review" element={<Review />} />
           </Route>
 

@@ -15,30 +15,28 @@ function Schedule() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    // Smooth scroll to the top of the page when the component mounts
     window.scrollTo({ top: 0, behavior: 'smooth' });
 
-    // Fetch schedule data from the backend API
     const fetchScheduleData = async () => {
       try {
-        const response = await fetch('http://localhost:5000/schedule'); // Fetching data from API
+        const response = await fetch('http://localhost:5000/schedule');
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
-        const data = await response.json(); // Parsing JSON data from the response
-        setScheduleData(data); // Set the fetched data in state
+        const data = await response.json();
+        setScheduleData(data);
       } catch (err) {
-        setError(err.message); // Handle any errors
+        setError(err.message);
       } finally {
-        setLoading(false); // Stop the loading state
+        setLoading(false);
       }
     };
 
-    fetchScheduleData(); // Invoke the fetch function
-  }, []); // Empty dependency array ensures this runs once on mount
+    fetchScheduleData();
+  }, []);
 
-  if (loading) return <p>Loading...</p>; // Display loading text while fetching data
-  if (error) return <p>Error: {error}</p>; // Display error if fetch fails
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error: {error}</p>;
 
   return (
     <>
@@ -51,7 +49,7 @@ function Schedule() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 justify-center">
           {scheduleData.map((schedule) => (
             <motion.div
-              key={schedule._id} // Use MongoDB's _id field as key
+              key={schedule._id}
               className="bg-white shadow-lg rounded-lg overflow-hidden max-w-xs mx-auto transition-transform transform hover:scale-105 border border-blue-500 flex flex-col h-full"
               initial="hidden"
               animate="visible"
@@ -61,26 +59,29 @@ function Schedule() {
               <div className="relative">
                 <img
                   className="w-full h-52 object-cover border border-blue-500"
-                  src={schedule.imageUrl} // Use schedule.imageUrl to display the image
-                  alt={schedule.title} // Use schedule title for alt text
+                  src={schedule.imageUrl}
+                  alt={schedule.title}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-30"></div>
               </div>
               <div className="p-6 flex flex-col flex-grow">
-                <h2 className="text-lg font-bold text-blue-500 mb-2">{schedule.title}</h2> {/* Use schedule title */}
-                <p className="text-gray-600 mb-6">{schedule.description}</p> {/* Use schedule description */}
+                <h2 className="text-lg font-bold text-blue-500 mb-2">{schedule.title}</h2>
+                <p className="text-gray-800 font-bold mb-2 text-right">Reg. Fee: {schedule.fee}</p>
+                <p className="text-gray-600 mb-6">{schedule.description}</p>
                 <div className="mt-auto flex justify-center">
-  <Link to="/registration">
-    <motion.button
-      className="px-4 py-2 border border-blue-500 text-black rounded-full bg-transparent hover:bg-blue-500 hover:text-white transition-all duration-300"
-      whileHover={{ scale: 1.05 }}
-      whileTap={{ scale: 0.95 }}
-    >
-      Register Now
-    </motion.button>
-  </Link>
-</div>
-
+                  <Link 
+                    to="/payment" 
+                    state={{ schedule }} // Pass the selected schedule to the PaymentMethod component
+                  >
+                    <motion.button
+                      className="px-4 py-2 border border-blue-500 text-black rounded-full bg-transparent hover:bg-blue-500 hover:text-white transition-all duration-300"
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                    >
+                      Register Now
+                    </motion.button>
+                  </Link>
+                </div>
               </div>
             </motion.div>
           ))}
